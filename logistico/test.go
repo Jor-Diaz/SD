@@ -6,7 +6,7 @@ import(
   )
 
   type orden struct {
-      created_time time.Time 'bson:"updated_at,omitempty" json:"updated_at,omitempty"
+      created_time time 
       id_paquete string
       tipo string
       nombre string
