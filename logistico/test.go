@@ -6,7 +6,7 @@ import(
   )
 
   type orden struct {
-      created_time time.Time 
+      created_time time.Date
       id_paquete string
       tipo string
       nombre string
@@ -28,5 +28,5 @@ func NewOrden( id_paquete string, tipo string, nombre string,
 
 func main() {
     fmt.Println("Wena profe")
-    fmt.Println(NewOrden("1a1a1a1","gg","Jorgekun",1000,"chilito","membrillo"))
+    fmt.Println(NewOrden("Paquete1","mochila","Jorgekun",1000,"chilito","membrillo"))
 }
