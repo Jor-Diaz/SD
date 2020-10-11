@@ -6,7 +6,7 @@ import(
   )
 
   type orden struct {
-      created_time loquesea 
+      created_time Time 
       id_paquete string
       tipo string
       nombre string
