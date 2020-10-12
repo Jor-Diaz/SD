@@ -29,10 +29,11 @@ func NewOrden( id_paquete string, tipo string, nombre string,
 
 func main() {
     fmt.Println("Wena profe")
-    ordenes := []orden{}
-    ordenes.append(ordenes,NewOrden("Paquete1","mochila","Jorgekun",1000,"chilito","membrillo"))
-    aux:=NewOrden("Paquete2","Bebida","Iñakikun",2000,"chilito","Corea")
-    ordenes.append(ordenes,aux)
+    ordenes := []*orden{}
+    aux:=NewOrden("Paquete1","mochila","Jorgekun",1000,"chilito","membrillo")
+    ordenes=ordenes.append(ordenes,aux)
+    aux=NewOrden("Paquete2","Bebida","Iñakikun",2000,"chilito","Corea")
+    ordenes=ordenes.append(ordenes,aux)
     for i := 0; i < len(ordenes); i++ {
       fmt.Println(ordenes[i])
     }
