@@ -16,7 +16,7 @@ type Item struct{
   destino string
 }
 
-type Pyme struct{
+type Orden struct{
   id string
   producto string
   valor string
@@ -26,7 +26,7 @@ type Pyme struct{
 }
 
 var productos []*Item // Arreglo de Items (retail.csv)
-var pymes []*Pyme // Arreglo de pymes (pymes.csv)
+var ordenes []*Orden // Arreglo de pymes (pymes.csv)
 
 func RetailReader(){
 	//Abir archivo
@@ -51,7 +51,7 @@ func RetailReader(){
 
 }
 
-func PymeReader(){
+func OrderReader(){
 	//Abir archivo
   recordFile, err := os.Open("pymes.csv")
 	if err != nil {
@@ -68,8 +68,8 @@ func PymeReader(){
 			fmt.Println("Error ::", err)
 			break
 		}
-    sme := Pyme{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:record[5]}
-    pymes = append(pymes, &sme)
+    ord := Orden{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:record[5]}
+    ordenes = append(ordenes, &ord)
   	}
 
 }
@@ -77,5 +77,8 @@ func PymeReader(){
 func main() {
   //Función para crear el array de estructuras Item
   RetailReader()
-  PymeReader()
+  OrderReader()
+
+  fmt.Println("Producto:", productos[1].id, "--> valor:", productos[1].valor)
+  fmt.Println("Orden:", ordenes[1].id, "--> producto:", ordenes[1].producto)
 }
