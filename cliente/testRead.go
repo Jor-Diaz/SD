@@ -5,10 +5,9 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
-	// "log"
-
 )
 
+// Creación de Item struc
 type Item struct{
   id string
   producto string
@@ -17,39 +16,66 @@ type Item struct{
   destino string
 }
 
-func newItem(id_item string, item string, value string, store string, dest string) *Item{
-  n_item := Item{id: id_item, producto: item, valor:value, tienda:store,destino:dest}
-  return &n_item
+type Pyme struct{
+  id string
+  producto string
+  valor string
+  tienda string
+  destino string
+  prioritario string
 }
 
-func RetailReader(arr []*Item) {
-	// Open the file
-	recordFile, err := os.Open("retail.csv")
+var productos []*Item // Arreglo de Items (retail.csv)
+var pymes []*Pyme // Arreglo de pymes (pymes.csv)
+
+func RetailReader(){
+	//Abir archivo
+  recordFile, err := os.Open("retail.csv")
 	if err != nil {
 		fmt.Println("An error encountered ::", err)
-		return
+		os.Exit(0)
 	}
-
 	reader := csv.NewReader(recordFile)
 	reader.Read() //saltar primera linea
 	for i:= 0 ;; i = i + 1 {
 		record, err := reader.Read()
 		if err == io.EOF {
-			break // reached end of the file
+			break // final del archivo
 		} else if err != nil {
 			fmt.Println("Error ::", err)
-			return
+			break
 		}
-    prod := newItem(record[0],record[1],record[2],record[3],record[4])
-    arr= append(arr, prod)
+    prod := Item{id: record[0], producto: record[1], valor:record[2], tienda:record[3],destino:record[4]}
+    productos = append(productos, &prod)
   	}
+
 }
 
+func PymeReader(){
+	//Abir archivo
+  recordFile, err := os.Open("pymes.csv")
+	if err != nil {
+		fmt.Println("An error encountered ::", err)
+		os.Exit(0)
+	}
+	reader := csv.NewReader(recordFile)
+	reader.Read() //saltar primera linea
+	for i:= 0 ;; i = i + 1 {
+		record, err := reader.Read()
+		if err == io.EOF {
+			break // final del archivo
+		} else if err != nil {
+			fmt.Println("Error ::", err)
+			break
+		}
+    sme := Pyme{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:record[5]}
+    pymes = append(pymes, &sme)
+  	}
 
+}
 
 func main() {
-  productos:=[]*Item{}
-  RetailReader(productos)
-  fmt.Println(productos[0])
-
+  //Función para crear el array de estructuras Item
+  RetailReader()
+  PymeReader()
 }
