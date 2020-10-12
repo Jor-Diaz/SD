@@ -31,11 +31,13 @@ func main() {
     fmt.Println("Wena profe")
     ordenes := []*orden{}
     aux:=NewOrden("Paquete1","mochila","Jorgekun",1000,"chilito","membrillo")
-    ordenes=ordenes.append(ordenes,aux)
+    ordenes=append(ordenes,aux)
     aux=NewOrden("Paquete2","Bebida","Iñakikun",2000,"chilito","Corea")
-    ordenes=ordenes.append(ordenes,aux)
+    ordenes=append(ordenes,aux)
     for i := 0; i < len(ordenes); i++ {
       fmt.Println(ordenes[i])
+      fmt.Println(ordenes[i].created_time.Format(time.ANSIC))
+      fmt.Println("////")
     }
     //fmt.Println(aux.created_time)
     //fmt.Println(aux.created_time.Format(time.ANSIC))
