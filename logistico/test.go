@@ -21,7 +21,7 @@ func NewOrden(ordenes []*orden, id_paquete string, tipo string, nombre string,
     orden := orden{id_paquete: id_paquete,tipo:tipo,nombre:nombre,valor:valor,
     origen:origen,destino:destino}
     orden.created_time = time.Now()
-    orden.seguimiento = NewCodeSeguimiento(ordenes) 
+    orden.seguimiento = NewCodeSeguimiento(ordenes)
     return &orden
 }
 
@@ -29,7 +29,7 @@ func NewCodeSeguimiento(ordenes []*orden) int{
     if len(ordenes)==0 {
       return 1
     }
-    return ordenes[-1].seguimiento+1
+    return ordenes[len(ordenes)-1].seguimiento+1
 }
 
 
