@@ -28,6 +28,10 @@ type Orden struct{
 var productos []*Item // Arreglo de Items (retail.csv)
 var ordenes []*Orden // Arreglo de pymes (pymes.csv)
 
+var Item404 Item = Item{id: "not_found", producto: "not_found", valor:"not_found", tienda:"not_found",destino:"not_found"}
+var Orden404 Orden = Orden{id: "not_found", producto: "not_found", valor:"not_found", tienda:"not_found",destino:"not_found", prioritario: "not_found"}
+
+/************************************************************************************************************************/
 func RetailReader(){
 	//Abir archivo
   recordFile, err := os.Open("retail.csv")
@@ -48,9 +52,10 @@ func RetailReader(){
     prod := Item{id: record[0], producto: record[1], valor:record[2], tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
-
 }
+/************************************************************************************************************************/
 
+/************************************************************************************************************************/
 func OrderReader(){
 	//Abir archivo
   recordFile, err := os.Open("pymes.csv")
@@ -73,12 +78,37 @@ func OrderReader(){
   	}
 
 }
+/************************************************************************************************************************/
+
+/************************************************************************************************************************/
+func searchItem( _id string) *Item {
+  for _, v := range productos {
+    if v.id == _id {
+          return v
+        }
+      }
+      //Item404 := Item{id: "not_found", producto: "not_found", valor:"not_found", tienda:"not_found",destino:"not_found"}
+      return &Item404
+    }
+/************************************************************************************************************************/
+func searchOrder( _id string) *Orden {
+  for _, v := range ordenes {
+    if v.id == _id {
+          return v
+        }
+      }
+      //Item404 := Item{id: "not_found", producto: "not_found", valor:"not_found", tienda:"not_found",destino:"not_found"}
+      return &Orden404
+    }
 
 func main() {
   //Función para crear el array de estructuras Item
-  RetailReader()
-  OrderReader()
+  RetailReader() //working!
+  OrderReader() //working!
 
-  fmt.Println("Producto:", productos[1].id, "--> valor:", productos[1].valor)
-  fmt.Println("Orden:", ordenes[1].id, "--> producto:", ordenes[1].producto)
+  id_ex := "CsC147"
+  //item_ex := searchItem(id_ex)
+  order_ex := searchOrder(id_ex)
+
+  fmt.Println(id_ex,"->", order_ex.valor)
 }
