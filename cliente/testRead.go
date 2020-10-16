@@ -106,7 +106,6 @@ func main() {
   RetailReader() //working!
   OrderReader() //working!
 
-  id_ex := "CsC147"
   //item_ex := searchItem(id_ex)
   order_ex := searchOrder(id_ex)
 
