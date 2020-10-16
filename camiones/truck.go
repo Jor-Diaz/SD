@@ -163,6 +163,7 @@ func delivery(deliver_truck *truck) *truck {
 			if chanceToDeliver() == 1{
 				fmt.Println(".:| Entregando |:. -> ", deliver_truck.pack0.id_pack)
 				deliver_truck.pack0 = deliver(deliver_truck.pack0)
+				deliver_truck.pack0.tries++
 				return deliver_truck
 
 			} else{
@@ -177,6 +178,7 @@ func delivery(deliver_truck *truck) *truck {
 			if chanceToDeliver() == 1{
 				fmt.Println(".:| Entregando |:. -> ", deliver_truck.pack1.id_pack)
 				deliver_truck.pack1 = deliver(deliver_truck.pack1)
+				deliver_truck.pack0.tries++
 				return deliver_truck
 			}else{
 				fmt.Println("Nuevo Intento de Entrega de ", deliver_truck.pack1.id_pack)
