@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
   "time"
+  "golang.org/x/net/context"
   "google.golang.org/grpc"
 )
 
@@ -111,11 +112,13 @@ func searchOrder( _id string) *Orden {
 
 func main() {
   // Set up a connection to the server.
-  conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+
+  var conn *grpc.ClientConn
+  conn, err := grpc.Dial(address, grpc.WithInsecure())
   if err != nil {
-    log.Fatalf("did not connect: %v", err)
+    log.Fatalf("did not connect: %s", err)
   }else{
-    log.Fatalf("soy un crack")
+    log.Fatalf("soy crack")
   }
   defer conn.Close()
 
