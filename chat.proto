@@ -2,7 +2,12 @@ syntax = "proto3";
 package chat;
 
 message Message {
-  string body = 1;
+  string tipo = 1;
+  string id = 1;
+  string producto = 1;
+  int valor = 1;
+  string tienda = 1;
+  string destino = 1;
 }
 
 service ChatService {

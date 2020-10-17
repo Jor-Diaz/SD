@@ -128,11 +128,11 @@ func main() {
 
   	c := chat.NewChatServiceClient(conn)
 
-  	response, err := c.SayHello(context.Background(), &chat.Message{Body: productos[0]})
+  	response, err := c.SayHello(context.Background(), &chat.Message{tipo:"1",id:productos[0].id,producto:productos[0].producto,valor:productos[0].valor,tienda:productos[0].tienda,destino: productos[0].destino})
   	if err != nil {
   		log.Fatalf("Error when calling SayHello: %s", err)
   	}
-  	log.Printf("Response from server: %s", response.Body)
+  	log.Printf("Response from server: %s", response.producto)
 
 
   id_ex := "CsC147"
