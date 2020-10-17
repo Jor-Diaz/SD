@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	address     = "dist159:9000"
+	address     = "dist159:50051"
 	defaultName = "world"
 )
 
@@ -116,7 +116,7 @@ func main() {
   // Set up a connection to the server.
 
   var conn *grpc.ClientConn
-  	conn, err := grpc.Dial(address, grpc.WithInsecure())
+  	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
   	if err != nil {
   		log.Fatalf("did not connect: %s", err)
   	}

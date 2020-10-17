@@ -46,7 +46,7 @@ func NewCodeSeguimiento(ordenes []*orden) int{
 func main() {
     fmt.Println("Go gRPC Beginners Tutorial!")
 
-  	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 9000))
+  	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9000))
   	if err != nil {
   		log.Fatalf("failed to listen: %v", err)
   	}
