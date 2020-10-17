@@ -3,11 +3,11 @@ package chat;
 
 message Message {
   string tipo = 1;
-  string id = 1;
-  string producto = 1;
-  int valor = 1;
-  string tienda = 1;
-  string destino = 1;
+  string id = 2;
+  string producto = 3;
+  int32 valor = 4;
+  string tienda = 5;
+  string destino = 6;
 }
 
 service ChatService {
