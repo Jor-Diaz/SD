@@ -63,7 +63,7 @@ func RetailReader(){
     prod := Item{id: record[0], producto: record[1], valor:record[2], tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
-    return productos
+    return &productos
 }
 /************************************************************************************************************************/
 
@@ -124,12 +124,12 @@ func main() {
   	defer conn.Close()
 
     //Función para crear el array de estructuras Item
-    productos:=RetailReader() //working!
-    ordenes:=OrderReader() //working!
+    blable:=RetailReader() //working!
+    OrderReader() //working!
 
   	c := chat.NewChatServiceClient(conn)
 
-  	response, err := c.SayHello(context.Background(), &chat.Message{Body: productos[0]})
+  	response, err := c.SayHello(context.Background(), &chat.Message{Body: blable[0]})
   	if err != nil {
   		log.Fatalf("Error when calling SayHello: %s", err)
   	}
