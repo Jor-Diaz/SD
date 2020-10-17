@@ -9,7 +9,7 @@ import (
   //"time"
   //"golang.org/x/net/context"
   "google.golang.org/grpc"
-  "github.com/jorgedz17/SD/logistico/chat"
+  "soniso"
 )
 
 const (
