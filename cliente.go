@@ -63,7 +63,7 @@ func RetailReader()*Item{
     prod := Item{id: record[0], producto: record[1], valor:record[2], tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
-    return productos
+    return &productos
 }
 /************************************************************************************************************************/
 
