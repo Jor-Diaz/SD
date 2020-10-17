@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	address     = "dist159:50051"
+	address     = "dist159:9000"
 	defaultName = "world"
 )
 
