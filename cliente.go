@@ -43,7 +43,7 @@ var Item404 Item = Item{id: "not_found", producto: "not_found", valor:"not_found
 var Orden404 Orden = Orden{id: "not_found", producto: "not_found", valor:"not_found", tienda:"not_found",destino:"not_found", prioritario: "not_found"}
 
 /************************************************************************************************************************/
-func RetailReader(){
+func RetailReader()*Item{
 	//Abir archivo
   recordFile, err := os.Open("retail.csv")
 	if err != nil {
@@ -63,7 +63,7 @@ func RetailReader(){
     prod := Item{id: record[0], producto: record[1], valor:record[2], tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
-    return &productos
+    return productos
 }
 /************************************************************************************************************************/
 
