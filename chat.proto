@@ -1,6 +1,8 @@
 syntax = "proto3";
 package chat;
 
+option go_package ="github.com/tutorialedge/go-grpc-beginners-tutorial"
+
 message Message {
   string tipo = 1;
   string id = 2;
