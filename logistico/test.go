@@ -6,7 +6,7 @@ import(
   "log"
   "net"
   "google.golang.org/grpc"
-  "github.com/jorgedz17/SD/logistico/chat"
+  "github.com/tutorialedge/go-grpc-beginners-tutorial/chat"
   )
 
   const (
