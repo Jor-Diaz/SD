@@ -4,15 +4,14 @@ package pipeline;
 option go_package ="Lab1/pipeline";
 
 message Message {
-  string tipo = 1;
-  string id = 2;
-  string producto = 3;
-  int32 valor = 4;
-  string tienda = 5;
-  string destino = 6;
+  string Tipo = 1;
+  string Id = 2;
+  string Producto = 3;
+  int32 Valor = 4;
+  string Tienda = 5;
+  string Destino = 6;
 }
 
 service ChatService {
   rpc SayHello(Message) returns (Message) {}
 }
-
