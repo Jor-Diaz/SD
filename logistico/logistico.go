@@ -6,7 +6,7 @@ import(
   "log"
   "net"
   "google.golang.org/grpc"
-  "Lab1/pipeline"
+  "Lab1/SD/pipeline"
   )
 
   const (

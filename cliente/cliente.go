@@ -9,7 +9,7 @@ import (
   //"time"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
-  "Lab1/pipeline"
+  "Lab1/SD/pipeline"
 )
 
 const (
