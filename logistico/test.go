@@ -3,7 +3,9 @@ package main
 import(
   "fmt"
   "time"
-  //"google.golang.org/grpc"
+  "log"
+  "net"
+  "google.golang.org/grpc"
   )
 
   const (
@@ -41,7 +43,14 @@ func NewCodeSeguimiento(ordenes []*orden) int{
 
 
 func main() {
-
+    lis, err := net.Listen("tcp", ":9000")
+    if err != nil {
+      log.Fatalf("failed to listen: %v", err)
+    }
+    grpcServer := grpc.NewServer()
+    if err := grpcServer.Serve(lis); err != nil {
+      log.Fatalf("failed to serve: %s", err)
+    }
     fmt.Println("Wena profe")
     ordenes := []*orden{}
     aux:=NewOrden(ordenes,"Paquete1","mochila","Jorgekun",1000,"chilito","membrillo")
