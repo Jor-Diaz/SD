@@ -63,6 +63,7 @@ func RetailReader(){
     prod := Item{id: record[0], producto: record[1], valor:record[2], tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
+    return productos
 }
 /************************************************************************************************************************/
 
@@ -115,24 +116,25 @@ func searchOrder( _id string) *Orden {
 func main() {
   // Set up a connection to the server.
 
-  var conn *grpc.ClientConn
+    var conn *grpc.ClientConn
   	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
   	if err != nil {
   		log.Fatalf("did not connect: %s", err)
   	}
   	defer conn.Close()
 
+    //Función para crear el array de estructuras Item
+    productos:=RetailReader() //working!
+    ordenes:=OrderReader() //working!
+
   	c := chat.NewChatServiceClient(conn)
 
-  	response, err := c.SayHello(context.Background(), &chat.Message{Body: "Hello From Client!"})
+  	response, err := c.SayHello(context.Background(), &chat.Message{Body: productos[0]})
   	if err != nil {
   		log.Fatalf("Error when calling SayHello: %s", err)
   	}
   	log.Printf("Response from server: %s", response.Body)
 
-  //Función para crear el array de estructuras Item
-  RetailReader() //working!
-  OrderReader() //working!
 
   id_ex := "CsC147"
   //item_ex := searchItem(id_ex)
