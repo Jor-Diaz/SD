@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
   //"time"
-  //"golang.org/x/net/context"
+  "golang.org/x/net/context"
   "google.golang.org/grpc"
   "github.com/tutorialedge/go-grpc-beginners-tutorial/chat"
 )
