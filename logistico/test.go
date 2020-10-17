@@ -51,6 +51,10 @@ func main() {
     if err := grpcServer.Serve(lis); err != nil {
       log.Fatalf("failed to serve: %s", err)
     }
+    chat.RegisterChatServiceServer(grpcServer, &s)
+    if err := grpcServer.Serve(lis); err != nil {
+      log.Fatalf("failed to serve: %s", err)
+    }
     fmt.Println("Wena profe")
     ordenes := []*orden{}
     aux:=NewOrden(ordenes,"Paquete1","mochila","Jorgekun",1000,"chilito","membrillo")

@@ -122,7 +122,13 @@ func main() {
     log.Fatalf("soy crack")
   }
   defer conn.Close()
+  c := chat.NewChatServiceClient(conn)
 
+	response, err := c.SayHello(context.Background(), &chat.Message{Body: "Hello From Client!"})
+	if err != nil {
+		log.Fatalf("Error when calling SayHello: %s", err)
+	}
+	log.Printf("Response from server: %s", response.Body)
 
 
   //Función para crear el array de estructuras Item
