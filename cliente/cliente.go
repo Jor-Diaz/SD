@@ -9,7 +9,7 @@ import (
   //"time"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
-  "github.com/tutorialedge/go-grpc-beginners-tutorial/chat"
+  "Lab1/pipeline"
 )
 
 const (
