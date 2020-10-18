@@ -102,6 +102,12 @@ func searchOrder( _id string) *Orden {
     }
 
 func enviar_ordenes( delta_tiempo float64){
+  var conn *grpc.ClientConn
+  conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
+  if err != nil {
+    log.Fatalf("did not connect: %s", err)
+  }
+  defer conn.Close()
   c := pb.NewGreeterClient(conn)
   i:=0
   update_time:=time.Now()
@@ -138,12 +144,7 @@ func main() {
     }else{
       fmt.Println("A ingresado 2. Se cargara el archivo pymes.csv")
     }
-    var conn *grpc.ClientConn
-  	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
-  	if err != nil {
-  		log.Fatalf("did not connect: %s", err)
-  	}
-  	defer conn.Close()
+
 
     //Función para crear el array de estructuras Item
     //RetailReader() //working!
