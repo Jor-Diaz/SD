@@ -26,7 +26,7 @@ type SafeCounter struct {
 
 func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
   	log.Printf("Orden recibida con datos:   %s %s %d %s %s %d", in.Id,in.Producto,in.Valor,in.Tienda,in.Destino, in.Prioridad )
-    aux:=NewOrden(ordenes,in.Id,in.Producto,in.Valor,in.Tienda,in.Destino,in.Prioridad)
+    aux:=NewOrden(in.Id,in.Producto,in.Valor,in.Tienda,in.Destino,in.Prioridad)
     if(in.Prioridad==2){
       ordenes_retail=append(ordenes_retail,aux)
     }else if( in.Prioridad==0){
@@ -61,12 +61,12 @@ func checkError(message string, err error) {
           log.Fatal(message, err)
       }
   }
-func NewOrden(ordenes []*orden, id_paquete string, nombre string,
+func NewOrden( id_paquete string, nombre string,
   valor  int32, origen string, destino string, prioridad int32 ) *orden {
     orden := orden{id_paquete: id_paquete,nombre:nombre,valor:valor,
     origen:origen,destino:destino,prioridad:prioridad,intentos:0,estado:"En Bodega"}
     orden.created_time = time.Now()
-    orden.seguimiento = NewCodeSeguimiento(ordenes)
+    orden.seguimiento = NewCodeSeguimiento()
     //file, err := os.Open("data.csv")
     //checkError("Cannot create file", err)
     //defer file.Close()
