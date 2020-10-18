@@ -53,7 +53,7 @@ func NewOrden(ordenes []*orden, id_paquete string, tipo string, nombre string,
     return &orden
 }
 
-func NewCodeSeguimiento(ordenes []*orden) int{
+func NewCodeSeguimiento(ordenes []*orden) int32{
     if len(ordenes)==0 {
       return 1
     }
