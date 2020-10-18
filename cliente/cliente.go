@@ -152,7 +152,7 @@ func main() {
     go enviar_ordenes( delta_tiempo )
     opcion:=0
     for opcion!=-1{
-        fmt.Println("juegue")
+        fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir")
         fmt.Scanf("%d", &opcion)
     }
 
