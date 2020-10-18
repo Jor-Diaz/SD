@@ -148,7 +148,7 @@ func main() {
     //Función para crear el array de estructuras Item
     //RetailReader() //working!
     OrderReader(tipo_cliente) //working!
-    go enviar_ordenes( delta_tiempo float64)
+    go enviar_ordenes( delta_tiempo )
     opcion:=0
     for opcion!=-1{
         fmt.Println("juegue")
