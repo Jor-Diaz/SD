@@ -210,7 +210,7 @@ func main()  {
 	opcion=0
 
 	aux:=""
-	paquete_1 := newPack("_", 0, "50", "_","_", 0,  time.Now())
+	paquete_1 := newPack("_", 0, "50", "_","_", 0,  time.Now(),-1)
 	camion1 := newTruck(1,pack404,pack404)
 	for  opcion!=-1{
 			actualizacion=0
@@ -233,7 +233,7 @@ func main()  {
 					actualizacion=1
 				}
 				if camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack == "empty"{
-					state := truckState(t1)
+					state := truckState(camion1)
 					// t2 := newTruck(0,p3,p4)
 					// t3 := newTruck(0,p5,p6)
 					fmt.Println("-----------------------------------")
@@ -252,18 +252,18 @@ func main()  {
 					// fmt.Println("chance:", b)
 					// p1 = deliver(p1)
 					//fmt.Println(p1.id_pack)
-					t1 = delivery(t1)
+					camion1 = delivery(camion1)
 					fmt.Println("-----------------------------------")
-					state = truckState(t1)
+					state = truckState(camion1)
 					fmt.Println("Despues de 1er Entrega:")
 					fmt.Println("_Camión_")
 					fmt.Println("Capacidad del Camión:", state, "espacios")
 					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
 					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
 					fmt.Println("-----------------------------------")
-					t1 = delivery(t1)
+					camion1 = delivery(camion1)
 					fmt.Println("-----------------------------------")
-					state = truckState(t1)
+					state = truckState(camion1)
 					fmt.Println("Despues de 2da Entrega:")
 					fmt.Println("_Camión_")
 					fmt.Println("Capacidad del Camión:", state, "espacios")
