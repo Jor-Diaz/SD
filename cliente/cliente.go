@@ -152,14 +152,14 @@ func main() {
     go enviar_ordenes( delta_tiempo )
     opcion:=0
     for opcion!=-1{
-        fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir")
+        fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
         fmt.Scanf("%d", &opcion)
     }
 
 
   id_ex := "CsC147"
   //item_ex := searchItem(id_ex)
-  order_ex := searchOrder(id_ex)
+  //order_ex := searchOrder(id_ex)
 
-  fmt.Println(id_ex,"->", order_ex.valor)
+  //fmt.Println(id_ex,"->", order_ex.valor)
 }
