@@ -45,7 +45,7 @@ type Orden struct{
 var ordenes []*Orden // Arreglo de pymes (pymes.csv)
 var Orden404 Orden = Orden{id: "not_found", producto: "not_found", valor:1, tienda:"not_found",destino:"not_found", prioritario: -1}
 
-/************************************************************************************************************************/
+/****************
 func RetailReader(){
 	//Abir archivo
   recordFile, err := os.Open("retail.csv")
@@ -67,7 +67,7 @@ func RetailReader(){
     prod := Item{id: record[0], producto: record[1], valor:int32(numero), tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
-}
+}********/
 /************************************************************************************************************************/
 
 /************************************************************************************************************************/
@@ -104,7 +104,7 @@ func OrderReader(tipo int32){
 }
 /************************************************************************************************************************/
 
-/************************************************************************************************************************/
+/****************************************************************************************************************
 func searchItem( _id string) *Item {
   for _, v := range productos {
     if v.id == _id {
@@ -114,6 +114,7 @@ func searchItem( _id string) *Item {
       //Item404 := Item{id: "not_found", producto: "not_found", valor:"not_found", tienda:"not_found",destino:"not_found"}
       return &Item404
     }
+    ********/
 /************************************************************************************************************************/
 func searchOrder( _id string) *Orden {
   for _, v := range ordenes {
