@@ -103,6 +103,8 @@ func enviar_ordenes( delta_tiempo float64){
   }
 }
 
+
+
 func main() {
   // Set up a connection to the server.
     var delta_tiempo float64
@@ -127,10 +129,25 @@ func main() {
     //RetailReader() //working!
     OrderReader(tipo_cliente) //working!
     go enviar_ordenes( delta_tiempo )
+
+
+    var conn *grpc.ClientConn
+    conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
+    if err != nil {
+      log.Fatalf("did not connect: %s", err)
+    }
+    defer conn.Close()
+    c := pb.NewGreeterClient(conn)
     opcion:=0
-    for opcion!=-1{
+    for  opcion!=-1{
         fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
         fmt.Scanf("%d", &opcion)
-    }
+        response, err := c.ConEstado(context.Background(), &pb.ConsultaEstado{Seguimiento:opcion})
+        if err != nil {
+          log.Fatalf("Error when calling SayHello: %s", err)
+        }
+        log.Printf("El Estado de la orden es : %s", response.Estado)
 
+      }
+    }
 }

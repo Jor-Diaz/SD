@@ -86,7 +86,7 @@ func searchOrder( codigo_seguimiento int32) *orden {
       return &Orden404
     }
 
-func recepcion_ordenes(){
+func recepcion_clientes(){
   lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9000))
   if err != nil {
     log.Fatalf("failed to listen: %v", err)
@@ -101,12 +101,13 @@ func recepcion_ordenes(){
 }
 
 
+
 var ordenes []*orden
 var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1, origen:"not_found",destino:"not_found", prioridad: -1,seguimiento:-1,estado:"No Existe"}
 
 func main() {
     fmt.Println("Gracias por iniciar el receptor de ordenes de SD X-Wing Team")
-    go recepcion_ordenes()
+    go recepcion_clientes()
     fmt.Println("Wena profe")
     opcion:=0
     for opcion!=-1{
