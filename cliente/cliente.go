@@ -147,6 +147,16 @@ func main() {
         if err != nil {
           log.Fatalf("Error when calling SayHello: %s", err)
         }
-        log.Printf("El Estado de la orden es : %s", response.Estado)
+        if response.Estado==0{
+          log.Printf("El Estado de la orden es : En bodega")
+        }else if response.Estado==1{
+          log.Printf("El Estado de la orden es : En camino")
+        }else if response.Estado==2{
+          log.Printf("El Estado de la orden es : Recibido")
+        }else if response.Estado==3{
+          log.Printf("El Estado de la orden es : Recibido")
+        }else{
+          log.Printf("El Estado de la orden es : No existe")
+        }
     }
 }

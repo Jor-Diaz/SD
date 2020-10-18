@@ -216,8 +216,18 @@ func main()  {
 			response, err := c.ConEstado(context.Background(), &pb.ConsultaEstado{Seguimiento:opcion})
 			if err != nil {
 				log.Fatalf("Error when calling SayHello: %s", err)
-			}			
-			log.Printf("El Estado de la orden es : %d", response.Estado)
+			}
+			if response.Estado==0{
+				log.Printf("El Estado de la orden es : En bodega")
+			}else if response.Estado==1{
+				log.Printf("El Estado de la orden es : En camino")
+			}else if response.Estado==2{
+				log.Printf("El Estado de la orden es : Recibido")
+			}else if response.Estado==3{
+				log.Printf("El Estado de la orden es : Recibido")
+			}else{
+				log.Printf("El Estado de la orden es : No existe")
+			}
 	}
 
   p1 := newPack("SA5897AS", 2, "95", "_","_",  0,  time.Now())

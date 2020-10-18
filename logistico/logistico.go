@@ -59,7 +59,7 @@ type orden struct {
     prioridad int32
     seguimiento int32
     intentos int32
-    estado int32
+    estado int32//0 en bodega; 1 en camino ; 2 recibido; 3 no recibido; -1 no existe
 
 }
 
@@ -71,7 +71,7 @@ func checkError(message string, err error) {
 func NewOrden( id_paquete string, nombre string,
   valor  int32, origen string, destino string, prioridad int32 ) *orden {
     orden := orden{id_paquete: id_paquete,nombre:nombre,valor:valor,
-    origen:origen,destino:destino,prioridad:prioridad,intentos:0,estado:"En Bodega"}
+    origen:origen,destino:destino,prioridad:prioridad,intentos:0,estado:0}
     orden.created_time = time.Now()
     orden.seguimiento = NewCodeSeguimiento()
     //file, err := os.Open("data.csv")
