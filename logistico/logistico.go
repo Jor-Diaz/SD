@@ -28,8 +28,7 @@ import(
   func (s *Server) ConEstado(ctx context.Context, in *pb.consulta_estado) (*pb.respuesta_consulta, error) {
   	log.Printf("Cosulta recibida con datos:   %d", in.Seguimiento)
     orden_aux:=searchOrder(in.Seguimiento).
-  	return &pb.respuesta_consulta{id_paquete: orden_aux.id_paquete,nombre:orden_aux.nombre,valor:orden_aux.valor,
-    origen:orden_aux.origen,destino:orden_aux.destino,prioridad:orden_aux.prioridad,intentos:orden_aux.intentos,estado:orden_aux.estado}, nil
+  	return &pb.respuesta_consulta{id_paquete: orden_aux.id_paquete,nombre:orden_aux.nombre,valor:orden_aux.valor,origen:orden_aux.origen,destino:orden_aux.destino,prioridad:orden_aux.prioridad,intentos:orden_aux.intentos,estado:orden_aux.estado}, nil
   }
 
   type orden struct {
