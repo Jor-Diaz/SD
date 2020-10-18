@@ -88,7 +88,11 @@ func searchOrder( codigo_seguimiento int32) *orden {
       return &Orden404
     }
 
-func recepcion_ordenes(lis net){
+func recepcion_ordenes(){
+  lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9000))
+  if err != nil {
+    log.Fatalf("failed to listen: %v", err)
+  }
   grpcServer := grpc.NewServer()
 
   pb.RegisterGreeterServer(grpcServer, &Server{})
@@ -104,11 +108,7 @@ var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1
 
 func main() {
     fmt.Println("Gracias por iniciar el receptor de ordenes de SD X-Wing Team")
-  	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9000))
-  	if err != nil {
-  		log.Fatalf("failed to listen: %v", err)
-  	}
-    go recepcion_ordenes(lis)
+    go recepcion_ordenes()
     fmt.Println("Wena profe")
     opcion:=0
     for opcion!=-1{
