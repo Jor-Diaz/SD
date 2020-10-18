@@ -20,28 +20,30 @@ const (
 
 
 // Creación de Item struc
-type Item struct{
+//type Item struct{
+//  id string
+//  producto string
+//  valor int32
+//  tienda string
+//  destino string
+//}
+
+type Orden struct{
   id string
   producto string
   valor int32
   tienda string
   destino string
+  prioritario int32
 }
 
-type Orden struct{
-  id string
-  producto string
-  valor string
-  tienda string
-  destino string
-  prioritario string
-}
+///retail prioridad 2
+///pymes prioritario 1
+///pymes normal 0
 
-var productos []*Item // Arreglo de Items (retail.csv)
+
 var ordenes []*Orden // Arreglo de pymes (pymes.csv)
-
-var Item404 Item = Item{id: "not_found", producto: "not_found", valor:1, tienda:"not_found",destino:"not_found"}
-var Orden404 Orden = Orden{id: "not_found", producto: "not_found", valor:"bla", tienda:"not_found",destino:"not_found", prioritario: "not_found"}
+var Orden404 Orden = Orden{id: "not_found", producto: "not_found", valor:1, tienda:"not_found",destino:"not_found", prioritario: -1}
 
 /************************************************************************************************************************/
 func RetailReader(){
@@ -69,9 +71,13 @@ func RetailReader(){
 /************************************************************************************************************************/
 
 /************************************************************************************************************************/
-func OrderReader(){
+func OrderReader(tipo int32){
 	//Abir archivo
-  recordFile, err := os.Open("pymes.csv")
+  if(tipo==1){
+    recordFile, err := os.Open("retail.csv")
+  }else{
+    recordFile, err := os.Open("pymes.csv")
+  }
 	if err != nil {
 		fmt.Println("An error encountered ::", err)
 		os.Exit(0)
@@ -86,7 +92,12 @@ func OrderReader(){
 			fmt.Println("Error ::", err)
 			break
 		}
-    ord := Orden{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:record[5]}
+    numero,_:=strconv.Atoi(record[2])
+    if(tipo==1){
+        ord := Orden{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:2}
+    }else{
+      ord := Orden{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:record[5]}
+    }
     ordenes = append(ordenes, &ord)
   	}
 
@@ -117,10 +128,20 @@ func searchOrder( _id string) *Orden {
 func main() {
   // Set up a connection to the server.
     var delta_tiempo float64
+    var tipo_cliente=0
     fmt.Println("Gracias por iniciar el cliente de ordenes de SD X-Wing Team")
     fmt.Println("----------Configuracion------")
-    fmt.Println("Ingresa el tiempo de desfase (en segundos) de envio entre cada orden")
+    fmt.Println("Ingrese el tiempo(en segundos) entre envio de ordenes")
     fmt.Scanf("%f", &delta_tiempo)
+    for (tipo_cliente-1)*(tipo_cliente-2)!=0{
+        fmt.Println("Ingrese 1 si es cliente retail o 2 en caso de ser cliente pymes")
+        fmt.Scanf("%d", &tipo_cliente)
+    }
+    if (tipo_cliente==1){
+      fmt.Println("A ingresado 1. Se cargara el archivo retail.csv")
+    }else{
+      fmt.Println("A ingresado 2. Se cargara el archivo pymes.csv")
+    }
     var conn *grpc.ClientConn
   	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
   	if err != nil {
@@ -129,7 +150,7 @@ func main() {
   	defer conn.Close()
 
     //Función para crear el array de estructuras Item
-    RetailReader() //working!
+    //RetailReader() //working!
     OrderReader() //working!
 
   	c := pb.NewGreeterClient(conn)
@@ -139,7 +160,7 @@ func main() {
     for  i < len(productos){
       time2=time.Now()
       if ( time2.Sub(update_time).Seconds() > delta_tiempo){
-    	  response, err := c.SayHello(context.Background(), &pb.Message{Tipo:"1",Id:productos[i].id,Producto:productos[i].producto,Valor:productos[i].valor,Tienda:productos[i].tienda,Destino: productos[i].destino})
+    	  response, err := c.SayHello(context.Background(), &pb.Message{Id:ordenes[i].id,Producto:ordenes[i].producto,Valor:ordenes[i].valor,Tienda:ordenes[i].tienda,Destino: ordenes[i].destino,Prioridad:ordenes[i].prioridad})
       	if err != nil {
       		log.Fatalf("Error when calling SayHello: %s", err)
       	}

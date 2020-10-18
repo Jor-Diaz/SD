@@ -20,8 +20,8 @@ import(
   }
 
   func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
-  	log.Printf("Orden recibida con datos:  %s %s %s %d %s %s", in.Tipo,in.Id,in.Producto,in.Valor,in.Tienda,in.Destino )
-    aux:=NewOrden(ordenes,in.Id,in.Tipo,in.Producto,in.Valor,in.Tienda,in.Destino)
+  	log.Printf("Orden recibida con datos:   %s %s %d %s %s %d", in.Id,in.Producto,in.Valor,in.Tienda,in.Destino, in.Prioridad )
+    aux:=NewOrden(ordenes,in.Id,in.Producto,in.Valor,in.Tienda,in.Destino,in.Prioridad)
     ordenes=append(ordenes,aux)
     //fmt.Println("#################")
     //fmt.Println("_Data en memoria__")
@@ -36,18 +36,18 @@ import(
   type orden struct {
       created_time time.Time
       id_paquete string
-      tipo string
       nombre string
       valor  int32
       origen string
       destino string
+      prioridad int32
       seguimiento int32
   }
 
-func NewOrden(ordenes []*orden, id_paquete string, tipo string, nombre string,
-  valor  int32, origen string, destino string ) *orden {
-    orden := orden{id_paquete: id_paquete,tipo:tipo,nombre:nombre,valor:valor,
-    origen:origen,destino:destino}
+func NewOrden(ordenes []*orden, id_paquete string, nombre string,
+  valor  int32, origen string, destino string, prioridad int32 ) *orden {
+    orden := orden{id_paquete: id_paquete,nombre:nombre,valor:valor,
+    origen:origen,destino:destino,prioridad:prioridad}
     orden.created_time = time.Now()
     orden.seguimiento = NewCodeSeguimiento(ordenes)
     return &orden

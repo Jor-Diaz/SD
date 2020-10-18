@@ -10,7 +10,9 @@ message Message {
   int32 Valor = 4;
   string Tienda = 5;
   string Destino = 6;
-  int32 Seguimiento = 7;
+  int32 Prioridad = 7;
+  int32 Seguimiento = 8;
+
 }
 
 service Greeter {
