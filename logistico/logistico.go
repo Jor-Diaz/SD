@@ -88,7 +88,7 @@ func searchOrder( codigo_seguimiento int32) *orden {
       return &Orden404
     }
 
-func recepcion_ordenes(){
+func recepcion_ordenes(lis net){
   grpcServer := grpc.NewServer()
 
   pb.RegisterGreeterServer(grpcServer, &Server{})
@@ -108,7 +108,7 @@ func main() {
   	if err != nil {
   		log.Fatalf("failed to listen: %v", err)
   	}
-    go recepcion_ordenes()
+    go recepcion_ordenes(lis)
     fmt.Println("Wena profe")
     opcion:=0
     for opcion!=-1{
