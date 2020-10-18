@@ -6,13 +6,16 @@ import(
   "log"
   "net"
   "google.golang.org/grpc"
-  "Lab1/SD/pipeline"
+  pb"Lab1/SD/pipeline"
   )
 
   const (
   	port = ":50051"
   )
 
+  type Server struct {
+      pb.UnimplementedGreeterServer
+  }
 
 
   type orden struct {
@@ -50,10 +53,10 @@ func main() {
   	if err != nil {
   		log.Fatalf("failed to listen: %v", err)
   	}
-    s := pipeline.Server{}
+
   	grpcServer := grpc.NewServer()
 
-  	pipeline.RegisterChatServiceServer(grpcServer, s)
+  	pipeline.RegisterChatServiceServer(grpcServer, &server{})
 
   	if err := grpcServer.Serve(lis); err != nil {
   		log.Fatalf("failed to serve: %s", err)
