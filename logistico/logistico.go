@@ -56,7 +56,7 @@ func main() {
 
   	grpcServer := grpc.NewServer()
 
-  	pipeline.RegisterChatServiceServer(grpcServer, &server{})
+  	pb.RegisterChatServiceServer(grpcServer, &Server{})
 
   	if err := grpcServer.Serve(lis); err != nil {
   		log.Fatalf("failed to serve: %s", err)
