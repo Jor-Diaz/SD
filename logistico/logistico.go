@@ -88,6 +88,16 @@ func searchOrder( codigo_seguimiento int32) *orden {
       return &Orden404
     }
 
+func recepcion_ordenes(){
+  grpcServer := grpc.NewServer()
+
+  pb.RegisterGreeterServer(grpcServer, &Server{})
+
+  if err := grpcServer.Serve(lis); err != nil {
+    log.Fatalf("failed to serve: %s", err)
+  }
+}
+
 
 var ordenes []*orden
 var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1, origen:"not_found",destino:"not_found", prioridad: -1,seguimiento:-1,estado:"No Existe"}
@@ -98,15 +108,13 @@ func main() {
   	if err != nil {
   		log.Fatalf("failed to listen: %v", err)
   	}
-
-  	grpcServer := grpc.NewServer()
-
-  	pb.RegisterGreeterServer(grpcServer, &Server{})
-
-  	if err := grpcServer.Serve(lis); err != nil {
-  		log.Fatalf("failed to serve: %s", err)
-  	}
+    go recepcion_ordenes()
     fmt.Println("Wena profe")
+    opcion:=0
+    for opcion!=-1{
+        fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
+        fmt.Scanf("%d", &opcion)
+    }
 
     //aux=NewOrden(ordenes,"Paquete2","Bebida","Iñakikun",2000,"chilito","Corea")
     //ordenes=append(ordenes,aux)

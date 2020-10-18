@@ -15,18 +15,8 @@ import (
 
 const (
 	address     = "dist159:50051"
-	defaultName = "world"
 )
 
-
-// Creación de Item struc
-//type Item struct{
-//  id string
-//  producto string
-//  valor int32
-//  tienda string
-//  destino string
-//}
 
 type Orden struct{
   id string
@@ -77,19 +67,7 @@ func OrderReader(tipo int32){
   	}
 
 }
-/************************************************************************************************************************/
 
-/****************************************************************************************************************
-func searchItem( _id string) *Item {
-  for _, v := range productos {
-    if v.id == _id {
-          return v
-        }
-      }
-      //Item404 := Item{id: "not_found", producto: "not_found", valor:"not_found", tienda:"not_found",destino:"not_found"}
-      return &Item404
-    }
-    ********/
 /************************************************************************************************************************/
 func searchOrder( _id string) *Orden {
   for _, v := range ordenes {
@@ -97,9 +75,8 @@ func searchOrder( _id string) *Orden {
           return v
         }
       }
-      //Item404 := Item{id: "not_found", producto: "not_found", valor:"not_found", tienda:"not_found",destino:"not_found"}
-      return &Orden404
-    }
+  return &Orden404
+}
 
 func enviar_ordenes( delta_tiempo float64){
   var conn *grpc.ClientConn
@@ -155,9 +132,5 @@ func main() {
         fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
         fmt.Scanf("%d", &opcion)
     }
-  
-  //item_ex := searchItem(id_ex)
-  //order_ex := searchOrder(id_ex)
 
-  //fmt.Println(id_ex,"->", order_ex.valor)
 }

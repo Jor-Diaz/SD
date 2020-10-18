@@ -15,13 +15,13 @@ message Message {
 }
 
 message Respuesta_consulta {
-string Id = 1;
-string Producto = 2;
-int32 Valor = 3;
-string Tienda =4;
-string Destino = 5;
-int32 Prioridad = 6;
-int32 Seguimiento = 7;
+  string Id = 1;
+  string Producto = 2;
+  int32 Valor = 3;
+  string Tienda =4;
+  string Destino = 5;
+  int32 Prioridad = 6;
+  int32 Seguimiento = 7;
   int32 Intentos = 8;
   string Estado = 9;
 }
