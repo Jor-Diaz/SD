@@ -30,11 +30,11 @@ import(
     ordenes=append(ordenes,aux)
   	return &pb.Message{Seguimiento: aux.seguimiento,}, nil
   }
-  //func (s *Server1) ConEstado(ctx context.Context, in *pb.Consulta_estado) (*pb.Respuesta_consulta, error) {
-  	//log.Printf("Cosulta recibida con datos:   %d", in.Seguimiento)
-    //orden_aux:=searchOrder(in.Seguimiento)
-  	//return &pb.Respuesta_consulta{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado}, nil
-  //}
+  func (s *Server1) ConEstado(ctx context.Context, in *pb.Consulta_estado) (*pb.Respuesta_consulta, error) {
+  	log.Printf("Cosulta recibida con datos:   %d", in.Seguimiento)
+    orden_aux:=searchOrder(in.Seguimiento)
+  	return &pb.Respuesta_consulta{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado}, nil
+  }
 
   type orden struct {
       created_time time.Time
