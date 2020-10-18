@@ -226,7 +226,7 @@ func main()  {
 	// p5 := newPack("SA6947GH", 1, "50", "_", "_", 0,  time.Now())
 	// p6 := newPack("SA2596NH", 2, "90", "_", "_", 0,  time.Now())
 
-	t1 := newTruck(1,p1,&pack404)
+	t1 := newTruck(1,p1,p1)
 	state := truckState(t1)
 	// t2 := newTruck(0,p3,p4)
 	// t3 := newTruck(0,p5,p6)
