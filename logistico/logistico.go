@@ -62,7 +62,7 @@ func main() {
 
   	grpcServer := grpc.NewServer()
 
-  	pb.RegisterChatServiceServer(grpcServer, &Server{})
+  	pb.RegisterGreeterServer(grpcServer, &Server{})
 
   	if err := grpcServer.Serve(lis); err != nil {
   		log.Fatalf("failed to serve: %s", err)

@@ -12,11 +12,6 @@ message Message {
   string Destino = 6;
 }
 
-service ChatService {
-  rpc SayHello(Message) returns (Message) {}
-}
-
 service Greeter {
-  // Sends a greeting
   rpc SayHello (Message) returns (Message) {}
 }
