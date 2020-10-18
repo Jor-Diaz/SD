@@ -57,7 +57,7 @@ func newPack(idPack string, typ int32, val int32, org string, dst string, trs in
 		Npack := pack{
 			id_pack : idPack,
 		  pack_type: typ,
-		  value : pVal,
+		  value : Val,
 		  origin: org,
 		  destination: dst,
 		  tries: trs,
@@ -209,7 +209,7 @@ func main()  {
 	defer conn.Close()
 	c := pb.NewGreeterClient(conn)
 	var opcion int32
-	opcion=0	
+	opcion=0
 	for  opcion!=-1{
 			fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
 			fmt.Scanf("%d", &opcion)
@@ -226,7 +226,7 @@ func main()  {
 	// p5 := newPack("SA6947GH", 1, "50", "_", "_", 0,  time.Now())
 	// p6 := newPack("SA2596NH", 2, "90", "_", "_", 0,  time.Now())
 
-	t1 := newTruck(1,p1,pack404)
+	t1 := newTruck(1,p1,&pack404)
 	state := truckState(t1)
 	// t2 := newTruck(0,p3,p4)
 	// t3 := newTruck(0,p5,p6)
