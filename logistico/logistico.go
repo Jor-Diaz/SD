@@ -5,6 +5,7 @@ import(
   "time"
   "log"
   "net"
+  "encoding/csv"
   "google.golang.org/grpc"
   "context"
   pb"Lab1/SD/pipeline"
@@ -18,6 +19,9 @@ import(
   type Server struct {
       pb.UnimplementedGreeterServer
   }
+  type Server1 struct {
+      pb.UnimplementedEstadoServer
+  }
 
   func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
   	log.Printf("Orden recibida con datos:   %s %s %d %s %s %d", in.Id,in.Producto,in.Valor,in.Tienda,in.Destino, in.Prioridad )
@@ -25,7 +29,7 @@ import(
     //ordenes=append(ordenes,aux)
   	return &pb.Message{Seguimiento: aux.seguimiento,}, nil
   }
-  func (s *Server) ConEstado(ctx context.Context, in *pb.consulta_estado) (*pb.respuesta_consulta, error) {
+  func (s *Server1) ConEstado(ctx context.Context, in *pb.consulta_estado) (*pb.respuesta_consulta, error) {
   	log.Printf("Cosulta recibida con datos:   %d", in.Seguimiento)
     orden_aux:=searchOrder(in.Seguimiento)
   	return &pb.respuesta_consulta{id_paquete: orden_aux.id_paquete,nombre:orden_aux.nombre,valor:orden_aux.valor,origen:orden_aux.origen,destino:orden_aux.destino,prioridad:orden_aux.prioridad,intentos:orden_aux.intentos,estado:orden_aux.estado}, nil

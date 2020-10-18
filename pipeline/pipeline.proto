@@ -28,6 +28,7 @@ message respuesta_consulta {
   string Estado = 10;
 }
 
+
 message consulta_estado {
   int32 Seguimiento = 1;
 }
