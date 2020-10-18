@@ -197,7 +197,7 @@ func delivery(deliver_truck *truck) *truck {
 
 
 var tiempo_espera float64
-func main()  {	
+func main()  {
 	fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")
 	fmt.Scanf("%f", &tiempo_espera)
 
@@ -216,8 +216,8 @@ func main()  {
 			response, err := c.ConEstado(context.Background(), &pb.ConsultaEstado{Seguimiento:opcion})
 			if err != nil {
 				log.Fatalf("Error when calling SayHello: %s", err)
-			}
-			log.Printf("El Estado de la orden es : %s", response.Estado)
+			}			
+			log.Printf("El Estado de la orden es : %d", response.Estado)
 	}
 
   p1 := newPack("SA5897AS", 2, "95", "_","_",  0,  time.Now())
