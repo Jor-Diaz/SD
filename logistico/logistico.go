@@ -128,7 +128,7 @@ var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1
 
 func main() {
     fmt.Println("Gracias por iniciar el receptor de ordenes de SD X-Wing Team")
-    candados= [SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)} ]
+    candados= [4]*SafeCounter{SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)} }
     numero_seguimiento=0
     go recepcion_clientes()
     opcion:=0
