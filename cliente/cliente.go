@@ -116,7 +116,7 @@ func searchOrder( _id string) *Orden {
 
 func main() {
   // Set up a connection to the server.
-    delta_tiempo:=60
+    delta_tiempo:=60.0
     var conn *grpc.ClientConn
   	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
   	if err != nil {
@@ -133,7 +133,7 @@ func main() {
     update_time:=time.Now()
     time2:=time.Now()
     for  i < len(productos){
-      time2=time.Now()      
+      time2=time.Now()
       if ( time2.Sub(update_time).Seconds() > delta_tiempo){
     	  response, err := c.SayHello(context.Background(), &pb.Message{Tipo:"1",Id:productos[i].id,Producto:productos[i].producto,Valor:productos[i].valor,Tienda:productos[i].tienda,Destino: productos[i].destino})
       	if err != nil {
