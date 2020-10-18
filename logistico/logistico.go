@@ -20,9 +20,6 @@ import(
   type Server struct {
       pb.UnimplementedGreeterServer
   }
-  type Server1 struct {
-      pb.UnimplementedEstadoServer
-  }
 
   func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
   	log.Printf("Orden recibida con datos:   %s %s %d %s %s %d", in.Id,in.Producto,in.Valor,in.Tienda,in.Destino, in.Prioridad )
@@ -30,7 +27,7 @@ import(
     ordenes=append(ordenes,aux)
   	return &pb.Message{Seguimiento: aux.seguimiento,}, nil
   }
-  func (s *Server1) ConEstado(ctx context.Context, in *pb.Consulta_estado) (*pb.Respuesta_consulta, error) {
+  func (s *Server) ConEstado(ctx context.Context, in *pb.Consulta_estado) (*pb.Respuesta_consulta, error) {
   	log.Printf("Cosulta recibida con datos:   %d", in.Seguimiento)
     orden_aux:=searchOrder(in.Seguimiento)
   	return &pb.Respuesta_consulta{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado}, nil

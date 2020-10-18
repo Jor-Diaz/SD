@@ -34,8 +34,5 @@ message Consulta_estado {
 
 service Greeter {
   rpc SayHello (Message) returns (Message) {}
-}
-
-service Estado {
   rpc ConEstado (Consulta_estado) returns (Respuesta_consulta) {}
 }
