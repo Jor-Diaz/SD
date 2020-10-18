@@ -41,7 +41,7 @@ import(
       valor  int32
       origen string
       destino string
-      seguimiento int
+      seguimiento int32
   }
 
 func NewOrden(ordenes []*orden, id_paquete string, tipo string, nombre string,
