@@ -61,7 +61,7 @@ func RetailReader(){
 			fmt.Println("Error ::", err)
 			break
 		}
-    numero,error:=strconv.Atoi(record[2])
+    numero,_:=strconv.Atoi(record[2])
     prod := Item{id: record[0], producto: record[1], valor:int32(numero), tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
