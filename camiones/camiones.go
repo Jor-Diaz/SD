@@ -57,7 +57,7 @@ func newPack(idPack string, typ int32, val int32, org string, dst string, trs in
 		Npack := pack{
 			id_pack : idPack,
 		  pack_type: typ,
-		  value : Val,
+		  value : val,
 		  origin: org,
 		  destination: dst,
 		  tries: trs,
