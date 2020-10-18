@@ -9,7 +9,7 @@ import (
   //"time"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
-  "Lab1/SD/pipeline"
+  pb"Lab1/SD/pipeline"
 )
 
 const (
@@ -126,9 +126,9 @@ func main() {
     RetailReader() //working!
     OrderReader() //working!
 
-  	c := chat.NewChatServiceClient(conn)
+  	c := pb.NewGreeterClient(conn)
 
-  	response, err := c.SayHello(context.Background(), &chat.Message{Tipo:"1",Id:productos[0].id,Producto:productos[0].producto,Valor:productos[0].valor,Tienda:productos[0].tienda,Destino: productos[0].destino})
+  	response, err := c.SayHello(context.Background(), &pb.Message{Tipo:"1",Id:productos[0].id,Producto:productos[0].producto,Valor:productos[0].valor,Tienda:productos[0].tienda,Destino: productos[0].destino})
   	if err != nil {
   		log.Fatalf("Error when calling SayHello: %s", err)
   	}
