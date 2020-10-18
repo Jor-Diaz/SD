@@ -14,7 +14,7 @@ message Message {
 
 }
 
-message Respuesta_consulta {
+message RespuestaCon {
   string Id = 1;
   string Producto = 2;
   int32 Valor = 3;
@@ -27,12 +27,12 @@ message Respuesta_consulta {
 }
 
 
-message Consulta_estado {
+message ConsultaEstado {
   int32 Seguimiento = 1;
 }
 
 
 service Greeter {
   rpc SayHello (Message) returns (Message) {}
-  rpc ConEstado (Consulta_estado) returns (Respuesta_consulta) {}
+  rpc ConEstado (ConsultaEstado) returns (RespuestaCon) {}
 }
