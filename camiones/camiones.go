@@ -224,7 +224,7 @@ func main()  {
 			}
 	}
 	fmt.Println(aux)
-  p1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
+  p1 := newPack(aux, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
 	//p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
 	// p3 := newPack("SA2589TR", 2, "5",  "_", "_", 0,  time.Now())
 	// p4 := newPack("SA1597EF", 0, "20", "_", "_", 0,  time.Now())
