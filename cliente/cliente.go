@@ -155,9 +155,7 @@ func main() {
         fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
         fmt.Scanf("%d", &opcion)
     }
-
-
-  id_ex := "CsC147"
+  
   //item_ex := searchItem(id_ex)
   //order_ex := searchOrder(id_ex)
 
