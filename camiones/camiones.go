@@ -208,10 +208,9 @@ func main()  {
 	var opcion int32
 	actualizacion:=0
 	opcion=0
-
-	aux:=""
-	paquete_1 := newPack("_", 0, "50", "_","_", 0,  time.Now(),-1)
-	camion1 := newTruck(1,pack404,pack404)
+	aux:=1
+	paquete_1 := newPack("_", 0, 50, "_","_", 0,  time.Now(),-1)
+	camion1 := newTruck(1,&pack404,&pack404)
 	for  opcion!=-1{
 			actualizacion=0
 			fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
