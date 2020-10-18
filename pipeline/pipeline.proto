@@ -1,7 +1,7 @@
 syntax = "proto3";
 package pipeline;
 
-option go_package ="Lab1/pipeline";
+option go_package ="Lab1/SD/pipeline";
 
 message Message {
   string Tipo = 1;
