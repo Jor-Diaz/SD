@@ -45,31 +45,6 @@ type Orden struct{
 var ordenes []*Orden // Arreglo de pymes (pymes.csv)
 var Orden404 Orden = Orden{id: "not_found", producto: "not_found", valor:1, tienda:"not_found",destino:"not_found", prioritario: -1}
 
-/****************
-func RetailReader(){
-	//Abir archivo
-  recordFile, err := os.Open("retail.csv")
-	if err != nil {
-		fmt.Println("An error encountered ::", err)
-		os.Exit(0)
-	}
-	reader := csv.NewReader(recordFile)
-	reader.Read() //saltar primera linea
-	for i:= 0 ;; i = i + 1 {
-		record, err := reader.Read()
-		if err == io.EOF {
-			break // final del archivo
-		} else if err != nil {
-			fmt.Println("Error ::", err)
-			break
-		}
-    numero,_:=strconv.Atoi(record[2])
-    prod := Item{id: record[0], producto: record[1], valor:int32(numero), tienda:record[3],destino:record[4]}
-    productos = append(productos, &prod)
-  	}
-}********/
-/************************************************************************************************************************/
-
 /************************************************************************************************************************/
 func OrderReader(tipo int32){
 	//Abir archivo
@@ -126,6 +101,25 @@ func searchOrder( _id string) *Orden {
       return &Orden404
     }
 
+func enviar_ordenes( delta_tiempo float64){
+  c := pb.NewGreeterClient(conn)
+  i:=0
+  update_time:=time.Now()
+  time2:=time.Now()
+  for  i < len(ordenes){
+    time2=time.Now()
+    if ( time2.Sub(update_time).Seconds() > delta_tiempo){
+      response, err := c.SayHello(context.Background(), &pb.Message{Id:ordenes[i].id,Producto:ordenes[i].producto,Valor:ordenes[i].valor,Tienda:ordenes[i].tienda,Destino: ordenes[i].destino,Prioridad:ordenes[i].prioritario})
+      if err != nil {
+        log.Fatalf("Error when calling SayHello: %s", err)
+      }
+      log.Printf("El codigo de seguimiento del pedido es: %d", response.Seguimiento)
+      i=i+1
+      update_time=time.Now()
+    }
+  }
+}
+
 func main() {
   // Set up a connection to the server.
     var delta_tiempo float64
@@ -154,23 +148,13 @@ func main() {
     //Función para crear el array de estructuras Item
     //RetailReader() //working!
     OrderReader(tipo_cliente) //working!
-
-  	c := pb.NewGreeterClient(conn)
-    i:=0
-    update_time:=time.Now()
-    time2:=time.Now()
-    for  i < len(ordenes){
-      time2=time.Now()
-      if ( time2.Sub(update_time).Seconds() > delta_tiempo){
-    	  response, err := c.SayHello(context.Background(), &pb.Message{Id:ordenes[i].id,Producto:ordenes[i].producto,Valor:ordenes[i].valor,Tienda:ordenes[i].tienda,Destino: ordenes[i].destino,Prioridad:ordenes[i].prioritario})
-      	if err != nil {
-      		log.Fatalf("Error when calling SayHello: %s", err)
-      	}
-      	log.Printf("El codigo de seguimiento del pedido es: %d", response.Seguimiento)
-        i=i+1
-        update_time=time.Now()
-      }
+    go enviar_ordenes( delta_tiempo float64)
+    opcion:=0
+    for opcion!=-1{
+        fmt.Println("juegue")
+        fmt.Scanf("%d", &opcion)
     }
+
 
   id_ex := "CsC147"
   //item_ex := searchItem(id_ex)
