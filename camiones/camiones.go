@@ -210,6 +210,7 @@ func main()  {
 	c := pb.NewGreeterClient(conn)
 	var opcion int32
 	opcion=0
+	aux:=""
 	for  opcion!=-1{
 			fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
 			fmt.Scanf("%d", &opcion)
@@ -218,10 +219,11 @@ func main()  {
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
+				aux=response.Id
 				log.Printf("El Estado de la orden es : En bodega %s",response.Id)
 			}
 	}
-	fmt.Println(response.Id)
+	fmt.Println(aux)
   p1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
 	//p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
 	// p3 := newPack("SA2589TR", 2, "5",  "_", "_", 0,  time.Now())
