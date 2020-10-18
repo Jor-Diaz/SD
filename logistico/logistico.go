@@ -6,7 +6,7 @@ import(
   "log"
   "net"
   "google.golang.org/grpc"
-  pb"Lab1/SD/pipeline"
+  "Lab1/SD/pipeline"
   )
 
   const (
@@ -14,7 +14,7 @@ import(
   )
 
   type server struct {
-      pb.UnimplementedGreeterServer
+    //  pb.UnimplementedGreeterServer
   }
 
 
@@ -53,7 +53,7 @@ func main() {
   	if err != nil {
   		log.Fatalf("failed to listen: %v", err)
   	}
-  	
+
   	grpcServer := grpc.NewServer()
 
   	pipeline.RegisterChatServiceServer(grpcServer, &server{})
