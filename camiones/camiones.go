@@ -242,11 +242,11 @@ func main()  {
 					fmt.Println("_Camión_")
 					fmt.Println("Capacidad del Camión:", state, "espacios")
 
-					fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
-					fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
+					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
+					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
 					fmt.Println("------------------------------------")
 
-					// a := wichToDeliver(t1.pack0, t1.pack1)
+					// a := wichToDeliver(camion1.pack0, camion1.pack1)
 					// b:= chanceToDeliver()
 					// fmt.Println(a)
 					// fmt.Println("chance:", b)
@@ -258,8 +258,8 @@ func main()  {
 					fmt.Println("Despues de 1er Entrega:")
 					fmt.Println("_Camión_")
 					fmt.Println("Capacidad del Camión:", state, "espacios")
-					fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
-					fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
+					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
+					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
 					fmt.Println("-----------------------------------")
 					t1 = delivery(t1)
 					fmt.Println("-----------------------------------")
@@ -267,8 +267,8 @@ func main()  {
 					fmt.Println("Despues de 2da Entrega:")
 					fmt.Println("_Camión_")
 					fmt.Println("Capacidad del Camión:", state, "espacios")
-					fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
-					fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
+					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
+					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
 					fmt.Println("-----------------------------------")
 				}
 
