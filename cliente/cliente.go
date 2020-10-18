@@ -22,7 +22,7 @@ const (
 type Item struct{
   id string
   producto string
-  valor string
+  valor int
   tienda string
   destino string
 }
