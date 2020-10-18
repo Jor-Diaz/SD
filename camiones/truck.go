@@ -191,8 +191,14 @@ func delivery(deliver_truck *truck) *truck {
 	}
 }
 
-func main()  {
 
+var tiempo_espera float64
+func main()  {
+	tiempo_espera:=0
+	for opcion<=0{
+			fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")
+			fmt.Scanf("%f", &tiempo_espera)
+	}
   p1 := newPack("SA5897AS", 2, "95", "_","_",  0,  time.Now())
 	p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
 	// p3 := newPack("SA2589TR", 2, "5",  "_", "_", 0,  time.Now())
