@@ -51,7 +51,7 @@ func checkError(message string, err error) {
 func NewOrden(ordenes []*orden, id_paquete string, nombre string,
   valor  int32, origen string, destino string, prioridad int32 ) *orden {
     orden := orden{id_paquete: id_paquete,nombre:nombre,valor:valor,
-    origen:origen,destino:destino,prioridad:prioridad,intentos:0,estado:"Pendiente Entrega"}
+    origen:origen,destino:destino,prioridad:prioridad,intentos:0,estado:"En Bodega"}
     orden.created_time = time.Now()
     orden.seguimiento = NewCodeSeguimiento(ordenes)
     //file, err := os.Open("data.csv")
