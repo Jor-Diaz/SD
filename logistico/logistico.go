@@ -14,7 +14,7 @@ import(
   )
 
   type Server struct {
-      pb.UnimplementedGreeterServer
+      //pb.UnimplementedGreeterServer
   }
 
   type orden struct {
