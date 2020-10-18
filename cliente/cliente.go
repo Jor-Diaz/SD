@@ -152,7 +152,7 @@ func main() {
 
     //Función para crear el array de estructuras Item
     //RetailReader() //working!
-    OrderReader() //working!
+    OrderReader(tipo_cliente) //working!
 
   	c := pb.NewGreeterClient(conn)
     i:=0
