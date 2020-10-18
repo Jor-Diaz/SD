@@ -123,7 +123,7 @@ var ordenes_retail []*orden
 var ordenes_prioridad_0 []*orden
 var ordenes_prioridad_1 []*orden
 var numero_seguimiento int32
-var candados []*SafeCounte
+var candados []*SafeCounter
 var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1, origen:"not_found",destino:"not_found", prioridad: -1,seguimiento:-1,estado:"No Existe"}
 
 func main() {
