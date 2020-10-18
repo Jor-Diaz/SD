@@ -132,7 +132,7 @@ func main() {
         can:=SafeCounter{v: make(map[string]int)}
         candados=append(candados,can)
     }
-    numero_seguimiento=0    
+    numero_seguimiento=0
     go recepcion_clientes()
     opcion:=0
     for opcion!=-1{
