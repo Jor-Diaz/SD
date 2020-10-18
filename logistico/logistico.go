@@ -30,7 +30,7 @@ import(
       //fmt.Println(ordenes[i].created_time.Format(time.ANSIC))
       //fmt.Println("_________________")
     //}
-  	return &pb.Message{Producto: " Orden recibida. EL codigo de seguimiento es %d",aux.seguimiento}, nil
+  	return &pb.Message{Producto: aux.seguimiento,}, nil
   }
 
   type orden struct {
