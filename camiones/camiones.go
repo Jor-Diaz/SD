@@ -30,6 +30,7 @@ type pack struct{
   destination string
   tries int
   delivery_date time.Time
+	seguimiento int32
 }
 
 type truck struct{
@@ -39,7 +40,7 @@ type truck struct{
 }
 
 
-var pack404 pack = pack{id_pack: "empty",pack_type: -1, value: -1, origin:  "empty", destination:  "empty", tries :-1, delivery_date:  time.Now()}
+var pack404 pack = pack{id_pack: "empty",pack_type: -1, value: -1, origin:  "empty", destination:  "empty", tries :-1, delivery_date:  time.Now(),seguimiento:-1}
 var camion404 truck = truck{type_t: -1 , pack0: &pack404, pack1: &pack404 }
 
 /*************************************************************************************************************************************************/
@@ -48,12 +49,7 @@ var camion404 truck = truck{type_t: -1 , pack0: &pack404, pack1: &pack404 }
 	retorna un puntero a paquete
 */
 
-func newPack(idPack string, typ int32, val int32, org string, dst string, trs int, date time.Time) *pack {
-//	pVal, err := strconv.Atoi(val)
-	//	if err == nil {
-			//fmt.Println(pVal)
-		//}
-
+func newPack(idPack string, typ int32, val int32, org string, dst string, trs int, date time.Time, seguimiento int32) *pack {
 		Npack := pack{
 			id_pack : idPack,
 		  pack_type: typ,
@@ -61,7 +57,8 @@ func newPack(idPack string, typ int32, val int32, org string, dst string, trs in
 		  origin: org,
 		  destination: dst,
 		  tries: trs,
-		  delivery_date: date		}
+		  delivery_date: date,
+			seguimiento: seguimiento}
 		return &Npack
 }
 /*************************************************************************************************************************************************/
@@ -209,9 +206,14 @@ func main()  {
 	defer conn.Close()
 	c := pb.NewGreeterClient(conn)
 	var opcion int32
+	actualizacion:=0
 	opcion=0
+
 	aux:=""
+	paquete_1 := newPack("_", 0, "50", "_","_", 0,  time.Now())
+	camion1 := newTruck(1,pack404,pack404)
 	for  opcion!=-1{
+			actualizacion=0
 			fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
 			fmt.Scanf("%d", &opcion)
 			if opcion!=-1{
@@ -219,54 +221,69 @@ func main()  {
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				aux=response.Id
-				log.Printf("El Estado de la orden es : En bodega %s",response.Id)
+				aux=response.Seguimiento
+				log.Printf("Orden asignada codigo seguimiento %s",response.Seguimiento)
+				paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
+				if camion1.pack0.id_pack == "empty"{
+					camion1.pack0=paquete_1
+					actualizacion=1
+				}
+				if camion1.pack1.id_pack == "empty" && actualizacion==0 {
+					camion1.pack1=paquete_1
+					actualizacion=1
+				}
+				if camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack == "empty"{
+					state := truckState(t1)
+					// t2 := newTruck(0,p3,p4)
+					// t3 := newTruck(0,p5,p6)
+					fmt.Println("-----------------------------------")
+
+					fmt.Println("Antes de Entregar:")
+					fmt.Println("_Camión_")
+					fmt.Println("Capacidad del Camión:", state, "espacios")
+
+					fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
+					fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
+					fmt.Println("------------------------------------")
+
+					// a := wichToDeliver(t1.pack0, t1.pack1)
+					// b:= chanceToDeliver()
+					// fmt.Println(a)
+					// fmt.Println("chance:", b)
+					// p1 = deliver(p1)
+					//fmt.Println(p1.id_pack)
+					t1 = delivery(t1)
+					fmt.Println("-----------------------------------")
+					state = truckState(t1)
+					fmt.Println("Despues de 1er Entrega:")
+					fmt.Println("_Camión_")
+					fmt.Println("Capacidad del Camión:", state, "espacios")
+					fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
+					fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
+					fmt.Println("-----------------------------------")
+					t1 = delivery(t1)
+					fmt.Println("-----------------------------------")
+					state = truckState(t1)
+					fmt.Println("Despues de 2da Entrega:")
+					fmt.Println("_Camión_")
+					fmt.Println("Capacidad del Camión:", state, "espacios")
+					fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
+					fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
+					fmt.Println("-----------------------------------")
+				}
+
+
+
 			}
 	}
-	fmt.Println(aux)
-  p1 := newPack(aux, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
+	//fmt.Println(aux)
+  //p1 := newPack(aux, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
 	//p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
 	// p3 := newPack("SA2589TR", 2, "5",  "_", "_", 0,  time.Now())
 	// p4 := newPack("SA1597EF", 0, "20", "_", "_", 0,  time.Now())
 	// p5 := newPack("SA6947GH", 1, "50", "_", "_", 0,  time.Now())
 	// p6 := newPack("SA2596NH", 2, "90", "_", "_", 0,  time.Now())
 
-	t1 := newTruck(1,p1,p1)
-	state := truckState(t1)
-	// t2 := newTruck(0,p3,p4)
-	// t3 := newTruck(0,p5,p6)
-	fmt.Println("-----------------------------------")
+	//t1 := newTruck(1,p1,p1)
 
-	fmt.Println("Antes de Entregar:")
-	fmt.Println("_Camión_")
-	fmt.Println("Capacidad del Camión:", state, "espacios")
-
-	fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
-	fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
-	fmt.Println("------------------------------------")
-
-	// a := wichToDeliver(t1.pack0, t1.pack1)
-	// b:= chanceToDeliver()
-	// fmt.Println(a)
-	// fmt.Println("chance:", b)
-	// p1 = deliver(p1)
-	//fmt.Println(p1.id_pack)
-	t1 = delivery(t1)
-	fmt.Println("-----------------------------------")
-	state = truckState(t1)
-	fmt.Println("Despues de 1er Entrega:")
-	fmt.Println("_Camión_")
-	fmt.Println("Capacidad del Camión:", state, "espacios")
-	fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
-	fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
-	fmt.Println("-----------------------------------")
-	t1 = delivery(t1)
-	fmt.Println("-----------------------------------")
-	state = truckState(t1)
-	fmt.Println("Despues de 2da Entrega:")
-	fmt.Println("_Camión_")
-	fmt.Println("Capacidad del Camión:", state, "espacios")
-	fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
-	fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
-	fmt.Println("-----------------------------------")
 }
