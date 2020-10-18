@@ -13,13 +13,10 @@ import(
 
   )
 
-  const (
-  	port = ":50051"
-  )
-
   type Server struct {
       pb.UnimplementedGreeterServer
   }
+
   func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
   	log.Printf("Orden recibida con datos:   %s %s %d %s %s %d", in.Id,in.Producto,in.Valor,in.Tienda,in.Destino, in.Prioridad )
     aux:=NewOrden(ordenes,in.Id,in.Producto,in.Valor,in.Tienda,in.Destino,in.Prioridad)
@@ -32,7 +29,6 @@ import(
     orden_aux:=searchOrder(in.Seguimiento)
   	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado}, nil
   }
-
 
   type orden struct {
       created_time time.Time
@@ -82,9 +78,8 @@ func searchOrder( codigo_seguimiento int32) *orden {
           return v
         }
       }
-      //Item404 := Item{id: "not_found", producto: "not_found", valor:"not_found", tienda:"not_found",destino:"not_found"}
       return &Orden404
-    }
+}
 
 func recepcion_clientes(){
   lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9000))
@@ -100,8 +95,6 @@ func recepcion_clientes(){
   }
 }
 
-
-
 var ordenes []*orden
 var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1, origen:"not_found",destino:"not_found", prioridad: -1,seguimiento:-1,estado:"No Existe"}
 
@@ -111,7 +104,7 @@ func main() {
     fmt.Println("Wena profe")
     opcion:=0
     for opcion!=-1{
-        fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
+        fmt.Println("Ingrese -1 para cerrar el programa ")
         fmt.Scanf("%d", &opcion)
     }
 
