@@ -68,7 +68,7 @@ func NewOrden(ordenes []*orden, id_paquete string, nombre string,
     //defer writer.Flush()
     //err1 := writer.Write(["holi"])
     //checkError("Cannot write to file", err1)
-    //return &orden
+    return &orden
 }
 
 func NewCodeSeguimiento(ordenes []*orden) int32{
