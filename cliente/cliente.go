@@ -74,10 +74,11 @@ func RetailReader(){
 func OrderReader(tipo int32){
 	//Abir archivo
   if(tipo==1){
-    recordFile, err := os.Open("retail.csv")
+    archivo:="retail.csv"
   }else{
-    recordFile, err := os.Open("pymes.csv")
+    archivo:="pymes.csv"
   }
+  recordFile, err := os.Open(archivo)
 	if err != nil {
 		fmt.Println("An error encountered ::", err)
 		os.Exit(0)
@@ -161,7 +162,7 @@ func main() {
     for  i < len(productos){
       time2=time.Now()
       if ( time2.Sub(update_time).Seconds() > delta_tiempo){
-    	  response, err := c.SayHello(context.Background(), &pb.Message{Id:ordenes[i].id,Producto:ordenes[i].producto,Valor:ordenes[i].valor,Tienda:ordenes[i].tienda,Destino: ordenes[i].destino,Prioridad:ordenes[i].prioridad})
+    	  response, err := c.SayHello(context.Background(), &pb.Message{Id:ordenes[i].id,Producto:ordenes[i].producto,Valor:ordenes[i].valor,Tienda:ordenes[i].tienda,Destino: ordenes[i].destino,Prioridad:ordenes[i].prioritario})
       	if err != nil {
       		log.Fatalf("Error when calling SayHello: %s", err)
       	}
