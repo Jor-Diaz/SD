@@ -6,7 +6,7 @@ package main
 import (
   //"os"
 	"fmt"
-	"strconv"
+	//"strconv"
 	"time"
 	"log"
 	"math/rand"
@@ -195,7 +195,7 @@ func delivery(deliver_truck *truck) *truck {
 	}
 }
 
-
+var response pb.RespuestaCon
 var tiempo_espera float64
 func main()  {
 	fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")
@@ -209,7 +209,7 @@ func main()  {
 	defer conn.Close()
 	c := pb.NewGreeterClient(conn)
 	var opcion int32
-	opcion=0
+	opcion=0	
 	for  opcion!=-1{
 			fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
 			fmt.Scanf("%d", &opcion)
