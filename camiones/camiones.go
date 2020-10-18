@@ -8,8 +8,10 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"log"
 	"math/rand"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 	pb"Lab1/SD/pipeline"
 )
 /************paquetes tipos*************/
