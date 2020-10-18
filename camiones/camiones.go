@@ -207,8 +207,7 @@ func main()  {
 	c := pb.NewGreeterClient(conn)
 	var opcion int32
 	actualizacion:=0
-	opcion=0	
-	paquete_1 := newPack("_", 0, 50, "_","_", 0,  time.Now(),-1)
+	opcion=0		
 	camion1 := newTruck(1,&pack404,&pack404)
 	for  opcion!=-1{
 			actualizacion=0
