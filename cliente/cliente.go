@@ -60,7 +60,7 @@ func RetailReader(){
 			fmt.Println("Error ::", err)
 			break
 		}
-    prod := Item{id: record[0], producto: record[1], valor:1, tienda:record[3],destino:record[4]}
+    prod := Item{id: record[0], producto: record[1], valor:strconv.FormatInt(record[2],10), tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
 }
