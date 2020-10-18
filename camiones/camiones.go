@@ -25,7 +25,7 @@ import (
 type pack struct{
   id_pack string
   pack_type  int32
-  value int
+  value int32
   origin string
   destination string
   tries int
