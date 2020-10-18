@@ -55,11 +55,13 @@ func NewOrden(ordenes []*orden, id_paquete string, nombre string,
     orden.created_time = time.Now()
     orden.seguimiento = NewCodeSeguimiento(ordenes)
     file, err := os.File("data.csv")
+    file, err := os.Create("data.csv")
     checkError("Cannot create file", err)
     defer file.Close()
+
     writer := csv.NewWriter(file)
     defer writer.Flush()
-    err := writer.Write(orden)
+    err := writer.Write("holi")
     checkError("Cannot write to file", err)
     return &orden
 }
