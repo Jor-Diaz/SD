@@ -48,7 +48,7 @@ var camion404 truck = truck{type_t: -1 , pack0: &pack404, pack1: &pack404 }
 	retorna un puntero a paquete
 */
 
-func newPack(idPack string, typ int32, val string, org string, dst string, trs int, date time.Time) *pack {
+func newPack(idPack string, typ int32, val int32, org string, dst string, trs int, date time.Time) *pack {
 	pVal, err := strconv.Atoi(val)
 		if err == nil {
 			//fmt.Println(pVal)
@@ -219,15 +219,14 @@ func main()  {
 			}
 			log.Printf("El Estado de la orden es : En bodega %s",response.Producto)
 	}
-
-  p1 := newPack("SA5897AS", 2, "95", "_","_",  0,  time.Now())
-	p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
+  p1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
+	//p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
 	// p3 := newPack("SA2589TR", 2, "5",  "_", "_", 0,  time.Now())
 	// p4 := newPack("SA1597EF", 0, "20", "_", "_", 0,  time.Now())
 	// p5 := newPack("SA6947GH", 1, "50", "_", "_", 0,  time.Now())
 	// p6 := newPack("SA2596NH", 2, "90", "_", "_", 0,  time.Now())
 
-	t1 := newTruck(1,p1,p2)
+	t1 := newTruck(1,p1,pack404)
 	state := truckState(t1)
 	// t2 := newTruck(0,p3,p4)
 	// t3 := newTruck(0,p5,p6)
