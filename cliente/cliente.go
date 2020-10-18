@@ -147,7 +147,5 @@ func main() {
           log.Fatalf("Error when calling SayHello: %s", err)
         }
         log.Printf("El Estado de la orden es : %s", response.Estado)
-
-      }
     }
 }
