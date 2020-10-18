@@ -23,6 +23,7 @@ import(
   	log.Printf("Orden recibida con datos:  %s %s %s %d %s %s", in.Tipo,in.Id,in.Producto,in.Valor,in.Tienda,in.Destino )
     aux:=NewOrden(ordenes,in.Id,in.Tipo,in.Producto,in.Valor,in.Tienda,in.Destino)
     ordenes=append(ordenes,aux)
+    fmt.Println("###########")
     for i := 0; i < len(ordenes); i++ {
       fmt.Println(ordenes[i])
       fmt.Println(ordenes[i].created_time.Format(time.ANSIC))
@@ -60,8 +61,7 @@ func NewCodeSeguimiento(ordenes []*orden) int{
 
 var ordenes []*orden
 func main() {
-    fmt.Println("Go gRPC Beginners Tutorial!")
-
+    fmt.Println("Gracias por iniciar el receptor de ordenes de SD X-Wing Team")    
   	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9000))
   	if err != nil {
   		log.Fatalf("failed to listen: %v", err)

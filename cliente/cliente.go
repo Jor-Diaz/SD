@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
   "strconv"
-  //"time"
+  "time"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
   pb"Lab1/SD/pipeline"
@@ -116,7 +116,7 @@ func searchOrder( _id string) *Orden {
 
 func main() {
   // Set up a connection to the server.
-
+    delta_tiempo:=60
     var conn *grpc.ClientConn
   	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
   	if err != nil {
@@ -129,13 +129,19 @@ func main() {
     OrderReader() //working!
 
   	c := pb.NewGreeterClient(conn)
-
-  	response, err := c.SayHello(context.Background(), &pb.Message{Tipo:"1",Id:productos[0].id,Producto:productos[0].producto,Valor:productos[0].valor,Tienda:productos[0].tienda,Destino: productos[0].destino})
-  	if err != nil {
-  		log.Fatalf("Error when calling SayHello: %s", err)
-  	}
-  	log.Printf("Response from server: %s", response.Producto)
-
+    i:=0
+    update_time:=time.Now()
+    for  i < len(productos){
+      if ( (time.Now()-update_time.Add(time.Second * delta_tiempo)) > 0){
+    	  response, err := c.SayHello(context.Background(), &pb.Message{Tipo:"1",Id:productos[i].id,Producto:productos[i].producto,Valor:productos[i].valor,Tienda:productos[i].tienda,Destino: productos[i].destino})
+      	if err != nil {
+      		log.Fatalf("Error when calling SayHello: %s", err)
+      	}
+      	log.Printf("Response from server: %s", response.Producto)
+        i=i+1
+        update_time=time.Now()
+      }
+    }
 
   id_ex := "CsC147"
   //item_ex := searchItem(id_ex)
