@@ -17,7 +17,6 @@ import(
       pb.UnimplementedGreeterServer
   }
 
-
   type orden struct {
       created_time time.Time
       id_paquete string
@@ -56,7 +55,7 @@ func main() {
 
   	grpcServer := grpc.NewServer()
 
-  	pipeline.RegisterChatServiceServer(grpcServer, &Server{})
+  	pb.RegisterChatServiceServer(grpcServer, &Server{})
 
   	if err := grpcServer.Serve(lis); err != nil {
   		log.Fatalf("failed to serve: %s", err)
