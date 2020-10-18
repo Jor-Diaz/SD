@@ -227,7 +227,7 @@ func main()  {
 	// p4 := newPack("SA1597EF", 0, "20", "_", "_", 0,  time.Now())
 	// p5 := newPack("SA6947GH", 1, "50", "_", "_", 0,  time.Now())
 	// p6 := newPack("SA2596NH", 2, "90", "_", "_", 0,  time.Now())
-	fmt.Println("%s id",p1.id_pack)
+	fmt.Println(p1.id_pack)
 	t1 := newTruck(1,p1,p1)
 	state := truckState(t1)
 	// t2 := newTruck(0,p3,p4)
