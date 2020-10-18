@@ -138,7 +138,8 @@ func main() {
     }
     defer conn.Close()
     c := pb.NewGreeterClient(conn)
-    opcion:=0
+    var opcion int32
+    opcion=0
     for  opcion!=-1{
         fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
         fmt.Scanf("%d", &opcion)
