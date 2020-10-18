@@ -85,7 +85,7 @@ func searchOrder( codigo_seguimiento int32) *orden {
 
 
 var ordenes []*orden
-var Orden404 orden = orden{id: "not_found", producto: "not_found", valor:1, tienda:"not_found",destino:"not_found", prioritario: -1,seguimiento:-1,estado:"No Existe"}
+var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1, origen:"not_found",destino:"not_found", prioritario: -1,seguimiento:-1,estado:"No Existe"}
 
 func main() {
     fmt.Println("Gracias por iniciar el receptor de ordenes de SD X-Wing Team")
