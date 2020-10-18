@@ -93,9 +93,10 @@ func OrderReader(tipo int32){
 			break
 		}
     numero,_:=strconv.Atoi(record[2])
-    ord := Orden{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:2}
+    ord := Orden{id:record[0],producto:record[1],valor:int32(numero),tienda:record[3],destino:record[4],prioritario:2}
     if tipo==2 {
-      ord := Orden{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:record[5]}
+      prio,_:=strconv.Atoi(record[5])
+      ord := Orden{id:record[0],producto:record[1],valor:int32(numero),tienda:record[3],destino:record[4],prioritario:int32(prio)}
     }
     ordenes = append(ordenes, &ord)
   	}
