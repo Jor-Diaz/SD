@@ -15,6 +15,28 @@ message Message {
 
 }
 
+message respuesta_consulta {
+  string Tipo = 1;
+  string Id = 2;
+  string Producto = 3;
+  int32 Valor = 4;
+  string Tienda = 5;
+  string Destino = 6;
+  int32 Prioridad = 7;
+  int32 Seguimiento = 8;
+  int32 Intentos = 9;
+  string Estado = 10;
+}
+
+message consulta_estado {
+  int32 Seguimiento = 1;
+}
+
+
 service Greeter {
   rpc SayHello (Message) returns (Message) {}
+}
+
+service Estado {
+  rpc ConEstado (consulta_estado) returns (respuesta_consulta) {}
 }
