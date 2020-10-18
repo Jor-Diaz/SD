@@ -66,7 +66,7 @@ func NewOrden(ordenes []*orden, id_paquete string, nombre string,
 
     writer := csv.NewWriter(file)
     defer writer.Flush()
-    err1 := writer.Write({"holi","linea1"})
+    err1 := writer.Write({{"holi","linea1"}})
     checkError("Cannot write to file", err1)
     return &orden
 }
