@@ -82,7 +82,7 @@ func NewCodeSeguimiento() int32{
     candados[3].mux.Lock()
     aux:=numero_seguimiento+1
     numero_seguimiento=numero_seguimiento+1
-    c.mux.Unlock()
+    candados[3].mux.Unlock()
     return aux
 }
 
@@ -105,7 +105,7 @@ func searchOrder(codigo_seguimiento int32) *orden {
   return &Orden404
 }
 
-func (c *SafeCounter) recepcion_clientes(){
+func  recepcion_clientes(){
   lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9000))
   if err != nil {
     log.Fatalf("failed to listen: %v", err)
@@ -128,7 +128,7 @@ var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1
 
 func main() {
     fmt.Println("Gracias por iniciar el receptor de ordenes de SD X-Wing Team")
-    candados= [4]*SafeCounter{SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)} }
+    candados= {SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)},SafeCounter{v: make(map[string]int)} }
     numero_seguimiento=0
     go recepcion_clientes()
     opcion:=0
