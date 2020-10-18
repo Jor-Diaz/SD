@@ -21,13 +21,20 @@ import(
 
   func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
   	log.Printf("Orden recibida con datos:  %s %s %s %d %s %s", in.Tipo,in.Id,in.Producto,in.Valor,in.Tienda,in.Destino )
+    aux:=NewOrden(ordenes,in.Id,in.Tipo,in.Producto,in.Valor,in.Tienda,in.Destino)
+    ordenes=append(ordenes,aux)
+    for i := 0; i < len(ordenes); i++ {
+      fmt.Println(ordenes[i])
+      fmt.Println(ordenes[i].created_time.Format(time.ANSIC))
+      fmt.Println("////")
+    }
   	return &pb.Message{Tipo: " Datos recibidos",}, nil
   }
 
   type orden struct {
       created_time time.Time
       id_paquete string
-      tipo string
+      tipo int
       nombre string
       valor  int
       origen string
@@ -35,7 +42,7 @@ import(
       seguimiento int
   }
 
-func NewOrden(ordenes []*orden, id_paquete string, tipo string, nombre string,
+func NewOrden(ordenes []*orden, id_paquete string, tipo int, nombre string,
   valor  int, origen string, destino string ) *orden {
     orden := orden{id_paquete: id_paquete,tipo:tipo,nombre:nombre,valor:valor,
     origen:origen,destino:destino}
@@ -51,7 +58,7 @@ func NewCodeSeguimiento(ordenes []*orden) int{
     return ordenes[len(ordenes)-1].seguimiento+1
 }
 
-
+var ordenes []*orden
 func main() {
     fmt.Println("Go gRPC Beginners Tutorial!")
 
@@ -68,11 +75,9 @@ func main() {
   		log.Fatalf("failed to serve: %s", err)
   	}
     fmt.Println("Wena profe")
-    ordenes := []*orden{}
-    aux:=NewOrden(ordenes,"Paquete1","mochila","Jorgekun",1000,"chilito","membrillo")
-    ordenes=append(ordenes,aux)
-    aux=NewOrden(ordenes,"Paquete2","Bebida","Iñakikun",2000,"chilito","Corea")
-    ordenes=append(ordenes,aux)
+
+    //aux=NewOrden(ordenes,"Paquete2","Bebida","Iñakikun",2000,"chilito","Corea")
+    //ordenes=append(ordenes,aux)
     for i := 0; i < len(ordenes); i++ {
       fmt.Println(ordenes[i])
       fmt.Println(ordenes[i].created_time.Format(time.ANSIC))
