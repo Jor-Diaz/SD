@@ -34,16 +34,16 @@ import(
   type orden struct {
       created_time time.Time
       id_paquete string
-      tipo int
+      tipo string
       nombre string
-      valor  int
+      valor  int32
       origen string
       destino string
       seguimiento int
   }
 
-func NewOrden(ordenes []*orden, id_paquete string, tipo int, nombre string,
-  valor  int, origen string, destino string ) *orden {
+func NewOrden(ordenes []*orden, id_paquete string, tipo string, nombre string,
+  valor  int32, origen string, destino string ) *orden {
     orden := orden{id_paquete: id_paquete,tipo:tipo,nombre:nombre,valor:valor,
     origen:origen,destino:destino}
     orden.created_time = time.Now()
