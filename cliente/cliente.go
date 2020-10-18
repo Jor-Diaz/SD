@@ -40,7 +40,7 @@ var productos []*Item // Arreglo de Items (retail.csv)
 var ordenes []*Orden // Arreglo de pymes (pymes.csv)
 
 var Item404 Item = Item{id: "not_found", producto: "not_found", valor:1, tienda:"not_found",destino:"not_found"}
-var Orden404 Orden = Orden{id: "not_found", producto: "not_found", valor:1, tienda:"not_found",destino:"not_found", prioritario: "not_found"}
+var Orden404 Orden = Orden{id: "not_found", producto: "not_found", valor:"bla", tienda:"not_found",destino:"not_found", prioritario: "not_found"}
 
 /************************************************************************************************************************/
 func RetailReader(){
@@ -60,7 +60,7 @@ func RetailReader(){
 			fmt.Println("Error ::", err)
 			break
 		}
-    prod := Item{id: record[0], producto: record[1], valor:record[2], tienda:record[3],destino:record[4]}
+    prod := Item{id: record[0], producto: record[1], valor:int(record[2]), tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
 }
