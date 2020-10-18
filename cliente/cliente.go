@@ -73,12 +73,11 @@ func RetailReader(){
 /************************************************************************************************************************/
 func OrderReader(tipo int32){
 	//Abir archivo
-  if(tipo==1){
-    archivo:="retail.csv"
+  if tipo == 1{
+    recordFile, err := os.Open("retail.csv")
   }else{
-    archivo:="pymes.csv"
+    recordFile, err := os.Open("pymes.csv")
   }
-  recordFile, err := os.Open(archivo)
 	if err != nil {
 		fmt.Println("An error encountered ::", err)
 		os.Exit(0)
@@ -94,7 +93,7 @@ func OrderReader(tipo int32){
 			break
 		}
     numero,_:=strconv.Atoi(record[2])
-    if(tipo==1){
+    if tipo==1 {
         ord := Orden{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:2}
     }else{
       ord := Orden{id:record[0],producto:record[1],valor:record[2],tienda:record[3],destino:record[4],prioritario:record[5]}
@@ -159,7 +158,7 @@ func main() {
     i:=0
     update_time:=time.Now()
     time2:=time.Now()
-    for  i < len(productos){
+    for  i < len(ordenes){
       time2=time.Now()
       if ( time2.Sub(update_time).Seconds() > delta_tiempo){
     	  response, err := c.SayHello(context.Background(), &pb.Message{Id:ordenes[i].id,Producto:ordenes[i].producto,Valor:ordenes[i].valor,Tienda:ordenes[i].tienda,Destino: ordenes[i].destino,Prioridad:ordenes[i].prioritario})
