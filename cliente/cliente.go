@@ -23,7 +23,7 @@ const (
 type Item struct{
   id string
   producto string
-  valor int
+  valor int32
   tienda string
   destino string
 }
@@ -62,7 +62,7 @@ func RetailReader(){
 			break
 		}
     numero,error:=strconv.Atoi(record[2])
-    prod := Item{id: record[0], producto: record[1], valor:numero, tienda:record[3],destino:record[4]}
+    prod := Item{id: record[0], producto: record[1], valor:int32(numero), tienda:record[3],destino:record[4]}
     productos = append(productos, &prod)
   	}
 }
