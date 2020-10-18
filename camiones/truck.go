@@ -11,7 +11,7 @@ import (
 	"math/rand"
 )
 /************paquetes tipos*************/
-// 0: retail , 1: prioritario ,2: normal
+// 2: retail , 1: prioritario ,0: normal
 /**************************************/
 
 /************camiones tipos*************/
@@ -20,7 +20,7 @@ import (
 
 type pack struct{
   id_pack string
-  pack_type  int
+  pack_type  int32
   value int
   origin string
   destination string
@@ -35,7 +35,7 @@ type truck struct{
 }
 
 
-var pack404 pack = pack{id_pack: "empty",pack_type: 3, value: -1, origin:  "empty", destination:  "empty", tries :-1, delivery_date:  time.Now()}
+var pack404 pack = pack{id_pack: "empty",pack_type: -1, value: -1, origin:  "empty", destination:  "empty", tries :-1, delivery_date:  time.Now()}
 var camion404 truck = truck{type_t: -1 , pack0: &pack404, pack1: &pack404 }
 
 /*************************************************************************************************************************************************/
@@ -44,7 +44,7 @@ var camion404 truck = truck{type_t: -1 , pack0: &pack404, pack1: &pack404 }
 	retorna un puntero a paquete
 */
 
-func newPack(idPack string, typ int, val string, org string, dst string, trs int, date time.Time) *pack {
+func newPack(idPack string, typ int32, val string, org string, dst string, trs int, date time.Time) *pack {
 	pVal, err := strconv.Atoi(val)
 		if err == nil {
 			//fmt.Println(pVal)
@@ -81,9 +81,10 @@ func newTruck(typ int, packA  *pack, packB *pack ) *truck  {
 /*	Función que retorna 1 siempre que sale un numero menor a 80, considerando numeros entre 0 y 100
 */
 func chanceToDeliver() int{
-	rand.Seed(time.Now().UnixNano())
+	rand.Seed(time.Now().UTC().UnixNano())
 	chance := rand.Intn(100)
-	if chance <= 80{
+	fmt.Println("-----",chance,"----")
+	if chance < 81{
 		return 1
 	} else{
 		return 0
@@ -105,8 +106,6 @@ func truckState(trucky 	*truck) int{
 
 }
 /*************************************************************************************************************************************************/
-
-
 /*************************************************************************************************************************************************/
 /* Función que indica que paquete entregar en esta iteración
 Primero considera su prioridad
@@ -126,7 +125,7 @@ func wichToDeliver(pack0 *pack, pack1 *pack) int {
 			}else{
 				return 1
 			}
-		}else if pack0.pack_type < pack1.pack_type{
+		}else if pack0.pack_type > pack1.pack_type{
 			return 0
 		}else {
 			return 1
@@ -192,13 +191,9 @@ func delivery(deliver_truck *truck) *truck {
 	}
 }
 
-
-
-
-
 func main()  {
 
-  p1 := newPack("SA5897AS", 1, "95", "_","_",  0,  time.Now())
+  p1 := newPack("SA5897AS", 2, "95", "_","_",  0,  time.Now())
 	p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
 	// p3 := newPack("SA2589TR", 2, "5",  "_", "_", 0,  time.Now())
 	// p4 := newPack("SA1597EF", 0, "20", "_", "_", 0,  time.Now())
@@ -219,8 +214,6 @@ func main()  {
 	fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
 	fmt.Println("------------------------------------")
 
-
-
 	// a := wichToDeliver(t1.pack0, t1.pack1)
 	// b:= chanceToDeliver()
 	// fmt.Println(a)
@@ -230,26 +223,19 @@ func main()  {
 	t1 = delivery(t1)
 	fmt.Println("-----------------------------------")
 	state = truckState(t1)
-
 	fmt.Println("Despues de 1er Entrega:")
 	fmt.Println("_Camión_")
 	fmt.Println("Capacidad del Camión:", state, "espacios")
-
 	fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
 	fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
 	fmt.Println("-----------------------------------")
-
 	t1 = delivery(t1)
 	fmt.Println("-----------------------------------")
 	state = truckState(t1)
 	fmt.Println("Despues de 2da Entrega:")
 	fmt.Println("_Camión_")
 	fmt.Println("Capacidad del Camión:", state, "espacios")
-
 	fmt.Println("Paquete 1: *", t1.pack0.id_pack," *")
 	fmt.Println("Paquete 2: *", t1.pack1.id_pack," *")
 	fmt.Println("-----------------------------------")
-
-
-
 }
