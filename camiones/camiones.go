@@ -207,8 +207,7 @@ func main()  {
 	c := pb.NewGreeterClient(conn)
 	var opcion int32
 	actualizacion:=0
-	opcion=0
-	aux:=1
+	opcion=0	
 	paquete_1 := newPack("_", 0, 50, "_","_", 0,  time.Now(),-1)
 	camion1 := newTruck(1,&pack404,&pack404)
 	for  opcion!=-1{
@@ -220,8 +219,7 @@ func main()  {
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				aux=response.Seguimiento
-				log.Printf("Orden asignada codigo seguimiento %s",response.Seguimiento)
+				log.Printf("Orden asignada codigo seguimiento %d",response.Seguimiento)
 				paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
 				if camion1.pack0.id_pack == "empty"{
 					camion1.pack0=paquete_1
