@@ -7,7 +7,7 @@ message Message {
   string Tipo = 1;
   string Id = 2;
   string Producto = 3;
-  int Valor = 4;
+  int32 Valor = 4;
   string Tienda = 5;
   string Destino = 6;
 }
