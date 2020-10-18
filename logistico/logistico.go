@@ -49,6 +49,11 @@ import(
       estado string
   }
 
+func checkError(message string, err error) {
+      if err != nil {
+          log.Fatal(message, err)
+      }
+  }
 func NewOrden(ordenes []*orden, id_paquete string, nombre string,
   valor  int32, origen string, destino string, prioridad int32 ) *orden {
     orden := orden{id_paquete: id_paquete,nombre:nombre,valor:valor,
