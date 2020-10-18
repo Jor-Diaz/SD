@@ -221,13 +221,14 @@ func main()  {
 				log.Printf("El Estado de la orden es : En bodega %s",response.Id)
 			}
 	}
+	fmt.Println(response.Id)
   p1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
 	//p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
 	// p3 := newPack("SA2589TR", 2, "5",  "_", "_", 0,  time.Now())
 	// p4 := newPack("SA1597EF", 0, "20", "_", "_", 0,  time.Now())
 	// p5 := newPack("SA6947GH", 1, "50", "_", "_", 0,  time.Now())
 	// p6 := newPack("SA2596NH", 2, "90", "_", "_", 0,  time.Now())
-	fmt.Println(p1.id_pack)
+
 	t1 := newTruck(1,p1,p1)
 	state := truckState(t1)
 	// t2 := newTruck(0,p3,p4)
