@@ -118,8 +118,8 @@ func main() {
   // Set up a connection to the server.
     var delta_tiempo float64
     fmt.Println("Gracias por iniciar el cliente de ordenes de SD X-Wing Team")
-    fmt.Println("#Configuracion")
-    fmt.Println("  Ingresa el tiempo de desfase de envio entre cada orden")
+    fmt.Println("----------Configuracion------")
+    fmt.Println("Ingresa el tiempo de desfase (en segundos) de envio entre cada orden")
     fmt.Scanf("%f", &delta_tiempo)
     var conn *grpc.ClientConn
   	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
