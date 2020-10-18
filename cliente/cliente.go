@@ -143,7 +143,7 @@ func main() {
       	if err != nil {
       		log.Fatalf("Error when calling SayHello: %s", err)
       	}
-      	log.Printf("Response from server: %s", response.Producto)
+      	log.Printf("El codigo de seguimiento del pedido es: %d", response.Seguimiento)
         i=i+1
         update_time=time.Now()
       }
