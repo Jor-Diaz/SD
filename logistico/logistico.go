@@ -21,7 +21,7 @@ import(
 
   func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
   	log.Printf("Orden recibida con datos:  %s %s %s %d %s %s", in.Tipo,in.Id,in.Producto,in.Valor,in.Tienda,in.Destino )
-  	return &Message{Tipo: " Datos recibidos",}, nil
+  	return &pb.Message{Tipo: " Datos recibidos",}, nil
   }
 
   type orden struct {
