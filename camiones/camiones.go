@@ -214,11 +214,11 @@ func main()  {
 			fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
 			fmt.Scanf("%d", &opcion)
 			if opcion!=-1{
-				response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:1})			
+				response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:1})
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				log.Printf("El Estado de la orden es : En bodega %s",response.Producto)
+				log.Printf("El Estado de la orden es : En bodega %s",response.Id)
 			}
 	}
   p1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
