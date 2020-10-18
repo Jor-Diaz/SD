@@ -49,10 +49,10 @@ var camion404 truck = truck{type_t: -1 , pack0: &pack404, pack1: &pack404 }
 */
 
 func newPack(idPack string, typ int32, val int32, org string, dst string, trs int, date time.Time) *pack {
-	pVal, err := strconv.Atoi(val)
-		if err == nil {
+//	pVal, err := strconv.Atoi(val)
+	//	if err == nil {
 			//fmt.Println(pVal)
-		}
+		//}
 
 		Npack := pack{
 			id_pack : idPack,
