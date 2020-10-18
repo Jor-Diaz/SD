@@ -28,11 +28,17 @@ func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, err
   	log.Printf("Orden recibida con datos:   %s %s %d %s %s %d", in.Id,in.Producto,in.Valor,in.Tienda,in.Destino, in.Prioridad )
     aux:=NewOrden(in.Id,in.Producto,in.Valor,in.Tienda,in.Destino,in.Prioridad)
     if(in.Prioridad==2){
+      candados[0].mux.Lock()
       ordenes_retail=append(ordenes_retail,aux)
-    }else if( in.Prioridad==0){
-      ordenes_prioridad_0=append(ordenes_prioridad_0,aux)
-    }else{
+      candados[0].mux.Unlock()
+    }else if( in.Prioridad==1){
+      candados[1].mux.Lock()
       ordenes_prioridad_1=append(ordenes_prioridad_1,aux)
+      candados[1].mux.Unlock()
+    }else{
+      candados[2].mux.Lock()
+      ordenes_prioridad_0=append(ordenes_prioridad_0,aux)
+      candados[2].mux.Unlock()
     }
   	return &pb.Message{Seguimiento: aux.seguimiento,}, nil
   }
@@ -53,7 +59,8 @@ type orden struct {
     prioridad int32
     seguimiento int32
     intentos int32
-    estado string
+    estado int32
+
 }
 
 func checkError(message string, err error) {
