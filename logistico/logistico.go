@@ -26,10 +26,9 @@ import(
     fmt.Println("###########")
     for i := 0; i < len(ordenes); i++ {
       fmt.Println(ordenes[i])
-      fmt.Println(ordenes[i].created_time.Format(time.ANSIC))
-      fmt.Println("////")
+      fmt.Println(ordenes[i].created_time.Format(time.ANSIC))      
     }
-  	return &pb.Message{Tipo: " Datos recibidos",}, nil
+  	return &pb.Message{Producto: " Datos recibidos",}, nil
   }
 
   type orden struct {
@@ -61,7 +60,7 @@ func NewCodeSeguimiento(ordenes []*orden) int{
 
 var ordenes []*orden
 func main() {
-    fmt.Println("Gracias por iniciar el receptor de ordenes de SD X-Wing Team")    
+    fmt.Println("Gracias por iniciar el receptor de ordenes de SD X-Wing Team")
   	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9000))
   	if err != nil {
   		log.Fatalf("failed to listen: %v", err)
