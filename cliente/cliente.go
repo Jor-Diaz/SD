@@ -131,8 +131,10 @@ func main() {
   	c := pb.NewGreeterClient(conn)
     i:=0
     update_time:=time.Now()
+    time2:=time.Now()
     for  i < len(productos){
-      if ( (time.Now()-update_time.Add(time.Second * delta_tiempo)) > 0){
+      time2=time.Now()      
+      if ( time2.Sub(update_time).Seconds() > delta_tiempo){
     	  response, err := c.SayHello(context.Background(), &pb.Message{Tipo:"1",Id:productos[i].id,Producto:productos[i].producto,Valor:productos[i].valor,Tienda:productos[i].tienda,Destino: productos[i].destino})
       	if err != nil {
       		log.Fatalf("Error when calling SayHello: %s", err)
