@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"time"
 	"math/rand"
+	"golang.org/x/net/context"
+	pb"Lab1/SD/pipeline"
 )
 /************paquetes tipos*************/
 // 2: retail , 1: prioritario ,0: normal
@@ -199,6 +201,26 @@ func main()  {
 			fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")
 			fmt.Scanf("%f", &tiempo_espera)
 	}
+
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %s", err)
+	}
+	defer conn.Close()
+	c := pb.NewGreeterClient(conn)
+	var opcion int32
+	opcion=0
+	for  opcion!=-1{
+			fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
+			fmt.Scanf("%d", &opcion)
+			response, err := c.ConEstado(context.Background(), &pb.ConsultaEstado{Seguimiento:opcion})
+			if err != nil {
+				log.Fatalf("Error when calling SayHello: %s", err)
+			}
+			log.Printf("El Estado de la orden es : %s", response.Estado)
+	}
+
   p1 := newPack("SA5897AS", 2, "95", "_","_",  0,  time.Now())
 	p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
 	// p3 := newPack("SA2589TR", 2, "5",  "_", "_", 0,  time.Now())
