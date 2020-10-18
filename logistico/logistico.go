@@ -25,28 +25,34 @@ type SafeCounter struct {
 }
 
 func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
-  	log.Printf("Orden recibida con datos:   %s %s %d %s %s %d", in.Id,in.Producto,in.Valor,in.Tienda,in.Destino, in.Prioridad )
-    aux:=NewOrden(in.Id,in.Producto,in.Valor,in.Tienda,in.Destino,in.Prioridad)
-    if(in.Prioridad==2){
-      candados[0].mux.Lock()
-      ordenes_retail=append(ordenes_retail,aux)
-      candados[0].mux.Unlock()
-    }else if( in.Prioridad==1){
-      candados[1].mux.Lock()
-      ordenes_prioridad_1=append(ordenes_prioridad_1,aux)
-      candados[1].mux.Unlock()
-    }else{
-      candados[2].mux.Lock()
-      ordenes_prioridad_0=append(ordenes_prioridad_0,aux)
-      candados[2].mux.Unlock()
-    }
-  	return &pb.Message{Seguimiento: aux.seguimiento,}, nil
+	log.Printf("Orden recibida con datos:   %s %s %d %s %s %d", in.Id,in.Producto,in.Valor,in.Tienda,in.Destino, in.Prioridad )
+  aux:=NewOrden(in.Id,in.Producto,in.Valor,in.Tienda,in.Destino,in.Prioridad)
+  if(in.Prioridad==2){
+    candados[0].mux.Lock()
+    ordenes_retail=append(ordenes_retail,aux)
+    candados[0].mux.Unlock()
+  }else if( in.Prioridad==1){
+    candados[1].mux.Lock()
+    ordenes_prioridad_1=append(ordenes_prioridad_1,aux)
+    candados[1].mux.Unlock()
+  }else{
+    candados[2].mux.Lock()
+    ordenes_prioridad_0=append(ordenes_prioridad_0,aux)
+    candados[2].mux.Unlock()
   }
+	return &pb.Message{Seguimiento: aux.seguimiento,}, nil
+}
 
 func (s *Server) ConEstado(ctx context.Context, in *pb.ConsultaEstado) (*pb.RespuestaCon, error) {
-  	log.Printf("Cosulta recibida con datos:   %d", in.Seguimiento)
-    orden_aux:=searchOrder(in.Seguimiento)
-  	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado}, nil
+	log.Printf("Cosulta recibida con datos:   %d", in.Seguimiento)
+  orden_aux:=searchOrder(in.Seguimiento)
+	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,IdCamion:orden_aux.id_camion}, nil
+}
+
+func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.RespuestaCon, error) {
+  	log.Printf("Cosulta recibida con datos:   %d", in.IdCamion)
+    //orden_aux:=searchOrder(in.Seguimiento)
+  	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,IdCamion:orden_aux.id_camion}, nil
   }
 
 type orden struct {
@@ -60,6 +66,7 @@ type orden struct {
     seguimiento int32
     intentos int32
     estado int32//0 en bodega; 1 en camino ; 2 recibido; 3 no recibido; -1 no existe
+    id_camion int32
 
 }
 
@@ -71,7 +78,7 @@ func checkError(message string, err error) {
 func NewOrden( id_paquete string, nombre string,
   valor  int32, origen string, destino string, prioridad int32 ) *orden {
     orden := orden{id_paquete: id_paquete,nombre:nombre,valor:valor,
-    origen:origen,destino:destino,prioridad:prioridad,intentos:0,estado:0}
+    origen:origen,destino:destino,prioridad:prioridad,intentos:0,estado:0,id_camion:-1}
     orden.created_time = time.Now()
     orden.seguimiento = NewCodeSeguimiento()
     //file, err := os.Open("data.csv")
@@ -131,7 +138,7 @@ var ordenes_prioridad_0 []*orden
 var ordenes_prioridad_1 []*orden
 var numero_seguimiento int32
 var candados []*SafeCounter
-var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1, origen:"not_found",destino:"not_found", prioridad: -1,seguimiento:-1,estado:-1}
+var Orden404 orden = orden{id_paquete: "not_found", nombre: "not_found", valor:1, origen:"not_found",destino:"not_found", prioridad: -1,seguimiento:-1,estado:-1,id_camion:-1}
 
 func main() {
     fmt.Println("Gracias por iniciar el receptor de ordenes de SD X-Wing Team")
