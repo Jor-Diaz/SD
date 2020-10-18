@@ -45,7 +45,7 @@ import(
       prioridad int32
       seguimiento int32
       intentos int32
-      Estado string
+      estado string
   }
 
 func NewOrden(ordenes []*orden, id_paquete string, nombre string,
@@ -68,7 +68,7 @@ func NewCodeSeguimiento(ordenes []*orden) int32{
     return ordenes[len(ordenes)-1].seguimiento+1
 }
 
-func searchOrder( codigo_seguimiento int32) *Orden {
+func searchOrder( codigo_seguimiento int32) *orden {
   for _, v := range ordenes {
     if v.seguimiento == codigo_seguimiento {
           return v
