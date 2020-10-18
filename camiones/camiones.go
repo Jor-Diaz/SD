@@ -197,12 +197,9 @@ func delivery(deliver_truck *truck) *truck {
 
 
 var tiempo_espera float64
-func main()  {
-	tiempo_espera:=0
-	for tiempo_espera< 1 {
-			fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")
-			fmt.Scanf("%f", &tiempo_espera)
-	}
+func main()  {	
+	fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")
+	fmt.Scanf("%f", &tiempo_espera)
 
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
