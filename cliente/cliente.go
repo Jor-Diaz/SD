@@ -129,7 +129,8 @@ func searchOrder( _id string) *Orden {
 func main() {
   // Set up a connection to the server.
     var delta_tiempo float64
-    var tipo_cliente=0
+    var tipo_cliente int32
+    tipo_cliente=0
     fmt.Println("Gracias por iniciar el cliente de ordenes de SD X-Wing Team")
     fmt.Println("----------Configuracion------")
     fmt.Println("Ingrese el tiempo(en segundos) entre envio de ordenes")
