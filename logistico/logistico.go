@@ -23,14 +23,14 @@ import(
   	log.Printf("Orden recibida con datos:  %s %s %s %d %s %s", in.Tipo,in.Id,in.Producto,in.Valor,in.Tienda,in.Destino )
     aux:=NewOrden(ordenes,in.Id,in.Tipo,in.Producto,in.Valor,in.Tienda,in.Destino)
     ordenes=append(ordenes,aux)
-    fmt.Println("#################")
-    fmt.Println("_Data en memoria__")    
-    for i := 0; i < len(ordenes); i++ {
-      fmt.Println(ordenes[i])
-      fmt.Println(ordenes[i].created_time.Format(time.ANSIC))
-      fmt.Println("_________________")
-    }
-  	return &pb.Message{Producto: " Datos recibidos",}, nil
+    //fmt.Println("#################")
+    //fmt.Println("_Data en memoria__")
+    //for i := 0; i < len(ordenes); i++ {
+      //fmt.Println(ordenes[i])
+      //fmt.Println(ordenes[i].created_time.Format(time.ANSIC))
+      //fmt.Println("_________________")
+    //}
+  	return &pb.Message{Producto: " Orden recibida. EL codigo de seguimiento es %d",aux.seguimiento}, nil
   }
 
   type orden struct {
