@@ -59,8 +59,7 @@ func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.Respuesta
 }
 
 func (s *Server) ActEntrega(ctx context.Context, in *pb.ActCamion) (*pb.ConsultaEstado, error) {
-  	log.Printf("actualizacion estado de orden   %d", in.Seguimiento)
-    var orden_aux *orden
+  	log.Printf("actualizacion estado de orden   %d", in.Seguimiento)    
     resultado:=actualizacion_Estado(in.Seguimiento,in.Exito)
   	return &pb.ConsultaEstado{Seguimiento:in.Seguimiento}, nil
 }
