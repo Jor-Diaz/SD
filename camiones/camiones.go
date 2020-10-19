@@ -230,10 +230,8 @@ func delivery(deliver_truck *truck) *truck {
 
 var response pb.RespuestaCon
 var tiempo_espera float64
-func main()  {
-	fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")
-	fmt.Scanf("%f", &tiempo_espera)
 
+func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist158:9000", grpc.WithInsecure())
 	if err != nil {
@@ -241,49 +239,63 @@ func main()  {
 	}
 	defer conn.Close()
 	c := pb.NewGreeterClient(conn)
-	var opcion int32
-	actualizacion:=0
-	opcion=0
-	camion1 := newTruck(1,&pack404,&pack404)
+	opcion:=0
+	no_paquetes:=0
+	camion1 := newTruck(Id_camion,&pack404,&pack404)
+	update_time:=time.Now()
+  time2:=time.Now()
+	status:=0
 	for  opcion!=-1{
-			actualizacion=0
-			fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
-			fmt.Scanf("%d", &opcion)
-			if opcion!=-1{
-				response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:1})
+			no_paquetes=0
+			time2=time.Now()
+			if ( time2.Sub(update_time).Seconds() > tiempo_espera){
+			//fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
+			//fmt.Scanf("%d", &opcion)
+				fmt.Println("Camion %d solicitando paquetes",Id_camion)
+				response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				log.Printf("Orden asignada codigo seguimiento %d",response.Seguimiento)
-				paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
-				if camion1.pack0.id_pack == "empty"{
-					camion1.pack0=paquete_1
-					actualizacion=1
+				///Verificar que es paquete valido
+				no_paquetes=1
+				if (no_paquetes==1){
+						update_time=time.Now()
+						log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
+						paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
+						camion1.pack0
+						fmt.Println("Esperando segundo paquete para entregar")
+						time2:=time.Now()
+						for (status!=0) {
+							if ( time2.Sub(update_time).Seconds() > tiempo_espera){
+									status=1
+							}
+						}
+						fmt.Println("Camion %d solicitando segundo paquete",Id_camion)
+						response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
+						if err != nil {
+							log.Fatalf("Error when calling SayHello: %s", err)
+						}
+						///Verificar que es paquete valido
+						no_paquetes=2
+						if (no_paquetes==2){
+							log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
+							paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
+							camion1.pack1=paquete_1
+						}else{
+							fmt.Println("No hay paquetes disponibles para repartir para el camion %d", Id_camion)
+						}
+				}else{
+					fmt.Println("No hay paquetes disponibles para repartir para el camion %d", Id_camion)
 				}
-				if camion1.pack1.id_pack == "empty" && actualizacion==0 {
-					camion1.pack1=paquete_1
-					actualizacion=1
-				}
-				if camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack != "empty"{
+				if (no_paquetes>0){
 					state := truckState(camion1)
-					// t2 := newTruck(0,p3,p4)
-					// t3 := newTruck(0,p5,p6)
 					fmt.Println("-----------------------------------")
-
 					fmt.Println("Antes de Entregar:")
 					fmt.Println("_Camión_")
 					fmt.Println("Capacidad del Camión:", state, "espacios")
-
 					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
 					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
 					fmt.Println("------------------------------------")
-
-					// a := wichToDeliver(camion1.pack0, camion1.pack1)
-					// b:= chanceToDeliver()
-					// fmt.Println(a)
-					// fmt.Println("chance:", b)
-					// p1 = deliver(p1)
-					//fmt.Println(p1.id_pack)
 					camion1 = delivery(camion1)
 					fmt.Println("-----------------------------------")
 					state = truckState(camion1)
@@ -303,11 +315,17 @@ func main()  {
 					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
 					fmt.Println("-----------------------------------")
 				}
-
-
-
 			}
 	}
+}
+
+func main()  {
+	fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")
+	fmt.Scanf("%f", &tiempo_espera)
+	go ejecucion_camion(1,tiempo_espera)
+	var jij int32
+	fmt.Scanf("%d", &jij)	
+}
 	//fmt.Println(aux)
   //p1 := newPack(aux, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
 	//p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
