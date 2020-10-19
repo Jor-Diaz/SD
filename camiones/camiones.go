@@ -243,7 +243,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 	no_paquetes:=0
 	camion1 := newTruck(Id_camion,&pack404,&pack404)
 	update_time:=time.Now()
-  time2:=time.Now()
+  time2:=time.Now()	
 	status:=0
 	for  opcion!=-1{
 			no_paquetes=0
@@ -269,21 +269,21 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 							time2=time.Now()
 							if ( time2.Sub(update_time).Seconds() > tiempo_espera){
 									status=1
+									fmt.Println("Camion %d solicitando segundo paquete",Id_camion)
+									response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
+									if err != nil {
+										log.Fatalf("Error when calling SayHello: %s", err)
+									}
+									///Verificar que es paquete valido
+									no_paquetes=2
+									if (no_paquetes==2){
+										log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
+										paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
+										camion1.pack1=paquete_1
+									}else{
+										fmt.Println("No hay paquetes disponibles para repartir para el camion %d", Id_camion)
+									}
 							}
-						}
-						fmt.Println("Camion %d solicitando segundo paquete",Id_camion)
-						response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
-						if err != nil {
-							log.Fatalf("Error when calling SayHello: %s", err)
-						}
-						///Verificar que es paquete valido
-						no_paquetes=2
-						if (no_paquetes==2){
-							log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
-							paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
-							camion1.pack1=paquete_1
-						}else{
-							fmt.Println("No hay paquetes disponibles para repartir para el camion %d", Id_camion)
 						}
 				}else{
 					fmt.Println("No hay paquetes disponibles para repartir para el camion %d", Id_camion)
