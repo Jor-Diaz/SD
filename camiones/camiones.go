@@ -331,7 +331,7 @@ func main()  {
 	fmt.Scanf("%f", &tiempo_espera)
 	go ejecucion_camion(1,tiempo_espera)
 	go ejecucion_camion(2,tiempo_espera)
-	go ejecucion_camion(3,tiempo_espera)
+	//go ejecucion_camion(3,tiempo_espera)
 	var jij int32
 	fmt.Scanf("%d", &jij)
 }
