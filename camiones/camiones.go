@@ -156,7 +156,14 @@ func deliver (pck *pack) *pack {
 
 */
 
-func delivery(deliver_truck *truck, c NewGreeterClient) *truck {
+func delivery(deliver_truck *truck) *truck {
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %s", err)
+	}
+	defer conn.Close()
+	c := pb.NewGreeterClient(conn)
 	packToDeliver := wichToDeliver(deliver_truck.pack0, deliver_truck.pack1)
 	if packToDeliver == 0{
 		for deliver_truck.pack0.tries < 3{
@@ -169,7 +176,7 @@ func delivery(deliver_truck *truck, c NewGreeterClient) *truck {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
 				log.Fatalf("Orden actualizada en logistica")
-				deliver_truck.pack0=pack404
+				deliver_truck.pack0=&pack404
 				return deliver_truck
 
 			} else{
@@ -187,7 +194,7 @@ func delivery(deliver_truck *truck, c NewGreeterClient) *truck {
 			log.Fatalf("Error when calling SayHello: %s", err)
 		}
 		log.Fatalf("Orden actualizada en logistica")
-		deliver_truck.pack0=pack404
+		deliver_truck.pack0=&pack404
 		return deliver_truck
 	}else if packToDeliver == 1{
 		for deliver_truck.pack1.tries < 3{
@@ -200,7 +207,7 @@ func delivery(deliver_truck *truck, c NewGreeterClient) *truck {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
 				log.Fatalf("Orden actualizada en logistica")
-				deliver_truck.pack1=pack404
+				deliver_truck.pack1=&pack404
 				return deliver_truck
 			}else{
 				fmt.Println("Nuevo Intento de Entrega de ", deliver_truck.pack1.id_pack)
@@ -217,7 +224,7 @@ func delivery(deliver_truck *truck, c NewGreeterClient) *truck {
 			log.Fatalf("Error when calling SayHello: %s", err)
 		}
 		log.Fatalf("Orden actualizada en logistica")
-		deliver_truck.pack1=pack404
+		deliver_truck.pack1=&pack404
 		return deliver_truck
 	}else{
 		fmt.Println(".: Camión vacío :.")
