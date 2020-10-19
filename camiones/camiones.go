@@ -251,7 +251,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 			if ( time2.Sub(update_time).Seconds() > tiempo_espera){
 			//fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
 			//fmt.Scanf("%d", &opcion)
-				fmt.Println("Camion %d solicitando paquetes",Id_camion)
+				fmt.Println("Camion ",Id_camion," solicitando paquetes")
 				response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
@@ -271,14 +271,14 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 							time2=time.Now()
 							if ( time2.Sub(update_time).Seconds() > tiempo_espera){
 									status=1
-									fmt.Println("El Camion %d",Id_camion ," esta solicitando un segundo paquete para entregar")
+									fmt.Println("El Camion ",Id_camion ," esta solicitando un segundo paquete para entregar")
 									response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
 									if err != nil {
 										log.Fatalf("Error when calling SayHello: %s", err)
 									}
 									if (response.Prioridad!=-1){
 										no_paquetes=2
-									}									
+									}
 									if (no_paquetes==2){
 										log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
 										paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
