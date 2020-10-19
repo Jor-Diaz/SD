@@ -263,13 +263,13 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 						log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
 						paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
 						camion1.pack0=paquete_1
-						fmt.Println("Esperando segundo paquete para entregar")
+						fmt.Println("Tiempo de Espera para pedir segundo paquete para entregar")
 						update_time=time.Now()
 						for status==0 {
 							time2=time.Now()
 							if ( time2.Sub(update_time).Seconds() > tiempo_espera){
 									status=1
-									fmt.Println("Camion %d solicitando segundo paquete",Id_camion)
+									fmt.Println("El Camion %d",Id_camion " esta solicitando un segundo paquete para entregar")
 									response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
 									if err != nil {
 										log.Fatalf("Error when calling SayHello: %s", err)
@@ -277,7 +277,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 									///Verificar que es paquete valido
 									no_paquetes=2
 									if (no_paquetes==2){
-										log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
+										log.Printf("Orden asignada con codigo seguimiento %d al camion",response.Seguimiento,Id_camion)
 										paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
 										camion1.pack1=paquete_1
 									}else{
@@ -289,6 +289,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 					fmt.Println("No hay paquetes disponibles para repartir para el camion %d", Id_camion)
 				}
 				if (no_paquetes!=0){
+					fmt.Println("Camion %d comienza intento de repartir paquetes", Id_camion)
 					state := truckState(camion1)
 					fmt.Println("-----------------------------------")
 					fmt.Println("Antes de Entregar:")
