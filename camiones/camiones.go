@@ -119,7 +119,7 @@ si se retorna 0 implica que se entrega .pack0
 
 */
 func wichToDeliver(pack0 *pack, pack1 *pack) int {
-	if pack0.value != -1 || pack1.value != -1 {
+	if pack0.value != -1 && pack1.value != -1 {
 		if pack0.pack_type == pack1.pack_type {
 			if pack0.value > pack1.value{
 				return 0
@@ -133,7 +133,7 @@ func wichToDeliver(pack0 *pack, pack1 *pack) int {
 		}
 	}else if pack0.value != -1 && pack1.value == -1{
 		return 0
-	}else if pack0.value != -1 && pack1.value == -1{
+	}else if pack0.value == -1 && pack1.value != -1{
 		return 1
 	}else{
 		return -1
