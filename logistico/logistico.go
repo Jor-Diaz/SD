@@ -116,7 +116,7 @@ func searchOrder_retail(id_camion int32) *orden {
   }
   i=0
   for _, v := range ordenes_prioridad_1 {
-    if v.estado == 0 && b.id_camion==-1  {
+    if v.estado == 0 && v.id_camion==-1  {
           candados[1].mux.Lock()
           ordenes_retail[i].id_camion=id_camion
           ordenes_retail[i].estado=1
