@@ -111,7 +111,7 @@ func NewOrden( id_paquete string, nombre string,
     return &orden
 }
 
-func enviar_financiero(tipo_paquete int,valor int, intentos int){
+func enviar_financiero(tipo_paquete int32,valor int32, intentos int32){
   conn, err := amqp.Dial("amqp://test:holachao@dist157:5672/")
   failOnError(err, "Failed to connect to RabbitMQ")
   defer conn.Close()
