@@ -111,6 +111,7 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
             ordenes_retail[i].estado=2
           }
           if exito == -1{
+            ordenes_retail[i].intentos=ordenes_retail[i].intentos-1
             ordenes_retail[i].estado=3
           }
           candados[0].mux.Unlock()
@@ -127,6 +128,7 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
             ordenes_retail[i].estado=2
           }
           if exito == -1{
+            ordenes_retail[i].intentos=ordenes_retail[i].intentos-1
             ordenes_retail[i].estado=3
           }
           candados[1].mux.Unlock()
@@ -143,6 +145,7 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
             ordenes_retail[i].estado=2
           }
           if exito == -1{
+            ordenes_retail[i].intentos=ordenes_retail[i].intentos-1
             ordenes_retail[i].estado=3
           }
           candados[2].mux.Unlock()
