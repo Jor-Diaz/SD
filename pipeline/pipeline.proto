@@ -27,6 +27,10 @@ message RespuestaCon {
   int32 IdCamion =10;
 }
 
+message ActCamion {
+  int32 Seguimiento = 1;
+  int32 Exito = 2;
+}
 
 message ConsultaEstado {
   int32 Seguimiento = 1;
@@ -41,4 +45,5 @@ service Greeter {
   rpc SayHello (Message) returns (Message) {}
   rpc ConEstado (ConsultaEstado) returns (RespuestaCon) {}
   rpc Solpedido (Solcamion) returns (RespuestaCon) {}
+  rpc ActEntrega (ActCamion) returns (ConsultaEstado) {}
 }

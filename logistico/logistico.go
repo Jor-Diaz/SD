@@ -56,7 +56,14 @@ func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.Respuesta
       orden_aux=searchOrder_retail(1)
     }
   	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,Seguimiento:orden_aux.seguimiento,IdCamion:orden_aux.id_camion}, nil
-  }
+}
+
+func (s *Server) ActEntrega(ctx context.Context, in *pb.ActCamion) (*pb.ConsultaEstado, error) {
+  	log.Printf("actualizacion estado de orden   %d", in.Seguimiento)
+    var orden_aux *orden
+    resultado:=actualizacion_Estado(in.Seguimiento,in.Exito)
+  	return &pb.ConsultaEstado{Seguimiento:in.Seguimiento}, nil
+}
 
 type orden struct {
     created_time time.Time
@@ -94,6 +101,59 @@ func NewOrden( id_paquete string, nombre string,
     //checkError("Cannot write to file", err1)
     return &orden
 }
+
+func actualizacion_Estado( seguimiento int32, exito int32 ) int32{
+  i:=0
+  for _, v := range ordenes_retail {
+    if v.seguimiento == codigo_seguimiento {
+          candados[0].mux.Lock()
+          ordenes_retail[i].intentos=ordenes_retail[i].intentos+1
+          if exito == 1{
+            ordenes_retail[i].estado=2
+          }
+          if exito == -1{
+            ordenes_retail[i].estado=3
+          }
+          candados[0].mux.Unlock()
+          return 0
+        }
+    i=i+1
+  }
+  i=0
+  for _, v := range ordenes_prioridad_1 {
+    if v.seguimiento == codigo_seguimiento {
+          candados[1].mux.Lock()
+          ordenes_retail[i].intentos=ordenes_retail[i].intentos+1
+          if exito == 1{
+            ordenes_retail[i].estado=2
+          }
+          if exito == -1{
+            ordenes_retail[i].estado=3
+          }
+          candados[1].mux.Unlock()
+          return 0
+    }
+    i=i+1
+  }
+  i=0
+  for _, v := range ordenes_prioridad_0 {
+    if v.seguimiento == codigo_seguimiento {
+          candados[2].mux.Lock()
+          ordenes_retail[i].intentos=ordenes_retail[i].intentos+1
+          if exito == 1{
+            ordenes_retail[i].estado=2
+          }
+          if exito == -1{
+            ordenes_retail[i].estado=3
+          }
+          candados[2].mux.Unlock()
+          return 0
+    }
+    i=i+1
+  }
+  return -1
+}
+
 
 func NewCodeSeguimiento() int32{
     candados[3].mux.Lock()
