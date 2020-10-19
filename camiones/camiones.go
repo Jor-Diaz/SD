@@ -69,7 +69,7 @@ func newPack(idPack string, typ int32, val int32, org string, dst string, trs in
 	Se espera que los valores sean entregados por otra maquina
 	retorna un puntero a camión
 */
-func newTruck(typ int, packA  *pack, packB *pack ) *truck  {
+func newTruck(typ int32, packA  *pack, packB *pack ) *truck  {
 	nTruck := truck{
 		type_t:  typ,
 		pack0 : packA,
