@@ -415,5 +415,6 @@ func main()  {
 			fmt.Println("Ingrese 3 para ver el registro del  camion 3")
 			fmt.Println("Ingrese -1 para salir")
 			fmt.Scanf("%d", &opcion)
+			imprimir_registro(opcion)
 	}
 }
