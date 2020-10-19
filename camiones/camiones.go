@@ -396,12 +396,7 @@ func imprimir_registro(camion int32){
 		}
 	}else{
 		fmt.Println("No existe ese camion <3")
-	}
-
-
-	}
-
-
+	}	
 }
 
 func main()  {
