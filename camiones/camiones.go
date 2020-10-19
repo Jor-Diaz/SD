@@ -259,6 +259,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 				///Verificar que es paquete valido
 				no_paquetes=1
 				if (no_paquetes==1){
+						status=0
 						log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
 						paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
 						camion1.pack0=paquete_1
