@@ -372,7 +372,7 @@ func imprimir_registro(camion int32){
 				tipo="Retail"
 			}else{
 				tipo="Pyme"
-			}			
+			}
 			if (v.tries==3){
 					fmt.Println(v.id_pack,"   |  ",tipo,"   |  ",v.value,"   |  ",v.origin,"   |  ",v.destination,"   |  ",v.tries,"   |  ",0)
 			}else{
@@ -413,7 +413,10 @@ func main()  {
 	var opcion int32
 	opcion=0
 	for  opcion!=-1{
-			fmt.Println("Ingrese el numero del camion que desea ver el registro: ")
+			fmt.Println("______________________________________________")
+			fmt.Println("Ingrese 1 para ver el registro del  camion 1")
+			fmt.Println("Ingrese 2 para ver el registro del  camion 2")
+			fmt.Println("Ingrese 3 para ver el registro del  camion 3")
+			fmt.Println("Ingrese -1 para salir")
 			fmt.Scanf("%d", &opcion)
-	fmt.Scanf("%d", &jij)
 }
