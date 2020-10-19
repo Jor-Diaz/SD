@@ -288,7 +288,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 				}else{
 					fmt.Println("No hay paquetes disponibles para repartir para el camion %d", Id_camion)
 				}
-				if (no_paquetes1!=0){
+				if (no_paquetes!=0){
 					state := truckState(camion1)
 					fmt.Println("-----------------------------------")
 					fmt.Println("Antes de Entregar:")
