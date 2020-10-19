@@ -85,7 +85,7 @@ func chanceToDeliver() int{
 	rand.Seed(time.Now().UTC().UnixNano())
 	chance := rand.Intn(100)
 	fmt.Println("-----",chance,"----")
-	if chance < 81{
+	if chance < 50{
 		return 1
 	} else{
 		return 0
