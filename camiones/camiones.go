@@ -231,7 +231,7 @@ func main()  {
 					actualizacion=1
 				}
 				fmt.Printf("hola3")
-				if camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack == "empty"{
+				if camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack != "empty"{
 					state := truckState(camion1)
 					// t2 := newTruck(0,p3,p4)
 					// t3 := newTruck(0,p5,p6)
