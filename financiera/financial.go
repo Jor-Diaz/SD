@@ -26,7 +26,7 @@ func failOnError(err error, msg string) {
         }
 }
 
-func float(in int) float64 {
+func float(in int32) float64 {
     return float64(in)
 }
 
