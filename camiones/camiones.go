@@ -156,7 +156,7 @@ func deliver (pck *pack) *pack {
 
 */
 
-func delivery(deliver_truck *truck) *truck {
+func delivery(deliver_truck *truck, c NewGreeterClient) *truck {
 	packToDeliver := wichToDeliver(deliver_truck.pack0, deliver_truck.pack1)
 	if packToDeliver == 0{
 		for deliver_truck.pack0.tries < 3{
@@ -164,27 +164,60 @@ func delivery(deliver_truck *truck) *truck {
 				fmt.Println(".:| Entregando |:. -> ", deliver_truck.pack0.id_pack)
 				deliver_truck.pack0 = deliver(deliver_truck.pack0)
 				deliver_truck.pack0.tries++
+				response, err := c.ActEntrega(context.Background(), &pb.ActCamion{Seguimiento:deliver_truck.pack0.seguimiento,Exito:1})
+				if err != nil {
+					log.Fatalf("Error when calling SayHello: %s", err)
+				}
+				log.Fatalf("Orden actualizada en logistica")
+				deliver_truck.pack0=pack404
 				return deliver_truck
 
 			} else{
 				fmt.Println("Nuevo Intento de Entrega de ", deliver_truck.pack1.id_pack)
-
+				response, err := c.ActEntrega(context.Background(), &pb.ActCamion{Seguimiento:deliver_truck.pack0.seguimiento,Exito:0})
+				if err != nil {
+					log.Fatalf("Error when calling SayHello: %s", err)
+				}
+				log.Fatalf("Orden actualizada en logistica")
 				deliver_truck.pack0.tries++
 			}
 		}
+		response, err := c.ActEntrega(context.Background(), &pb.ActCamion{Seguimiento:deliver_truck.pack0.seguimiento,Exito:-1})
+		if err != nil {
+			log.Fatalf("Error when calling SayHello: %s", err)
+		}
+		log.Fatalf("Orden actualizada en logistica")
+		deliver_truck.pack0=pack404
 		return deliver_truck
 	}else if packToDeliver == 1{
 		for deliver_truck.pack1.tries < 3{
 			if chanceToDeliver() == 1{
 				fmt.Println(".:| Entregando |:. -> ", deliver_truck.pack1.id_pack)
 				deliver_truck.pack1 = deliver(deliver_truck.pack1)
-				deliver_truck.pack0.tries++
+				deliver_truck.pack1.tries++
+				response, err := c.ActEntrega(context.Background(), &pb.ActCamion{Seguimiento:deliver_truck.pack1.seguimiento,Exito:1})
+				if err != nil {
+					log.Fatalf("Error when calling SayHello: %s", err)
+				}
+				log.Fatalf("Orden actualizada en logistica")
+				deliver_truck.pack1=pack404
 				return deliver_truck
 			}else{
 				fmt.Println("Nuevo Intento de Entrega de ", deliver_truck.pack1.id_pack)
+				response, err := c.ActEntrega(context.Background(), &pb.ActCamion{Seguimiento:deliver_truck.pack1.seguimiento,Exito:0})
+				if err != nil {
+					log.Fatalf("Error when calling SayHello: %s", err)
+				}
+				log.Fatalf("Orden actualizada en logistica")
 				deliver_truck.pack1.tries++
 			}
 		}
+		response, err := c.ActEntrega(context.Background(), &pb.ActCamion{Seguimiento:deliver_truck.pack1.seguimiento,Exito:-1})
+		if err != nil {
+			log.Fatalf("Error when calling SayHello: %s", err)
+		}
+		log.Fatalf("Orden actualizada en logistica")
+		deliver_truck.pack1=pack404
 		return deliver_truck
 	}else{
 		fmt.Println(".: Camión vacío :.")
@@ -222,15 +255,12 @@ func main()  {
 				paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
 				if camion1.pack0.id_pack == "empty"{
 					camion1.pack0=paquete_1
-					fmt.Printf("hola1")
 					actualizacion=1
 				}
 				if camion1.pack1.id_pack == "empty" && actualizacion==0 {
-					fmt.Printf("hola2")
 					camion1.pack1=paquete_1
 					actualizacion=1
 				}
-				fmt.Printf("hola3")
 				if camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack != "empty"{
 					state := truckState(camion1)
 					// t2 := newTruck(0,p3,p4)
