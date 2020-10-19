@@ -53,7 +53,7 @@ func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.Respuesta
   	log.Printf("Peticion de orden por camion de id  %d", in.IdCamion)
     var orden_aux orden
     if (in.IdCamion == 1 ){
-      orden_aux:=searchOrder_retail(1)
+      orden_aux=searchOrder_retail(1)
     }
   	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,Seguimiento:orden_aux.seguimiento,IdCamion:orden_aux.id_camion}, nil
   }
