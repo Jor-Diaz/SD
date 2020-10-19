@@ -34,7 +34,7 @@ type pack struct{
 }
 
 type truck struct{
-  type_t int
+  type_t int32
   pack0 *pack
 	pack1 *pack
 }
