@@ -51,10 +51,10 @@ func (s *Server) ConEstado(ctx context.Context, in *pb.ConsultaEstado) (*pb.Resp
 
 func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.RespuestaCon, error) {
   	log.Printf("Peticion de orden por camion de id  %d", in.IdCamion)
-    if (in.IdCamion ==1){
-
+    var orden_aux orden
+    if (in.IdCamion == 1 ){
+      orden_aux:=searchOrder_retail(1)
     }
-    orden_aux:=searchOrder(1)
   	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,Seguimiento:orden_aux.seguimiento,IdCamion:orden_aux.id_camion}, nil
   }
 
@@ -119,6 +119,7 @@ func searchOrder_retail(id_camion int32) *orden {
     if v.estado == 0 && b.id_camion==-1  {
           candados[1].mux.Lock()
           ordenes_retail[i].id_camion=id_camion
+          ordenes_retail[i].estado=1
           candados[1].mux.Unlock()
           return v
         }
