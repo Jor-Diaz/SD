@@ -277,19 +277,19 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 									///Verificar que es paquete valido
 									no_paquetes=2
 									if (no_paquetes==2){
-										log.Printf("Orden asignada con codigo seguimiento %d al camion",response.Seguimiento,Id_camion)
+										log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
 										paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
 										camion1.pack1=paquete_1
 									}else{
-										fmt.Println("No hay paquetes disponibles para repartir para el camion %d", Id_camion)
+										fmt.Println("No hay paquetes disponibles para repartir para el camion", Id_camion)
 									}
 							}
 						}
 				}else{
-					fmt.Println("No hay paquetes disponibles para repartir para el camion %d", Id_camion)
+					fmt.Println("No hay paquetes disponibles para repartir para el camion", Id_camion)
 				}
 				if (no_paquetes!=0){
-					fmt.Println("Camion %d comienza intento de repartir paquetes", Id_camion)
+					fmt.Println("Camion",Id_camion, " comienza intento de repartir paquetes")
 					state := truckState(camion1)
 					fmt.Println("-----------------------------------")
 					fmt.Println("Antes de Entregar:")
@@ -316,6 +316,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
 					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
 					fmt.Println("-----------------------------------")
+					update_time=time.Now()
 				}
 			}
 	}
