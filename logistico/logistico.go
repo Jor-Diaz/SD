@@ -25,9 +25,9 @@ type SafeCounter struct {
 }
 
 type pack struct{
-  Pack_Type int
-  Value int
-  Tries int
+  Pack_Type int32
+  Value int32
+  Tries int32
   Income float64
 }
 
