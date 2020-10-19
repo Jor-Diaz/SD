@@ -150,12 +150,16 @@ func main() {
           }
           if response.Estado==0{
             log.Printf("El Estado de la orden es : En bodega")
+            log.Printf("Orden numero seguimiento: %d ; Numero de intentos %d; Id Camion %d ",response.Seguimiento,response.Intentos,response.IdCamion)
           }else if response.Estado==1{
             log.Printf("El Estado de la orden es : En camino")
+            log.Printf("Orden numero seguimiento: %d ; Numero de intentos %d; Id Camion %d ",response.Seguimiento,response.Intentos,response.IdCamion)
           }else if response.Estado==2{
             log.Printf("El Estado de la orden es : Recibido")
+            log.Printf("Orden numero seguimiento: %d ; Numero de intentos %d; Id Camion %d ",response.Seguimiento,response.Intentos,response.IdCamion)
           }else if response.Estado==3{
             log.Printf("El Estado de la orden es : No Recibido")
+            log.Printf("Orden numero seguimiento: %d ; Numero de intentos %d; Id Camion %d ",response.Seguimiento,response.Intentos,response.IdCamion)
           }else{
             log.Printf("El Estado de la orden es : No existe")
           }

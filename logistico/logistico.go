@@ -80,6 +80,7 @@ type orden struct {
     intentos int32
     estado int32//0 en bodega; 1 en camino ; 2 recibido; 3 no recibido; -1 no existe
     id_camion int32
+    entrega_time time.Time
 
 }
 
