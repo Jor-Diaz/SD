@@ -2,12 +2,12 @@ package main
 
 import(
   "fmt"
-  //"os"
   "sync"
   "time"
   "log"
   "net"
-  //"encoding/csv"
+  "encoding/json"
+  "github.com/streadway/amqp"
   "google.golang.org/grpc"
   "context"
   pb"Lab1/SD/pipeline"
@@ -22,6 +22,19 @@ import(
 type SafeCounter struct {
 	v   map[string]int
 	mux sync.Mutex
+}
+
+type pack struct{
+  Pack_Type int
+  Value int
+  Tries int
+  Income float64
+}
+
+func failOnError(err error, msg string) {
+        if err != nil {
+                log.Fatalf("%s: %s", msg, err)
+        }
 }
 
 func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
@@ -98,6 +111,43 @@ func NewOrden( id_paquete string, nombre string,
     return &orden
 }
 
+func enviar_financiero(tipo_paquete int,valor int, intentos int){
+  conn, err := amqp.Dial("amqp://test:holachao@dist157:5672/")
+  failOnError(err, "Failed to connect to RabbitMQ")
+  defer conn.Close()
+
+  ch, err := conn.Channel()
+  	failOnError(err, "Failed to open a channel")
+  	defer ch.Close()
+
+  	q, err := ch.QueueDeclare(
+  		"hello-queue", // name
+  		false,         // durable
+  		false,         // delete when unused
+  		false,         // exclusive
+  		false,         // no-wait
+  		nil,           // arguments
+  	)
+  	failOnError(err, "Failed to declare a queue")
+
+    // aca hay q hacer un for  para cada paquete
+
+    messy := &pack{Pack_Type: tipo_paquete, Value: valor ,Tries: intentos, Income: 0.0}
+    body, _ := json.Marshal(messy)
+  	err = ch.Publish(
+  		"",            // exchange
+  		q.Name,        // routing key
+  		false,         // mandatory
+  		false,         // immediate
+  		amqp.Publishing{
+  			ContentType: "application/json",
+  			Body:        []byte(body),
+  		})
+    log.Printf(" Enviando informacion a financiero ")
+  	failOnError(err, "Failed to publish a message")
+}
+
+
 func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
   i:=0
   for _, v := range ordenes_retail {
@@ -105,11 +155,13 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
           candados[0].mux.Lock()
           ordenes_retail[i].intentos=ordenes_retail[i].intentos+1
           if exito == 1{
+            enviar_financiero(2,ordenes_retail[i].valor, ordenes_retail[i].intentos)
             ordenes_retail[i].estado=2
             ordenes_retail[i].entrega_time=time.Now()
           }
           if exito == -1{
             ordenes_retail[i].intentos=ordenes_retail[i].intentos-1
+            enviar_financiero(2,ordenes_retail[i].valor, ordenes_retail[i].intentos)
             ordenes_retail[i].estado=3
           }
           candados[0].mux.Unlock()
@@ -124,10 +176,12 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
           ordenes_prioridad_1[i].intentos=ordenes_retail[i].intentos+1
           if exito == 1{
             ordenes_prioridad_1[i].estado=2
+            enviar_financiero(1,ordenes_prioridad_1[i].valor, ordenes_prioridad_1[i].intentos)
             ordenes_prioridad_1[i].entrega_time=time.Now()
           }
           if exito == -1{
             ordenes_prioridad_1[i].intentos=ordenes_retail[i].intentos-1
+            enviar_financiero(1,ordenes_prioridad_1[i].valor, ordenes_prioridad_1[i].intentos)
             ordenes_prioridad_1[i].estado=3
           }
           candados[1].mux.Unlock()
@@ -142,10 +196,12 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
           ordenes_prioridad_0[i].intentos=ordenes_retail[i].intentos+1
           if exito == 1{
             ordenes_prioridad_0[i].estado=2
+            enviar_financiero(0,ordenes_prioridad_0[i].valor, ordenes_prioridad_0[i].intentos)
             ordenes_prioridad_0[i].entrega_time=time.Now()
           }
           if exito == -1{
             ordenes_prioridad_0[i].intentos=ordenes_retail[i].intentos-1
+            enviar_financiero(0,ordenes_prioridad_0[i].valor, ordenes_prioridad_0[i].intentos)
             ordenes_prioridad_0[i].estado=3
           }
           candados[2].mux.Unlock()

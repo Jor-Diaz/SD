@@ -1,89 +1,128 @@
 package main
 
-import(
-  //"os"
-	//"encoding/csv"
-	"fmt"
-	// /"io"
-  )
+import (
+        "log"
+        "encoding/json"
+        "fmt"
+        "github.com/streadway/amqp"
+)
 
 
-  // Los env´ıos completados.
-  // La cantidad de veces que se intent´o entregar un paquete.
-  // Los paquetes que no pudieron ser entregados.
-  // P´erdidas o ganancias de cada paquete (en Dignipesos).
-
-  type pack struct{
-    packType int
-    value int
-    tries int
-    income float64
-  }
-
+type pack struct{
+  Pack_Type int
+  Value int
+  Tries int
+  Income float64
+}
 var deliveredPacks []*pack
 var notDeliveredPacks []*pack
-var total float64
+var total float64 = 0
+var packs []*pack
+
+/////////////////////////////////////////////
+func failOnError(err error, msg string) {
+        if err != nil {
+                log.Fatalf("%s: %s", msg, err)
+        }
+}
 
 func float(in int) float64 {
     return float64(in)
 }
 
-func financialBalance(packs []*pack)  {
-  for _, pckt := range packs {
-    if pckt.packType == 0{//retail
-      if pckt.tries !=3{// entregado
-        pckt.income = float(pckt.value-(pckt.tries)*10)
-        total += pckt.income
-        deliveredPacks = append(deliveredPacks, pckt)
-      } else{
-        pckt.income = float(pckt.value-(pckt.tries)*10)
-        total += pckt.income
-        notDeliveredPacks = append(deliveredPacks, pckt)
+func printPack(p *pack){
+  fmt.Println("Pack_Type >> ", p.Pack_Type)
+  fmt.Println("Value>> ", p.Value)
+  fmt.Println("Tries>> ", p.Tries)
+  fmt.Println("Income >> ", p.Income)
+}
 
-      }
-    } else if pckt.packType == 1{//normal prioritario
-      if pckt.tries !=3{// entregado
-        pckt.income = float(pckt.value-(pckt.tries)*10)
-        total += pckt.income
+func financialBalance(packs []*pack)  {
+  fmt.Println("in:<<financialBalance>>")
+  for _, pckt := range packs {
+    printPack(pckt)
+    if pckt.Pack_Type == 0{//retail
+      if pckt.Tries !=3{// entregado
+        pckt.Income = float(pckt.Value-(pckt.Tries)*10)
+        total += pckt.Income
         deliveredPacks = append(deliveredPacks, pckt)
       } else{
-        pckt.income = float((3*pckt.value/100)-(pckt.tries*10))
-        total += pckt.income
+        pckt.Income = float(pckt.Value-(pckt.Tries)*10)
+        total += pckt.Income
         notDeliveredPacks = append(deliveredPacks, pckt)
       }
+
+    } else if pckt.Pack_Type == 1{//normal prioritario
+      if pckt.Tries !=3{// entregado
+        pckt.Income = float(pckt.Value-(pckt.Tries)*10)
+        total += pckt.Income
+        deliveredPacks = append(deliveredPacks, pckt)
+      } else{
+        pckt.Income = float((3*pckt.Value/100)-(pckt.Tries*10))
+        total += pckt.Income
+        notDeliveredPacks = append(deliveredPacks, pckt)
+      }
+
     } else { // paquete normal
-      if pckt.tries !=3{// entregado
-        pckt.income = float(pckt.value-(pckt.tries)*10)
-        total += pckt.income
+      if pckt.Tries !=3{// entregado
+        pckt.Income = float(pckt.Value-(pckt.Tries)*10)
+        total += pckt.Income
         deliveredPacks = append(deliveredPacks, pckt)
       } else{
-        pckt.income = float(-(pckt.tries)*10)
-        total += pckt.income
+        pckt.Income = float(-(pckt.Tries)*10)
+        total += pckt.Income
         notDeliveredPacks = append(deliveredPacks, pckt)
       }
+
     }
   }
 }
 
-func main()  {
-  total = 0
-  packs := []*pack{}
-  p1 := pack{packType: 1, value: 100, tries: 1, income: -999 }
-  p2 := pack{packType: 0, value: 122, tries: 2, income: -999 }
-  p3 := pack{packType: 2, value: 30,  tries: 3, income: -999 }
-  p4 := pack{packType: 0, value: 15,  tries: 1, income: -999 }
-  p5 := pack{packType: 1, value: 5,   tries: 3, income: -999 }
-  p6 := pack{packType: 0, value: 15,  tries: 3, income: -999 }
-  packs = append(packs,&p1)
-  packs = append(packs,&p2)
-  packs = append(packs,&p3)
-  packs = append(packs,&p4)
-  packs = append(packs,&p5)
-  packs = append(packs,&p6)
+///// dist157
+func main() {
+        conn, err := amqp.Dial("amqp://test:holachao@localhost:5672/")
+        failOnError(err, "Failed to connect to RabbitMQ")
+        defer conn.Close()
 
-  financialBalance(packs)
+        ch, err := conn.Channel()
+        failOnError(err, "Failed to open a channel")
+        defer ch.Close()
 
-  fmt.Println(total)
-  
+        q, err := ch.QueueDeclare(
+        	"hello-queue",  // name
+        	false,         // durable
+        	false,         // delete when usused
+        	false,         // exclusive
+        	false,         // no-wait
+        	nil,           // arguments
+        )
+        	failOnError(err, "Failed to declare a queue")
 
+        	msgs, err := ch.Consume(
+        		q.Name,        // queue
+        		"",            // consumer
+        		true,          // auto-ack
+        		false,         // exclusive
+        		false,         // no-local
+        		false,         // no-wait
+        		nil,           // args
+        	)
+        	failOnError(err, "Failed to register a consumer")
+
+        	forever := make(chan bool)
+          var pck pack
+        	go func() {
+            for d := range msgs {
+              if err := json.Unmarshal(d.Body, &pck); err != nil {
+                  panic(err)
+              }
+              packs = append(packs,&pck)
+              fmt.Println("Pack_Type", pck.Pack_Type)
+              financialBalance(packs)
+              fmt.Println(packs[0].Income)
+              }
+        	}()
+
+        	log.Printf(" [dist157] Waiting for messages. To exit press CTRL+C")
+        	<-forever
 }
