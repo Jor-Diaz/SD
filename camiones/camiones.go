@@ -349,7 +349,7 @@ var registro_camion_2 []*pack
 var registro_camion_3 []*pack
 
 func imprimir_registro(camion int32){
-	fmt.Println("----------------------------REGISTRO CAMION %d-------------------------------------",camion)
+	fmt.Println("----------------------------REGISTRO CAMION ",camion,"-------------------------------------",camion)
 	fmt.Println(" ID PAQUETE  |   TIPO PAQUETE  | VALOR PAQUETE | ORIGEN | DESTINO | INTENTOS |  FECHA ENTREGA")
 	if(camion==1){
 		for _, v := range registro_camion_1{
