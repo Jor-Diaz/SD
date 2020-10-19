@@ -27,7 +27,7 @@ message RespuestaCon {
   int32 Intentos = 8;
   int32 Estado = 9;
   int32 IdCamion =10;
-  time.Time TiempoEntrega=11;
+  timestamp TiempoEntrega=11;
 }
 
 message ActCamion {
