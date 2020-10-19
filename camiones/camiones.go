@@ -265,8 +265,8 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 						camion1.pack0=paquete_1
 						fmt.Println("Esperando segundo paquete para entregar")
 						update_time=time.Now()
-						for (status!=0) {
-							time2:=time.Now()
+						for status!=0 {
+							time2=time.Now()
 							if ( time2.Sub(update_time).Seconds() > tiempo_espera){
 									status=1
 							}
