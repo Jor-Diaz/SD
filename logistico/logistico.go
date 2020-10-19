@@ -206,7 +206,7 @@ func searchOrder_pymes() *orden {
   i=0
   for _, v := range ordenes_prioridad_0 {
     if v.estado == 0 && v.id_camion==-1  {
-          ordenes_prioridad_0[2].mux.Lock()
+          candados[2].mux.Lock()
           ordenes_prioridad_0[i].id_camion=3
           ordenes_prioridad_0[i].estado=1
           candados[2].mux.Unlock()
