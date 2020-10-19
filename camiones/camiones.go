@@ -327,7 +327,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
 					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
 					fmt.Println("-----------------------------------")
-					if (wichToDeliver(camion.pack0,camion.pack1)!=-1){
+					if (wichToDeliver(camion1.pack0,camion1.pack1)!=-1){
 						camion1 = delivery(camion1)
 						fmt.Println("-----------------------------------")
 						state = truckState(camion1)
@@ -354,7 +354,7 @@ func imprimir_registro(camion int32){
 	if(camion==1){
 		for _, v := range registro_camion_1{
 			var tipo string
-			if pack_type==2{
+			if v.pack_type==2{
 				tipo="Retail"
 			}else{
 				tipo="Pyme"
@@ -368,7 +368,7 @@ func imprimir_registro(camion int32){
 	}else if(camion==2){
 		for _, v := range registro_camion_2{
 			var tipo string
-			if pack_type==2{
+			if v.pack_type==2{
 				tipo="Retail"
 			}else{
 				tipo="Pyme"
@@ -382,7 +382,8 @@ func imprimir_registro(camion int32){
 		}
 	}else if(camion==3){
 		for _, v := range registro_camion_3{
-			if pack_type==1{
+			var tipo string
+			if v.pack_type==2{
 				tipo="Pyme"
 			}else{
 				tipo="Normal"
@@ -396,7 +397,7 @@ func imprimir_registro(camion int32){
 		}
 	}else{
 		fmt.Println("No existe ese camion <3")
-	}	
+	}
 }
 
 func main()  {
