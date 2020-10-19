@@ -325,6 +325,7 @@ func main()  {
 	fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")
 	fmt.Scanf("%f", &tiempo_espera)
 	go ejecucion_camion(1,tiempo_espera)
+	go ejecucion_camion(2,tiempo_espera)
 	var jij int32
 	fmt.Scanf("%d", &jij)
 }
