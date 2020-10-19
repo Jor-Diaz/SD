@@ -324,7 +324,7 @@ func main()  {
 	fmt.Scanf("%f", &tiempo_espera)
 	go ejecucion_camion(1,tiempo_espera)
 	var jij int32
-	fmt.Scanf("%d", &jij)	
+	fmt.Scanf("%d", &jij)
 }
 	//fmt.Println(aux)
   //p1 := newPack(aux, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
@@ -335,5 +335,3 @@ func main()  {
 	// p6 := newPack("SA2596NH", 2, "90", "_", "_", 0,  time.Now())
 
 	//t1 := newTruck(1,p1,p1)
-
-}
