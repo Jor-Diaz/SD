@@ -158,7 +158,7 @@ func deliver (pck *pack) *pack {
 
 func delivery(deliver_truck *truck) *truck {
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
+	conn, err := grpc.Dial("dist158:9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %s", err)
 	}
@@ -235,7 +235,7 @@ func main()  {
 	fmt.Scanf("%f", &tiempo_espera)
 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
+	conn, err := grpc.Dial("dist158:9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %s", err)
 	}

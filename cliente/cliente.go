@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	address     = "dist159:50051"
+	address     = "dist158:50051"
 )
 
 
@@ -80,7 +80,7 @@ func searchOrder( _id string) *Orden {
 
 func enviar_ordenes( delta_tiempo float64){
   var conn *grpc.ClientConn
-  conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
+  conn, err := grpc.Dial("dist158:9000", grpc.WithInsecure())
   if err != nil {
     log.Fatalf("did not connect: %s", err)
   }
@@ -132,7 +132,7 @@ func main() {
 
 
     var conn *grpc.ClientConn
-    conn, err := grpc.Dial("dist159:9000", grpc.WithInsecure())
+    conn, err := grpc.Dial("dist158:9000", grpc.WithInsecure())
     if err != nil {
       log.Fatalf("did not connect: %s", err)
     }
