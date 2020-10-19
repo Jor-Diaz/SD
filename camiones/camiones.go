@@ -222,13 +222,15 @@ func main()  {
 				paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
 				if camion1.pack0.id_pack == "empty"{
 					camion1.pack0=paquete_1
+					fmt.Printf("hola1")
 					actualizacion=1
 				}
 				if camion1.pack1.id_pack == "empty" && actualizacion==0 {
+					fmt.Printf("hola2")
 					camion1.pack1=paquete_1
 					actualizacion=1
 				}
-				fmt.Printf(camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack == "empty")
+				fmt.Printf("hola3")
 				if camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack == "empty"{
 					state := truckState(camion1)
 					// t2 := newTruck(0,p3,p4)
