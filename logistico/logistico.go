@@ -53,7 +53,7 @@ func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.Respuesta
   	log.Printf("Peticion de orden por camion de id  %d", in.IdCamion)
     var orden_aux *orden
     if (in.IdCamion == 1){
-      orden_aux=searchOrder_retail(1)
+      orden_aux=searchOrder_retail(1)      
     }else if (in.IdCamion == 2) {
       orden_aux=searchOrder_retail(2)
     }else{
