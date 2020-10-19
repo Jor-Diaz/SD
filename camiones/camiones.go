@@ -262,7 +262,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 						update_time=time.Now()
 						log.Printf("Orden asignada con codigo seguimiento %d al camion %d",response.Seguimiento,Id_camion)
 						paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
-						camion1.pack0
+						camion1.pack0=paquete_1
 						fmt.Println("Esperando segundo paquete para entregar")
 						time2:=time.Now()
 						for (status!=0) {
