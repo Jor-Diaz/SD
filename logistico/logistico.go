@@ -102,7 +102,7 @@ func NewOrden( id_paquete string, nombre string,
     return &orden
 }
 
-func actualizacion_Estado( seguimiento int32, exito int32 ) int32{
+func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
   i:=0
   for _, v := range ordenes_retail {
     if v.seguimiento == codigo_seguimiento {
