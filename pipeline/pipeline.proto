@@ -3,7 +3,6 @@ package pipeline;
 
 
 option go_package ="Lab1/SD/pipeline";
-import "google/protobuf/timestamp.proto";
 
 message Message {
   string Id = 1;
@@ -27,7 +26,7 @@ message RespuestaCon {
   int32 Intentos = 8;
   int32 Estado = 9;
   int32 IdCamion =10;
-  google.protobuf.Timestamp TiempoEntrega=11;
+  string TiempoEntrega=11;
 }
 
 message ActCamion {

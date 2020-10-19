@@ -157,7 +157,7 @@ func main() {
           }else if response.Estado==2{
             log.Printf("El Estado de la orden es : Recibido")
             log.Printf("Orden numero seguimiento: %d ; Numero de intentos %d; Id Camion %d ",response.Seguimiento,response.Intentos,response.IdCamion)
-            fmt.Println("Hora de entrega: ",response.TiempoEntrega.Format(time.ANSIC))            
+            fmt.Println("Hora de entrega: ",response.TiempoEntrega)            
           }else if response.Estado==3{
             log.Printf("El Estado de la orden es : No Recibido")
             log.Printf("Orden numero seguimiento: %d ; Numero de intentos %d; Id Camion %d ",response.Seguimiento,response.Intentos,response.IdCamion)
