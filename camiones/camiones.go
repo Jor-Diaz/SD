@@ -269,7 +269,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 							time2=time.Now()
 							if ( time2.Sub(update_time).Seconds() > tiempo_espera){
 									status=1
-									fmt.Println("El Camion %d",Id_camion " esta solicitando un segundo paquete para entregar")
+									fmt.Println("El Camion %d",Id_camion ," esta solicitando un segundo paquete para entregar")
 									response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
 									if err != nil {
 										log.Fatalf("Error when calling SayHello: %s", err)
