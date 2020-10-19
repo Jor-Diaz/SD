@@ -52,7 +52,7 @@ func (s *Server) ConEstado(ctx context.Context, in *pb.ConsultaEstado) (*pb.Resp
 func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.RespuestaCon, error) {
   	log.Printf("Peticion de orden por camion de id  %d", in.IdCamion)
     orden_aux:=searchOrder(1)
-  	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,IdCamion:orden_aux.id_camion}, nil
+  	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,Seguimiento:orden_aux.seguimiento,IdCamion:orden_aux.id_camion}, nil
   }
 
 type orden struct {
