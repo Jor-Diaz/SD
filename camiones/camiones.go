@@ -169,14 +169,12 @@ func delivery(deliver_truck *truck) *truck {
 		for deliver_truck.pack0.tries < 3{
 			if chanceToDeliver() == 1{
 				fmt.Println(".:| Entregando |:. -> ", deliver_truck.pack0.id_pack)
-				deliver_truck.pack0 = deliver(deliver_truck.pack0)
-				deliver_truck.pack0.tries++
 				response, err := c.ActEntrega(context.Background(), &pb.ActCamion{Seguimiento:deliver_truck.pack0.seguimiento,Exito:1})
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
 				log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
-				deliver_truck.pack0=&pack404
+				deliver_truck.pack0 = deliver(deliver_truck.pack0)
 				return deliver_truck
 
 			} else{
@@ -200,14 +198,12 @@ func delivery(deliver_truck *truck) *truck {
 		for deliver_truck.pack1.tries < 3{
 			if chanceToDeliver() == 1{
 				fmt.Println(".:| Entregando |:. -> ", deliver_truck.pack1.id_pack)
-				deliver_truck.pack1 = deliver(deliver_truck.pack1)
-				deliver_truck.pack1.tries++
 				response, err := c.ActEntrega(context.Background(), &pb.ActCamion{Seguimiento:deliver_truck.pack1.seguimiento,Exito:1})
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
 				log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
-				deliver_truck.pack1=&pack404
+				deliver_truck.pack1 = deliver(deliver_truck.pack1)
 				return deliver_truck
 			}else{
 				fmt.Println("Nuevo Intento de Entrega de ", deliver_truck.pack1.id_pack)
