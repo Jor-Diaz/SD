@@ -207,7 +207,7 @@ func main()  {
 	c := pb.NewGreeterClient(conn)
 	var opcion int32
 	actualizacion:=0
-	opcion=0		
+	opcion=0
 	camion1 := newTruck(1,&pack404,&pack404)
 	for  opcion!=-1{
 			actualizacion=0
@@ -228,6 +228,7 @@ func main()  {
 					camion1.pack1=paquete_1
 					actualizacion=1
 				}
+				fmt.Printf(camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack == "empty")
 				if camion1.pack1.id_pack != "empty" && camion1.pack0.id_pack == "empty"{
 					state := truckState(camion1)
 					// t2 := newTruck(0,p3,p4)
