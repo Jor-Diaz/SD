@@ -3,7 +3,7 @@ package pipeline;
 
 
 option go_package ="Lab1/SD/pipeline";
-import ("time")
+
 
 message Message {
   string Id = 1;
