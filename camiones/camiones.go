@@ -175,7 +175,7 @@ func delivery(deliver_truck *truck) *truck {
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				log.Printf("Orden actualizada en logistica, orden numero",response.Seguimiento)
+				log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
 				deliver_truck.pack0=&pack404
 				return deliver_truck
 
@@ -185,7 +185,7 @@ func delivery(deliver_truck *truck) *truck {
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				log.Printf("Orden actualizada en logistica, orden numero",response.Seguimiento)
+				log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
 				deliver_truck.pack0.tries++
 			}
 		}
@@ -193,7 +193,7 @@ func delivery(deliver_truck *truck) *truck {
 		if err != nil {
 			log.Fatalf("Error when calling SayHello: %s", err)
 		}
-		log.Printf("Orden actualizada en logistica, orden numero",response.Seguimiento)
+		log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
 		deliver_truck.pack0=&pack404
 		return deliver_truck
 	}else if packToDeliver == 1{
@@ -206,7 +206,7 @@ func delivery(deliver_truck *truck) *truck {
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				log.Printf("Orden actualizada en logistica, orden numero",response.Seguimiento)
+				log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
 				deliver_truck.pack1=&pack404
 				return deliver_truck
 			}else{
@@ -215,7 +215,7 @@ func delivery(deliver_truck *truck) *truck {
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				log.Printf("Orden actualizada en logistica, orden numero",response.Seguimiento)
+				log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
 				deliver_truck.pack1.tries++
 			}
 		}
@@ -223,7 +223,7 @@ func delivery(deliver_truck *truck) *truck {
 		if err != nil {
 			log.Fatalf("Error when calling SayHello: %s", err)
 		}
-		log.Printf("Orden actualizada en logistica, orden numero",response.Seguimiento)
+		log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
 		deliver_truck.pack1=&pack404
 		return deliver_truck
 	}else{
