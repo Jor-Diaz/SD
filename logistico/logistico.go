@@ -46,14 +46,14 @@ func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, err
 func (s *Server) ConEstado(ctx context.Context, in *pb.ConsultaEstado) (*pb.RespuestaCon, error) {
 	log.Printf("Cosulta recibida con datos:   %d", in.Seguimiento)
   orden_aux:=searchOrder(in.Seguimiento)
-	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,IdCamion:orden_aux.id_camion}, nil
+	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,IdCamion:orden_aux.id_camion,Seguimiento:orden_aux.seguimiento,TiempoEntrega:orden_aux.entrega_time}, nil
 }
 
 func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.RespuestaCon, error) {
   	log.Printf("Peticion de orden por camion de id  %d", in.IdCamion)
     var orden_aux *orden
     if (in.IdCamion == 1){
-      orden_aux=searchOrder_retail(1)      
+      orden_aux=searchOrder_retail(1)
     }else if (in.IdCamion == 2) {
       orden_aux=searchOrder_retail(2)
     }else{
@@ -95,14 +95,6 @@ func NewOrden( id_paquete string, nombre string,
     origen:origen,destino:destino,prioridad:prioridad,intentos:0,estado:0,id_camion:-1}
     orden.created_time = time.Now()
     orden.seguimiento = NewCodeSeguimiento()
-    //file, err := os.Open("data.csv")
-    //checkError("Cannot create file", err)
-    //defer file.Close()
-
-    ///writer := csv.NewWriter(file)
-    //defer writer.Flush()
-    //err1 := writer.Write(["holi"])
-    //checkError("Cannot write to file", err1)
     return &orden
 }
 
@@ -114,6 +106,7 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
           ordenes_retail[i].intentos=ordenes_retail[i].intentos+1
           if exito == 1{
             ordenes_retail[i].estado=2
+            ordenes_retail[i].entrega_time=time.Now()
           }
           if exito == -1{
             ordenes_retail[i].intentos=ordenes_retail[i].intentos-1
@@ -128,13 +121,14 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
   for _, v := range ordenes_prioridad_1 {
     if v.seguimiento == codigo_seguimiento {
           candados[1].mux.Lock()
-          ordenes_retail[i].intentos=ordenes_retail[i].intentos+1
+          ordenes_prioridad_1[i].intentos=ordenes_retail[i].intentos+1
           if exito == 1{
-            ordenes_retail[i].estado=2
+            ordenes_prioridad_1[i].estado=2
+            ordenes_prioridad_1[i].entrega_time=time.Now()
           }
           if exito == -1{
-            ordenes_retail[i].intentos=ordenes_retail[i].intentos-1
-            ordenes_retail[i].estado=3
+            ordenes_prioridad_1[i].intentos=ordenes_retail[i].intentos-1
+            ordenes_prioridad_1[i].estado=3
           }
           candados[1].mux.Unlock()
           return 0
@@ -145,13 +139,14 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
   for _, v := range ordenes_prioridad_0 {
     if v.seguimiento == codigo_seguimiento {
           candados[2].mux.Lock()
-          ordenes_retail[i].intentos=ordenes_retail[i].intentos+1
+          ordenes_prioridad_0[i].intentos=ordenes_retail[i].intentos+1
           if exito == 1{
-            ordenes_retail[i].estado=2
+            ordenes_prioridad_0[i].estado=2
+            ordenes_prioridad_0[i].entrega_time=time.Now()
           }
           if exito == -1{
-            ordenes_retail[i].intentos=ordenes_retail[i].intentos-1
-            ordenes_retail[i].estado=3
+            ordenes_prioridad_0[i].intentos=ordenes_retail[i].intentos-1
+            ordenes_prioridad_0[i].estado=3
           }
           candados[2].mux.Unlock()
           return 0
@@ -201,8 +196,8 @@ func searchOrder_pymes() *orden {
   for _, v := range ordenes_prioridad_1 {
     if v.estado == 0 && v.id_camion==-1  {
           candados[1].mux.Lock()
-          ordenes_retail[i].id_camion=3
-          ordenes_retail[i].estado=1
+          ordenes_prioridad_1[i].id_camion=3
+          ordenes_prioridad_1[i].estado=1
           candados[1].mux.Unlock()
           return v
         }
@@ -211,9 +206,9 @@ func searchOrder_pymes() *orden {
   i=0
   for _, v := range ordenes_prioridad_0 {
     if v.estado == 0 && v.id_camion==-1  {
-          candados[2].mux.Lock()
-          ordenes_prioridad_1[i].id_camion=3
-          ordenes_prioridad_1[i].estado=1
+          ordenes_prioridad_0[2].mux.Lock()
+          ordenes_prioridad_0[i].id_camion=3
+          ordenes_prioridad_0[i].estado=1
           candados[2].mux.Unlock()
           return v
         }

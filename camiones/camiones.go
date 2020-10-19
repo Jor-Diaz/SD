@@ -151,6 +151,17 @@ func deliver (pck *pack) *pack {
 }
 /*************************************************************************************************************************************************/
 
+func anotar_registro (deliver_truck *truck, pck *pack){
+	if (deliver_truck.type_t==1){
+		registro_camion_1=append(registro_camion_1,pck)
+		}else if (deliver_truck.type_t==2){
+			registro_camion_3=append(registro_camion_2,pck)
+		}else{
+			registro_camion_3=append(registro_camion_3,pck)
+		}
+}
+
+
 /*************************************************************************************************************************************************/
 /* Función que hace la entrega de los paquetes, esta debe ser usada en un loop o directamente 2 veces
 
@@ -174,6 +185,8 @@ func delivery(deliver_truck *truck) *truck {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
 				log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
+				deliver_truck.pack0.delivery_date=time.Now()
+				anotar_registro (deliver_truck,deliver_truck.pack0)
 				deliver_truck.pack0 = deliver(deliver_truck.pack0)
 				return deliver_truck
 
@@ -192,6 +205,8 @@ func delivery(deliver_truck *truck) *truck {
 			log.Fatalf("Error when calling SayHello: %s", err)
 		}
 		log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
+		deliver_truck.pack0.delivery_date=time.Now()
+		anotar_registro (deliver_truck,deliver_truck.pack0)
 		deliver_truck.pack0=&pack404
 		return deliver_truck
 	}else if packToDeliver == 1{
@@ -203,6 +218,8 @@ func delivery(deliver_truck *truck) *truck {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
 				log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
+				deliver_truck.pack1.delivery_date=time.Now()
+				anotar_registro (deliver_truck,deliver_truck.pack1)
 				deliver_truck.pack1 = deliver(deliver_truck.pack1)
 				return deliver_truck
 			}else{
@@ -220,6 +237,8 @@ func delivery(deliver_truck *truck) *truck {
 			log.Fatalf("Error when calling SayHello: %s", err)
 		}
 		log.Printf("Orden actualizada en logistica, orden numero %d",response.Seguimiento)
+		deliver_truck.pack1.delivery_date=time.Now()
+		anotar_registro (deliver_truck,deliver_truck.pack1)
 		deliver_truck.pack1=&pack404
 		return deliver_truck
 	}else{
@@ -249,14 +268,11 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 			no_paquetes=0
 			time2=time.Now()
 			if ( time2.Sub(update_time).Seconds() > tiempo_espera){
-			//fmt.Println("Ingrese el numero de seguimiento para consultar estado o -1 para salir : ")
-			//fmt.Scanf("%d", &opcion)
 				fmt.Println("Camion ",Id_camion," solicitando paquetes")
 				response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				///Verificar que es paquete valido
 				if (response.Prioridad!=-1){
 					no_paquetes=1
 				}
@@ -297,7 +313,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 					state := truckState(camion1)
 					fmt.Println("-----------------------------------")
 					fmt.Println("Antes de Entregar:")
-					fmt.Println("_Camión_")
+					fmt.Println("_Camión_",Id_camion)
 					fmt.Println("Capacidad del Camión:", state, "espacios")
 					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
 					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
@@ -306,24 +322,86 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 					fmt.Println("-----------------------------------")
 					state = truckState(camion1)
 					fmt.Println("Despues de 1er Entrega:")
-					fmt.Println("_Camión_")
+					fmt.Println("_Camión_",Id_camion)
 					fmt.Println("Capacidad del Camión:", state, "espacios")
 					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
 					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
 					fmt.Println("-----------------------------------")
-					camion1 = delivery(camion1)
-					fmt.Println("-----------------------------------")
-					state = truckState(camion1)
-					fmt.Println("Despues de 2da Entrega:")
-					fmt.Println("_Camión_")
-					fmt.Println("Capacidad del Camión:", state, "espacios")
-					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
-					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
-					fmt.Println("-----------------------------------")
+					if (wichToDeliver(camion.pack0,camion.pack1)!=-1){
+						camion1 = delivery(camion1)
+						fmt.Println("-----------------------------------")
+						state = truckState(camion1)
+						fmt.Println("Despues de 2da Entrega:")
+						fmt.Println("_Camión_",Id_camion)
+						fmt.Println("Capacidad del Camión:", state, "espacios")
+						fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
+						fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
+						fmt.Println("-----------------------------------")
+					}
+
 					update_time=time.Now()
 				}
 			}
 	}
+}
+var registro_camion_1 []*pack
+var registro_camion_2 []*pack
+var registro_camion_3 []*pack
+
+func imprimir_registro(camion int32){
+	fmt.Println("----------------------------REGISTRO CAMION %d-------------------------------------",camion)
+	fmt.Println(" ID PAQUETE  |   TIPO PAQUETE  | VALOR PAQUETE | ORIGEN | DESTINO | INTENTOS |  FECHA ENTREGA")
+	if(camion==1){
+		for _, v := range registro_camion_1{
+			var tipo string
+			if pack_type==2{
+				tipo="Retail"
+			}else{
+				tipo="Pyme"
+			}
+			if (v.tries==3){
+					fmt.Println(v.id_pack,"   |  ",tipo,"   |  ",v.value,"   |  ",v.origin,"   |  ",v.destination,"   |  ",v.tries,"   |  ",0)
+			}else{
+				fmt.Println(v.id_pack,"   |  ",tipo,"   |  ",v.value,"   |  ",v.origin,"   |  ",v.destination,"   |  ",v.tries,"   |  ",v.delivery_date.Format(time.ANSIC))
+			}
+		}
+	}else if(camion==2){
+		for _, v := range registro_camion_2{
+			var tipo string
+			if pack_type==2{
+				tipo="Retail"
+			}else{
+				tipo="Pyme"
+			}			
+			if (v.tries==3){
+					fmt.Println(v.id_pack,"   |  ",tipo,"   |  ",v.value,"   |  ",v.origin,"   |  ",v.destination,"   |  ",v.tries,"   |  ",0)
+			}else{
+				fmt.Println(v.id_pack,"   |  ",tipo,"   |  ",v.value,"   |  ",v.origin,"   |  ",v.destination,"   |  ",v.tries,"   |  ",v.delivery_date.Format(time.ANSIC))
+			}
+
+		}
+	}else if(camion==3){
+		for _, v := range registro_camion_3{
+			if pack_type==1{
+				tipo="Pyme"
+			}else{
+				tipo="Normal"
+			}
+			if (v.tries==3){
+					fmt.Println(v.id_pack,"   |  ",tipo,"   |  ",v.value,"   |  ",v.origin,"   |  ",v.destination,"   |  ",v.tries,"   |  ",0)
+			}else{
+				fmt.Println(v.id_pack,"   |  ",tipo,"   |  ",v.value,"   |  ",v.origin,"   |  ",v.destination,"   |  ",v.tries,"   |  ",v.delivery_date.Format(time.ANSIC))
+			}
+
+		}
+	}else{
+		fmt.Println("No existe ese camion <3")
+	}
+
+
+	}
+
+
 }
 
 func main()  {
@@ -331,16 +409,11 @@ func main()  {
 	fmt.Scanf("%f", &tiempo_espera)
 	go ejecucion_camion(1,tiempo_espera)
 	go ejecucion_camion(2,tiempo_espera)
-	//go ejecucion_camion(3,tiempo_espera)
-	var jij int32
+	go ejecucion_camion(3,tiempo_espera)
+	var opcion int32
+	opcion=0
+	for  opcion!=-1{
+			fmt.Println("Ingrese el numero del camion que desea ver el registro: ")
+			fmt.Scanf("%d", &opcion)
 	fmt.Scanf("%d", &jij)
 }
-	//fmt.Println(aux)
-  //p1 := newPack(aux, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now())
-	//p2 := newPack("SA6947GH", 0, "50", "_","_",  0,  time.Now())
-	// p3 := newPack("SA2589TR", 2, "5",  "_", "_", 0,  time.Now())
-	// p4 := newPack("SA1597EF", 0, "20", "_", "_", 0,  time.Now())
-	// p5 := newPack("SA6947GH", 1, "50", "_", "_", 0,  time.Now())
-	// p6 := newPack("SA2596NH", 2, "90", "_", "_", 0,  time.Now())
-
-	//t1 := newTruck(1,p1,p1)
