@@ -2,6 +2,7 @@ syntax = "proto3";
 package pipeline;
 
 option go_package ="Lab1/SD/pipeline";
+option go_package="time";
 
 message Message {
   string Id = 1;
