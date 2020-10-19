@@ -289,6 +289,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 							}
 						}
 				}else{
+					update_time=time.Now()
 					fmt.Println("No hay paquetes disponibles para repartir para el camion", Id_camion)
 				}
 				if (no_paquetes!=0){
