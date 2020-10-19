@@ -51,7 +51,7 @@ func (s *Server) ConEstado(ctx context.Context, in *pb.ConsultaEstado) (*pb.Resp
 
 func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.RespuestaCon, error) {
   	log.Printf("Peticion de orden por camion de id  %d", in.IdCamion)
-    var orden_aux orden
+    var orden_aux *orden
     if (in.IdCamion == 1 ){
       orden_aux=searchOrder_retail(1)
     }
