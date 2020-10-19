@@ -193,7 +193,7 @@ func delivery(deliver_truck *truck) *truck {
 		if err != nil {
 			log.Fatalf("Error when calling SayHello: %s", err)
 		}
-		log.Fatalf("Orden actualizada en logistica")
+		log.Printf("Orden actualizada en logistica, orden numero",response.Seguimiento)
 		deliver_truck.pack0=&pack404
 		return deliver_truck
 	}else if packToDeliver == 1{
