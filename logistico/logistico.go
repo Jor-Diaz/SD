@@ -109,6 +109,7 @@ func searchOrder_retail(id_camion int32) *orden {
     if v.estado == 0 && v.id_camion==-1  {
           candados[0].mux.Lock()
           ordenes_retail[i].id_camion=id_camion
+          ordenes_retail[i].estado=1
           candados[0].mux.Unlock()
           return v
         }
@@ -118,8 +119,8 @@ func searchOrder_retail(id_camion int32) *orden {
   for _, v := range ordenes_prioridad_1 {
     if v.estado == 0 && v.id_camion==-1  {
           candados[1].mux.Lock()
-          ordenes_retail[i].id_camion=id_camion
-          ordenes_retail[i].estado=1
+          ordenes_prioridad_1[i].id_camion=id_camion
+          ordenes_prioridad_1[i].estado=1
           candados[1].mux.Unlock()
           return v
         }
