@@ -30,12 +30,7 @@ func float(in int32) float64 {
     return float64(in)
 }
 
-func printPack(p *pack){
-  fmt.Println("Pack_Type >> ", p.Pack_Type)
-  fmt.Println("Value>> ", p.Value)
-  fmt.Println("Tries>> ", p.Tries)
-  fmt.Println("Income >> ", p.Income)
-}
+
 
 func financialBalance(packs []*pack)  {
   fmt.Println("in:<<financialBalance>>")
@@ -117,12 +112,25 @@ func main() {
                   panic(err)
               }
               packs = append(packs,&pck)
-              fmt.Println("Pack_Type", pck.Pack_Type)
-              financialBalance(packs)
-              fmt.Println(packs[0].Income)
+              fmt.Println("*************************************")
+              if (pck.Pack_Type == 0){
+                fmt.Println("[Tipo de Paquete]: Retail")
+              } else if (pck.Pack_Type == 1){
+                fmt.Println("[Tipo de Paquete]: Prioritario")
+              else{
+                fmt.Println("[Tipo de Paquete]: Normal")
+                }
+              }
+              fmt.Println("[Valor del Paquete]: ", pck.Value)
+              fmt.Println("[Entregas Fallidas]: ", pck.Tries)
+              if (pck.Income >= 0){
+                fmt.Println("[Ingresos generados]:", pck.Income, "Dignipesos")
+              }else {
+                fmt.Println("[Perdidas generadas]:", pck.Income, "Dignipesos")
+              }
+              fmt.Println("*************************************")
+
               }
         	}()
-
-        	log.Printf(" [dist157] Waiting for messages. To exit press CTRL+C")
-        	<-forever
+      	   <-forever
 }
