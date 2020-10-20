@@ -13,83 +13,191 @@ import (
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion7
 
-// ChatServiceClient is the client API for ChatService service.
+// GreeterClient is the client API for Greeter service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ChatServiceClient interface {
+type GreeterClient interface {
 	SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	ConEstado(ctx context.Context, in *ConsultaEstado, opts ...grpc.CallOption) (*RespuestaCon, error)
+	Solpedido(ctx context.Context, in *Solcamion, opts ...grpc.CallOption) (*RespuestaCon, error)
+	ActEntrega(ctx context.Context, in *ActCamion, opts ...grpc.CallOption) (*ConsultaEstado, error)
 }
 
-type chatServiceClient struct {
+type greeterClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewChatServiceClient(cc grpc.ClientConnInterface) ChatServiceClient {
-	return &chatServiceClient{cc}
+func NewGreeterClient(cc grpc.ClientConnInterface) GreeterClient {
+	return &greeterClient{cc}
 }
 
-func (c *chatServiceClient) SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
+func (c *greeterClient) SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
 	out := new(Message)
-	err := c.cc.Invoke(ctx, "/pipeline.ChatService/SayHello", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pipeline.Greeter/SayHello", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ChatServiceServer is the server API for ChatService service.
-// All implementations must embed UnimplementedChatServiceServer
+func (c *greeterClient) ConEstado(ctx context.Context, in *ConsultaEstado, opts ...grpc.CallOption) (*RespuestaCon, error) {
+	out := new(RespuestaCon)
+	err := c.cc.Invoke(ctx, "/pipeline.Greeter/ConEstado", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *greeterClient) Solpedido(ctx context.Context, in *Solcamion, opts ...grpc.CallOption) (*RespuestaCon, error) {
+	out := new(RespuestaCon)
+	err := c.cc.Invoke(ctx, "/pipeline.Greeter/Solpedido", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *greeterClient) ActEntrega(ctx context.Context, in *ActCamion, opts ...grpc.CallOption) (*ConsultaEstado, error) {
+	out := new(ConsultaEstado)
+	err := c.cc.Invoke(ctx, "/pipeline.Greeter/ActEntrega", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GreeterServer is the server API for Greeter service.
+// All implementations must embed UnimplementedGreeterServer
 // for forward compatibility
-type ChatServiceServer interface {
+type GreeterServer interface {
 	SayHello(context.Context, *Message) (*Message, error)
-	mustEmbedUnimplementedChatServiceServer()
+	ConEstado(context.Context, *ConsultaEstado) (*RespuestaCon, error)
+	Solpedido(context.Context, *Solcamion) (*RespuestaCon, error)
+	ActEntrega(context.Context, *ActCamion) (*ConsultaEstado, error)
+	mustEmbedUnimplementedGreeterServer()
 }
 
-// UnimplementedChatServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedChatServiceServer struct {
+// UnimplementedGreeterServer must be embedded to have forward compatible implementations.
+type UnimplementedGreeterServer struct {
 }
 
-func (UnimplementedChatServiceServer) SayHello(context.Context, *Message) (*Message, error) {
+func (UnimplementedGreeterServer) SayHello(context.Context, *Message) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
 }
-func (UnimplementedChatServiceServer) mustEmbedUnimplementedChatServiceServer() {}
+func (UnimplementedGreeterServer) ConEstado(context.Context, *ConsultaEstado) (*RespuestaCon, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConEstado not implemented")
+}
+func (UnimplementedGreeterServer) Solpedido(context.Context, *Solcamion) (*RespuestaCon, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Solpedido not implemented")
+}
+func (UnimplementedGreeterServer) ActEntrega(context.Context, *ActCamion) (*ConsultaEstado, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActEntrega not implemented")
+}
+func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
 
-// UnsafeChatServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ChatServiceServer will
+// UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to GreeterServer will
 // result in compilation errors.
-type UnsafeChatServiceServer interface {
-	mustEmbedUnimplementedChatServiceServer()
+type UnsafeGreeterServer interface {
+	mustEmbedUnimplementedGreeterServer()
 }
 
-func RegisterChatServiceServer(s *grpc.Server, srv ChatServiceServer) {
-	s.RegisterService(&_ChatService_serviceDesc, srv)
+func RegisterGreeterServer(s *grpc.Server, srv GreeterServer) {
+	s.RegisterService(&_Greeter_serviceDesc, srv)
 }
 
-func _ChatService_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Message)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChatServiceServer).SayHello(ctx, in)
+		return srv.(GreeterServer).SayHello(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pipeline.ChatService/SayHello",
+		FullMethod: "/pipeline.Greeter/SayHello",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatServiceServer).SayHello(ctx, req.(*Message))
+		return srv.(GreeterServer).SayHello(ctx, req.(*Message))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _ChatService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pipeline.ChatService",
-	HandlerType: (*ChatServiceServer)(nil),
+func _Greeter_ConEstado_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConsultaEstado)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).ConEstado(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pipeline.Greeter/ConEstado",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).ConEstado(ctx, req.(*ConsultaEstado))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_Solpedido_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Solcamion)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).Solpedido(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pipeline.Greeter/Solpedido",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).Solpedido(ctx, req.(*Solcamion))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_ActEntrega_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActCamion)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).ActEntrega(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pipeline.Greeter/ActEntrega",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).ActEntrega(ctx, req.(*ActCamion))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Greeter_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "pipeline.Greeter",
+	HandlerType: (*GreeterServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "SayHello",
-			Handler:    _ChatService_SayHello_Handler,
+			Handler:    _Greeter_SayHello_Handler,
+		},
+		{
+			MethodName: "ConEstado",
+			Handler:    _Greeter_ConEstado_Handler,
+		},
+		{
+			MethodName: "Solpedido",
+			Handler:    _Greeter_Solpedido_Handler,
+		},
+		{
+			MethodName: "ActEntrega",
+			Handler:    _Greeter_ActEntrega_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
