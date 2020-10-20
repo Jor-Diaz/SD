@@ -33,7 +33,6 @@ func float(in int32) float64 {
 
 
 func financialBalance(packs []*pack)  {
-  fmt.Println("in:<<financialBalance>>")
   for _, pckt := range packs {
     if pckt.Pack_Type == 0{//retail
       if pckt.Tries !=3{// entregado
@@ -112,7 +111,9 @@ func main() {
               }
               packs = append(packs,&pck)
               financialBalance(packs)
-              fmt.Println("*************************************")
+              fmt.Println("[****TOTAL:",total, "Dignipesos **********]")
+
+              fmt.Println("[*************************************]")
               if (pck.Pack_Type == 0){
                 fmt.Println("[Tipo de Paquete]: Retail")
               } else if (pck.Pack_Type == 1){
@@ -127,7 +128,7 @@ func main() {
               }else {
                 fmt.Println("[Perdidas generadas]:", pck.Income, "Dignipesos")
               }
-              fmt.Println("*************************************")
+              fmt.Println("[*************************************]")
             }
           }()
       	   <-forever
