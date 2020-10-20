@@ -1,3 +1,3 @@
 
 run:
-        go run logistico.go
+	go run logistico.go
