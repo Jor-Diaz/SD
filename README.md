@@ -16,3 +16,8 @@ Es importante que para ejecutar las maquinas con total exito se tenga en cuenta 
 
 
 Y en cada una de estas amquinas siga los apsos que se indicaran tanto en la terminal correspondiente como en el README de dicha maquina.
+
+
+Para acceder a los codigos de las maquinas dirijase a:
+
+cd /usr/local/go/src/Lab1/SD

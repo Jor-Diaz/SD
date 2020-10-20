@@ -26,11 +26,18 @@ func failOnError(err error, msg string) {
         }
 }
 
+/**------------------------------------------------------------------------------------------------*/
+/*Pequeña función para castear un entero (int32) a flotante (float64)*/
 func float(in int32) float64 {
     return float64(in)
 }
+/**------------------------------------------------------------------------------------------------*/
 
 
+
+/**------------------------------------------------------------------------------------------------*/
+/*Esta función ejecuta las condiciones de ganancia y perdida por paquete, trabajando con un arreglo
+de punteros a paquete*/
 
 func financialBalance(packs []*pack)  {
   for _, pckt := range packs {
@@ -72,7 +79,12 @@ func financialBalance(packs []*pack)  {
 }
 
 ///// dist157
+
+/*MAIN*/
 func main() {
+  /**Las siguiente LOC permiten hacer la connexió via RAbbitMQ
+  entre la  maquina dist157 y dist158 (finanzas-logistico) */
+
         conn, err := amqp.Dial("amqp://test:holachao@localhost:5672/")
         failOnError(err, "Failed to connect to RabbitMQ")
         defer conn.Close()
@@ -105,12 +117,13 @@ func main() {
         	forever := make(chan bool)
           var pck pack
         	go func() {
-            for d := range msgs {
+            for d := range msgs { // Unmarshall del json recibido desde logistico
               if err := json.Unmarshal(d.Body, &pck); err != nil {
                   panic(err)
               }
-              packs = append(packs,&pck)
-              financialBalance(packs)
+              packs = append(packs,&pck) //agregamos al arreglo
+              financialBalance(packs) //balance
+              /*Prints*/
               fmt.Println("[****TOTAL:",total, "Dignipesos **********]")
 
               fmt.Println("[*************************************]")
@@ -131,5 +144,5 @@ func main() {
               fmt.Println("[*************************************]")
             }
           }()
-      	   <-forever
+      	   <-forever //Sigue corriendo hasta un Ctrl+C
 }

@@ -246,9 +246,12 @@ func delivery(deliver_truck *truck) *truck {
 		return deliver_truck
 	}
 }
-
+/*------------------------------------------------------------------------------------------*/
 var response pb.RespuestaCon
 var tiempo_espera float64
+/*------------------------------------------------------------------------------------------*/
+/*Esta función ejecuta las funciones para los 3 camiones,
+considerando las indicaciones dadas en la tarea*/
 
 func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 	var conn *grpc.ClientConn
@@ -344,9 +347,17 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 			}
 	}
 }
+/*------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------*/
+
 var registro_camion_1 []*pack
 var registro_camion_2 []*pack
 var registro_camion_3 []*pack
+
+
+/*------------------------------------------------------------------------------------------*/
+/*Función que permite iprimir un registro de un camión*/
+
 
 func imprimir_registro(camion int32){
 	fmt.Println("----------------------------REGISTRO CAMION ",camion,"-------------------------------------",camion)
@@ -399,6 +410,8 @@ func imprimir_registro(camion int32){
 		fmt.Println("No existe ese camion <3")
 	}
 }
+
+/*------------------------------------------------------------------------------------------*/
 
 func main()  {
 	fmt.Println("Ingrese el tiempo (en segundos) a esperar por parte de los camiones")

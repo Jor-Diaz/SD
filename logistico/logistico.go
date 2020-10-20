@@ -36,6 +36,7 @@ func failOnError(err error, msg string) {
                 log.Fatalf("%s: %s", msg, err)
         }
 }
+/*******************************************************************************************************/
 
 func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, error) {
 	log.Printf("Orden recibida con datos:   %s %s %d %s %s %d", in.Id,in.Producto,in.Valor,in.Tienda,in.Destino, in.Prioridad )
@@ -56,12 +57,14 @@ func (s *Server) SayHello(ctx context.Context, in *pb.Message) (*pb.Message, err
 	return &pb.Message{Seguimiento: aux.seguimiento,}, nil
 }
 
+/*******************************************************************************************************/
+/*******************************************************************************************************/
 func (s *Server) ConEstado(ctx context.Context, in *pb.ConsultaEstado) (*pb.RespuestaCon, error) {
 	log.Printf("Cosulta recibida con datos:   %d", in.Seguimiento)
   orden_aux:=searchOrder(in.Seguimiento)
 	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,IdCamion:orden_aux.id_camion,Seguimiento:orden_aux.seguimiento,TiempoEntrega:orden_aux.entrega_time.Format(time.ANSIC)}, nil
 }
-
+/*******************************************************************************************************//*******************************************************************************************************/
 func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.RespuestaCon, error) {
   	log.Printf("Peticion de orden por camion de id  %d", in.IdCamion)
     var orden_aux *orden
@@ -74,13 +77,13 @@ func (s *Server) Solpedido(ctx context.Context, in *pb.Solcamion) (*pb.Respuesta
     }
   	return &pb.RespuestaCon{Id: orden_aux.id_paquete,Producto:orden_aux.nombre,Valor:orden_aux.valor,Tienda:orden_aux.origen,Destino:orden_aux.destino,Prioridad:orden_aux.prioridad,Intentos:orden_aux.intentos,Estado:orden_aux.estado,Seguimiento:orden_aux.seguimiento,IdCamion:orden_aux.id_camion}, nil
 }
-
+/*******************************************************************************************************/
 func (s *Server) ActEntrega(ctx context.Context, in *pb.ActCamion) (*pb.ConsultaEstado, error) {
   	log.Printf("actualizacion estado de orden   %d", in.Seguimiento)
     actualizacion_Estado(in.Seguimiento,in.Exito)
   	return &pb.ConsultaEstado{Seguimiento:in.Seguimiento}, nil
 }
-
+/*******************************************************************************************************/
 type orden struct {
     created_time time.Time
     id_paquete string
@@ -96,12 +99,17 @@ type orden struct {
     entrega_time time.Time
 
 }
-
+/*******************************************************************************************************/
+/*revisa error*/
 func checkError(message string, err error) {
       if err != nil {
           log.Fatal(message, err)
       }
   }
+/*******************************************************************************************************/
+
+/*******************************************************************************************************/
+/*Crea una nueva estructura "orden" dado ciertos parametros*/
 func NewOrden( id_paquete string, nombre string,
   valor  int32, origen string, destino string, prioridad int32 ) *orden {
     orden := orden{id_paquete: id_paquete,nombre:nombre,valor:valor,
@@ -110,9 +118,12 @@ func NewOrden( id_paquete string, nombre string,
     orden.seguimiento = NewCodeSeguimiento()
     return &orden
 }
+/*******************************************************************************************************/
+/*******************************************************************************************************/
+/*Se envian los datos a la maquina de finanzas*/
 
 func enviar_financiero(tipo_paquete int32,valor int32, intentos int32){
-  conn, err := amqp.Dial("amqp://test:holachao@dist157:5672/")
+  conn, err := amqp.Dial("amqp://test:holachao@dist157:5672/") //conexión con la maquina
   failOnError(err, "Failed to connect to RabbitMQ")
   defer conn.Close()
 
@@ -133,7 +144,7 @@ func enviar_financiero(tipo_paquete int32,valor int32, intentos int32){
     // aca hay q hacer un for  para cada paquete
 
     messy := &pack{Pack_Type: tipo_paquete, Value: valor ,Tries: intentos, Income: 0.0}
-    body, _ := json.Marshal(messy)
+    body, _ := json.Marshal(messy) // marshal de la estructura pack a formato json para ser entregado a dist157
   	err = ch.Publish(
   		"",            // exchange
   		q.Name,        // routing key
@@ -147,6 +158,14 @@ func enviar_financiero(tipo_paquete int32,valor int32, intentos int32){
   	failOnError(err, "Failed to publish a message")
 }
 
+/*******************************************************************************************************/
+
+/*******************************************************************************************************/
+/*Dada ciertas condiciones se actualiza el estado del un paquete
+Puede estar Recibido
+En bodega
+no entregados
+*/
 
 func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
   i:=0
@@ -211,6 +230,7 @@ func actualizacion_Estado( codigo_seguimiento int32, exito int32 ) int32{
   }
   return -1
 }
+/*******************************************************************************************************/
 
 
 func NewCodeSeguimiento() int32{
