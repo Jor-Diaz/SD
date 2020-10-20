@@ -35,7 +35,6 @@ func float(in int32) float64 {
 func financialBalance(packs []*pack)  {
   fmt.Println("in:<<financialBalance>>")
   for _, pckt := range packs {
-    printPack(pckt)
     if pckt.Pack_Type == 0{//retail
       if pckt.Tries !=3{// entregado
         pckt.Income = float(pckt.Value-(pckt.Tries)*10)
