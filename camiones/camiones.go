@@ -271,7 +271,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 			no_paquetes=0
 			time2=time.Now()
 			if ( time2.Sub(update_time).Seconds() > tiempo_espera){
-				fmt.Println("Camion ",Id_camion," solicitando paquetes")
+				fmt.Println("Camión ",Id_camion," solicitando paquetes")
 				response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
@@ -290,7 +290,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 							time2=time.Now()
 							if ( time2.Sub(update_time).Seconds() > tiempo_espera){
 									status=1
-									fmt.Println("El Camion ",Id_camion ," esta solicitando un segundo paquete para entregar")
+									fmt.Println("El Camión ",Id_camion ," esta solicitando un segundo paquete para entregar")
 									response, err := c.Solpedido(context.Background(), &pb.Solcamion{IdCamion:Id_camion})
 									if err != nil {
 										log.Fatalf("Error when calling SayHello: %s", err)
@@ -316,7 +316,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 					state := truckState(camion1)
 					fmt.Println("-----------------------------------")
 					fmt.Println("Antes de Entregar:")
-					fmt.Println("_Camión_",Id_camion)
+					fmt.Println("||Camión ->",Id_camion, "||")
 					fmt.Println("Capacidad del Camión:", state, "espacios")
 					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
 					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
@@ -325,7 +325,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 					fmt.Println("-----------------------------------")
 					state = truckState(camion1)
 					fmt.Println("Despues de 1er Entrega:")
-					fmt.Println("_Camión_",Id_camion)
+					fmt.Println("||Camión ->",Id_camion, "||")
 					fmt.Println("Capacidad del Camión:", state, "espacios")
 					fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
 					fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
@@ -335,7 +335,7 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 						fmt.Println("-----------------------------------")
 						state = truckState(camion1)
 						fmt.Println("Despues de 2da Entrega:")
-						fmt.Println("_Camión_",Id_camion)
+						fmt.Println("||Camión ->",Id_camion, "||")
 						fmt.Println("Capacidad del Camión:", state, "espacios")
 						fmt.Println("Paquete 1: *", camion1.pack0.id_pack," *")
 						fmt.Println("Paquete 2: *", camion1.pack1.id_pack," *")
