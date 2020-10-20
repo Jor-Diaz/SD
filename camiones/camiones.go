@@ -303,13 +303,13 @@ func ejecucion_camion(Id_camion int32, tiempo_espera float64){
 										paquete_1 := newPack(response.Id, 2, response.Valor, response.Tienda,response.Destino, 0,  time.Now(),response.Seguimiento)
 										camion1.pack1=paquete_1
 									}else{
-										fmt.Println("No hay paquetes disponibles para repartir para el camion", Id_camion)
+										fmt.Println("[[No hay paquetes disponibles para repartir para el camion", Id_camion,"]]")
 									}
 							}
 						}
 				}else{
 					update_time=time.Now()
-					fmt.Println("No hay paquetes disponibles para repartir para el camion", Id_camion)
+					fmt.Println("{{No hay paquetes disponibles para repartir para el camion", Id_camion,"}}")
 				}
 				if (no_paquetes!=0){
 					fmt.Println("Camion",Id_camion, " comienza intento de repartir paquetes")
