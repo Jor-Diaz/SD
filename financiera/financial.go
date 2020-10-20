@@ -120,7 +120,6 @@ func main() {
                 fmt.Println("[Tipo de Paquete]: Prioritario")
               }else{
                 fmt.Println("[Tipo de Paquete]: Normal")
-                }
               }
               fmt.Println("[Valor del Paquete]: ", pck.Value)
               fmt.Println("[Entregas Fallidas]: ", pck.Tries)
@@ -130,8 +129,7 @@ func main() {
                 fmt.Println("[Perdidas generadas]:", pck.Income, "Dignipesos")
               }
               fmt.Println("*************************************")
-
-              }
-        	}()
+            }
+          }()
       	   <-forever
 }
