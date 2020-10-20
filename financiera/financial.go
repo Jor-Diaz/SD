@@ -112,6 +112,7 @@ func main() {
                   panic(err)
               }
               packs = append(packs,&pck)
+              financialBalance(packs)
               fmt.Println("*************************************")
               if (pck.Pack_Type == 0){
                 fmt.Println("[Tipo de Paquete]: Retail")
