@@ -118,7 +118,7 @@ func main() {
                 fmt.Println("[Tipo de Paquete]: Retail")
               } else if (pck.Pack_Type == 1){
                 fmt.Println("[Tipo de Paquete]: Prioritario")
-              else{
+              }else{
                 fmt.Println("[Tipo de Paquete]: Normal")
                 }
               }
